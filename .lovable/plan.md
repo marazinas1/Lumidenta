@@ -30,9 +30,15 @@ Deletion only. No new pages, components, or Lumidenta content. End state: the pr
 
 - `src/components/site/ContactForm.tsx` — drop the `sendContactMessageFn` import from `rentivo.functions`; the submit handler becomes a local stub (no backend call) until the `leads` table exists in step 2. Its hardcoded "Dharma" email subject text goes too.
 - `src/components/site/LegalDocument.tsx` — replace the `LegalDocument` type imported from `rentivo-schemas` with a local type declared in the file.
-- `src/components/site/Logo.tsx` — deleted entirely (imports `logo-dharma.png.asset.json`, defaults title to "Dharma Stay"). A real Logo arrives in the design step; every usage is removed with it.
+- `src/components/site/Logo.tsx` — deleted entirely (imports `logo-dharma.png.asset.json`, defaults title to "Dharma Stay"). A real Logo arrives in the design step; every usage in `src/components/site/SiteHeader.tsx` and `src/components/site/SiteFooter.tsx` is replaced with a plain text "Lumidenta" wordmark placeholder.
+
+## Schema.org / "Dharma" cleanup on surviving pages
+
+- `src/pages/kontaktai.tsx` — remove the entire hardcoded JSON-LD `scripts` block (`@type`: "LodgingBusiness", name: "Dharma Stay", address, priceRange). Replaced in step 7 once real practice data exists.
+- `src/pages/home.tsx` — explicitly remove the JSON-LD `scripts` block in the same pass; do not rely on the page placeholder reduction to drop it accidentally.
 
 ## Remaining "Dharma" strings to edit (files that survive)
+
 
 - `src/lib/users.functions.ts` — invite email subject and body
 - `src/lib/auth-recovery.functions.ts` — password reset email subject
