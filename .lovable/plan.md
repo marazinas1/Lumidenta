@@ -26,9 +26,26 @@ Deletion only. No new pages, components, or Lumidenta content. End state: the pr
 - Hotel API routes under `src/routes/api/` that call the deleted modules
 - Dharma references in `src/data/contact.ts`, `src/data/nav.ts`, `src/routes/sitemap[.]xml.ts`, `README.md`, `migrate.py`, `docs/*.md`
 
+## Imports that must be fixed, not left dangling
+
+- `src/components/site/ContactForm.tsx` — drop the `sendContactMessageFn` import from `rentivo.functions`; the submit handler becomes a local stub (no backend call) until the `leads` table exists in step 2. Its hardcoded "Dharma" email subject text goes too.
+- `src/components/site/LegalDocument.tsx` — replace the `LegalDocument` type imported from `rentivo-schemas` with a local type declared in the file.
+- `src/components/site/Logo.tsx` — deleted entirely (imports `logo-dharma.png.asset.json`, defaults title to "Dharma Stay"). A real Logo arrives in the design step; every usage is removed with it.
+
+## Remaining "Dharma" strings to edit (files that survive)
+
+- `src/lib/users.functions.ts` — invite email subject and body
+- `src/lib/auth-recovery.functions.ts` — password reset email subject
+- `src/components/home/LocationMap.tsx` — hardcoded aria-label
+- `src/lib/content-templates.ts` — default placeholder values
+- `src/lib/locale.ts` — `LOCALE_COOKIE` renamed from `dharma_locale` to `lumidenta_locale`
+
+Brand strings become neutral/Lumidenta wording only — no new content or claims.
+
 ## Database migration
 
-One migration dropping (cascade): `properties`, `property_documents`, `property_events`, `property_investments`, `property_maintenance`, `property_settings`, `bookings`, `booking_notifications`, `cars`, `car_investments`, `car_maintenance`, `housekeeping_comments`, `housekeeping_tasks`, `invoices`, `payment_transactions`, `contract_templates`, `signed_contracts`, `room_status`, `api_clients`, `api_request_log`, `app_secrets`, plus the now-orphaned functions that reference them (`get_active_booked_dates`, `get_property_booked_dates`, `admin_get_door_code`, `claim_invoice_number`, `cancel_expired_pending_bookings`, `set_booking_number`, `create_room_status_for_property`, `set_api_clients_updated_at`, `set_property_settings_updated_at`, `touch_room_status_updated_at`, `ensure_single_active_template` if unused).
+One migration dropping (cascade): `properties`, `property_documents`, `property_events`, `property_investments`, `property_maintenance`, `property_settings`, `bookings`, `booking_notifications`, `cars`, `car_investments`, `car_maintenance`, `housekeeping_comments`, `housekeeping_tasks`, `invoices`, `payment_transactions`, `contract_templates`, `signed_contracts`, `room_status`, `api_clients`, `api_request_log`, `app_secrets`, `expenses`, plus the now-orphaned functions that reference them (`get_active_booked_dates`, `get_property_booked_dates`, `admin_get_door_code`, `claim_invoice_number`, `cancel_expired_pending_bookings`, `set_booking_number`, `create_room_status_for_property`, `set_api_clients_updated_at`, `set_property_settings_updated_at`, `touch_room_status_updated_at`, `ensure_single_active_template` if unused).
+
 
 Note: `site_settings` and `leads` do not exist in the database yet — they are created in step 2, not here. `user_roles`, `has_role()`, `content_templates`, `content_translations`, `page_views` are untouched.
 
