@@ -21,7 +21,6 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TaisyklesRouteImport } from './routes/taisykles'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApieIndexRouteImport } from './routes/apie.index'
-import { Route as ApieTaisyklesRouteImport } from './routes/apie.taisykles'
 import { Route as EnIndexRouteImport } from './routes/en/index'
 import { Route as EnApieRouteImport } from './routes/en/apie'
 import { Route as EnKontaktaiRouteImport } from './routes/en/kontaktai'
@@ -31,7 +30,6 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authenticated/admin.content'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
-import { Route as EnApieTaisyklesRouteImport } from './routes/en/apie.taisykles'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -92,11 +90,6 @@ const ApieIndexRoute = ApieIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ApieRoute,
 } as any)
-const ApieTaisyklesRoute = ApieTaisyklesRouteImport.update({
-  id: '/taisykles',
-  path: '/taisykles',
-  getParentRoute: () => ApieRoute,
-} as any)
 const EnIndexRoute = EnIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -144,11 +137,6 @@ const EnApieIndexRoute = EnApieIndexRouteImport.update({
   path: '/',
   getParentRoute: () => EnApieRoute,
 } as any)
-const EnApieTaisyklesRoute = EnApieTaisyklesRouteImport.update({
-  id: '/taisykles',
-  path: '/taisykles',
-  getParentRoute: () => EnApieRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -161,7 +149,6 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/taisykles': typeof TaisyklesRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
-  '/apie/taisykles': typeof ApieTaisyklesRoute
   '/en/apie': typeof EnApieRouteWithChildren
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
@@ -170,7 +157,6 @@ export interface FileRoutesByFullPath {
   '/en/': typeof EnIndexRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
-  '/en/apie/taisykles': typeof EnApieTaisyklesRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
 }
@@ -182,7 +168,6 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/taisykles': typeof TaisyklesRoute
-  '/apie/taisykles': typeof ApieTaisyklesRoute
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
@@ -190,7 +175,6 @@ export interface FileRoutesByTo {
   '/en': typeof EnIndexRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
-  '/en/apie/taisykles': typeof EnApieTaisyklesRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/en/apie': typeof EnApieIndexRoute
 }
@@ -207,7 +191,6 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/taisykles': typeof TaisyklesRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
-  '/apie/taisykles': typeof ApieTaisyklesRoute
   '/en/apie': typeof EnApieRouteWithChildren
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
@@ -216,7 +199,6 @@ export interface FileRoutesById {
   '/en/': typeof EnIndexRoute
   '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
-  '/en/apie/taisykles': typeof EnApieTaisyklesRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
 }
@@ -233,7 +215,6 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/taisykles'
     | '/admin'
-    | '/apie/taisykles'
     | '/en/apie'
     | '/en/kontaktai'
     | '/en/privatumo-politika'
@@ -242,7 +223,6 @@ export interface FileRouteTypes {
     | '/en/'
     | '/admin/content'
     | '/admin/settings'
-    | '/en/apie/taisykles'
     | '/admin/'
     | '/en/apie/'
   fileRoutesByTo: FileRoutesByTo
@@ -254,7 +234,6 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/taisykles'
-    | '/apie/taisykles'
     | '/en/kontaktai'
     | '/en/privatumo-politika'
     | '/en/taisykles'
@@ -262,7 +241,6 @@ export interface FileRouteTypes {
     | '/en'
     | '/admin/content'
     | '/admin/settings'
-    | '/en/apie/taisykles'
     | '/admin'
     | '/en/apie'
   id:
@@ -278,7 +256,6 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/taisykles'
     | '/_authenticated/admin'
-    | '/apie/taisykles'
     | '/en/apie'
     | '/en/kontaktai'
     | '/en/privatumo-politika'
@@ -287,7 +264,6 @@ export interface FileRouteTypes {
     | '/en/'
     | '/_authenticated/admin/content'
     | '/_authenticated/admin/settings'
-    | '/en/apie/taisykles'
     | '/_authenticated/admin/'
     | '/en/apie/'
   fileRoutesById: FileRoutesById
@@ -391,13 +367,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApieIndexRouteImport
       parentRoute: typeof ApieRoute
     }
-    '/apie/taisykles': {
-      id: '/apie/taisykles'
-      path: '/taisykles'
-      fullPath: '/apie/taisykles'
-      preLoaderRoute: typeof ApieTaisyklesRouteImport
-      parentRoute: typeof ApieRoute
-    }
     '/en/': {
       id: '/en/'
       path: '/'
@@ -461,13 +430,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnApieIndexRouteImport
       parentRoute: typeof EnApieRoute
     }
-    '/en/apie/taisykles': {
-      id: '/en/apie/taisykles'
-      path: '/taisykles'
-      fullPath: '/en/apie/taisykles'
-      preLoaderRoute: typeof EnApieTaisyklesRouteImport
-      parentRoute: typeof EnApieRoute
-    }
   }
 }
 
@@ -498,12 +460,10 @@ const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface EnApieRouteChildren {
-  EnApieTaisyklesRoute: typeof EnApieTaisyklesRoute
   EnApieIndexRoute: typeof EnApieIndexRoute
 }
 
 const EnApieRouteChildren: EnApieRouteChildren = {
-  EnApieTaisyklesRoute: EnApieTaisyklesRoute,
   EnApieIndexRoute: EnApieIndexRoute,
 }
 
@@ -530,12 +490,10 @@ const EnRouteRouteWithChildren =
   EnRouteRoute._addFileChildren(EnRouteRouteChildren)
 
 interface ApieRouteChildren {
-  ApieTaisyklesRoute: typeof ApieTaisyklesRoute
   ApieIndexRoute: typeof ApieIndexRoute
 }
 
 const ApieRouteChildren: ApieRouteChildren = {
-  ApieTaisyklesRoute: ApieTaisyklesRoute,
   ApieIndexRoute: ApieIndexRoute,
 }
 
