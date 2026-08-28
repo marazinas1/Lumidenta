@@ -1,5 +1,4 @@
-// Server-only: masinis visų objektų ir turinio šablonų vertimas.
-import { PROPERTY_TRANSLATABLE_FIELDS, extraServiceField } from "@/lib/translations";
+// Server-only: bulk translation of content templates.
 import { loadDefaultLanguage } from "@/lib/translations.server";
 import { translateFields, type TranslateItem } from "@/lib/auto-translate.server";
 import type { BulkTranslateResult } from "@/lib/auto-translate.functions";
@@ -12,7 +11,7 @@ type Ctx = {
   overwrite: boolean;
 };
 
-type Job = { entityType: "property" | "content_template"; entityId: string; items: TranslateItem[] };
+type Job = { entityType: "content_template"; entityId: string; items: TranslateItem[] };
 
 export async function runBulkTranslate(ctx: Ctx): Promise<BulkTranslateResult> {
   const fromLang = await loadDefaultLanguage();
@@ -41,38 +40,6 @@ export async function runBulkTranslate(ctx: Ctx): Promise<BulkTranslateResult> {
   );
 
   const jobs: Job[] = [];
-
-  // --- Objektai -------------------------------------------------------------
-  const { data: props, error: propErr } = await ctx.supabase
-    .from("properties")
-    .select("id, name, description, location_note, rooms, extra_services");
-  if (propErr) result.errors.push(`properties: ${propErr.message}`);
-
-  for (const p of (props ?? []) as Array<Record<string, any>>) {
-    const originals: Record<string, string> = {
-      name: String(p["name"] ?? ""),
-      description: String(p["description"] ?? ""),
-      location_note: String(p["location_note"] ?? ""),
-      rooms_notes: String(p["rooms"]?.notes ?? ""),
-    };
-    const services = Array.isArray(p["extra_services"]) ? p["extra_services"] : [];
-    for (const s of services) {
-      const nm = String(s?.name ?? "").trim();
-      if (nm) originals[extraServiceField(nm)] = nm;
-    }
-    const items: TranslateItem[] = [];
-    for (const [field, text] of Object.entries(originals)) {
-      if (!text.trim()) continue;
-      const key = `property|${p["id"]}|${field}`;
-      if (!ctx.overwrite && existing.has(key)) {
-        result.skipped++;
-        continue;
-      }
-      const def = PROPERTY_TRANSLATABLE_FIELDS.find((f) => f.field === field);
-      items.push({ field, text, html: Boolean(def?.html) });
-    }
-    if (items.length > 0) jobs.push({ entityType: "property", entityId: String(p["id"]), items });
-  }
 
   // --- Turinio šablonai -----------------------------------------------------
   const { data: templates, error: tplErr } = await ctx.supabase

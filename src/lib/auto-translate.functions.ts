@@ -4,7 +4,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { SUPPORTED_LANGUAGES } from "@/lib/languages";
 import { isAllowedField } from "@/lib/translations";
 
-const entityTypes = ["property", "content_template", "property_settings"] as const;
+const entityTypes = ["content_template"] as const;
 const langCodes = SUPPORTED_LANGUAGES.map((l) => l.code) as [string, ...string[]];
 
 /** Vieno įrašo (objekto ar šablono) laukų vertimas — grąžina rezultatą peržiūrai. */
