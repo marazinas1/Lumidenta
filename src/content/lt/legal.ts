@@ -1,24 +1,21 @@
 export const legal = {
   rental: {
     path: "/taisykles",
-    seoTitle: "Paslaugų teikimo taisyklės — Dharma Stay",
-    seoDescription:
-      "Dharma Stay nuomos ir paslaugų teikimo taisyklės: rezervacija, apmokėjimas, atšaukimas ir svečių atsakomybė.",
+    seoTitle: "Paslaugų teikimo taisyklės — Lumidenta",
+    seoDescription: "Lumidenta paslaugų teikimo taisyklės.",
     eyebrow: "Taisyklės",
     title: "Paslaugų teikimo taisyklės",
-    lead: "Sąlygos, kurios galioja rezervuojant apgyvendinimą Dharma Stay.",
+    lead: "Dokumentas ruošiamas.",
   },
   privacy: {
     path: "/privatumo-politika",
-    seoTitle: "Privatumo politika — Dharma Stay",
-    seoDescription:
-      "Kaip Dharma Stay renka, naudoja ir saugo svečių asmens duomenis rezervacijos ir apgyvendinimo metu.",
+    seoTitle: "Privatumo politika — Lumidenta",
+    seoDescription: "Lumidenta privatumo politika ir asmens duomenų tvarkymas.",
     eyebrow: "Privatumas",
     title: "Privatumo politika",
-    lead: "Kaip tvarkome jūsų asmens duomenis.",
+    lead: "Dokumentas ruošiamas.",
   },
   updatedAt: "Atnaujinta",
-  unavailableTitle: "Turinys šiuo metu neprieinamas",
-  unavailableText:
-    "Dokumento nepavyko įkelti. Parašykite info@dharmastay.lt — atsiųsime jį el. paštu.",
-} as const;
+  unavailableTitle: "Dokumentas ruošiamas",
+  unavailableText: "Šio dokumento tekstas dar nepaskelbtas.",
+};
