@@ -1,13 +1,13 @@
-import { createFileRoute, Link, Outlet, useRouterState, Navigate } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Building2, Calendar, FileEdit, FileText, Globe, Home, LayoutDashboard, LogOut, Menu, Settings2, Sparkles, Wallet } from "lucide-react";
-import { getMyRole } from "@/lib/properties.functions";
+import { Building2, FileEdit, Globe, LayoutDashboard, LogOut, Menu, Settings2 } from "lucide-react";
+import { getMyRole } from "@/lib/roles.functions";
 import { supabase } from "@/integrations/supabase/client";
+import { PLATFORM_NAME } from "@/lib/brand";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { getPropertySettings } from "@/lib/property-settings.functions";
 import { useDefaultLanguage } from "@/hooks/useDefaultLanguage";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
@@ -25,21 +25,13 @@ function AdminLayout() {
     queryFn: () => fetchRole(),
     refetchOnMount: "always",
   });
-  const fetchSettings = useServerFn(getPropertySettings);
-  const { data: settingsData } = useQuery({
-    queryKey: ["property-settings"],
-    queryFn: () => fetchSettings(),
-  });
-  const brandName = settingsData?.settings.displayName?.trim() || "StageHomy";
+  const brandName = PLATFORM_NAME;
   const { location } = useRouterState();
 
   if (isLoading) {
     return <div className="p-8 text-muted-foreground">{t("common.loading")}</div>;
   }
   if (!role?.isAdmin) {
-    if (role?.roles.includes("housekeeper")) {
-      return <Navigate to="/staff" replace />;
-    }
     return (
       <div className="mx-auto max-w-md p-8">
         <h1 className="text-2xl font-semibold">{t("admin.noAdminTitle")}</h1>
@@ -50,11 +42,6 @@ function AdminLayout() {
 
   const links = [
     { to: "/admin", label: t("nav.dashboard"), icon: LayoutDashboard },
-    { to: "/admin/bookings", label: t("nav.bookings"), icon: Calendar },
-    { to: "/admin/properties", label: t("nav.properties"), icon: Home },
-    { to: "/admin/housekeeping", label: t("nav.housekeeping"), icon: Sparkles },
-    { to: "/admin/contracts", label: t("nav.contracts"), icon: FileText },
-    { to: "/admin/expenses", label: t("nav.expenses"), icon: Wallet },
     { to: "/admin/settings", label: t("nav.settings"), icon: Settings2 },
     { to: "/admin/content", label: t("nav.content"), icon: FileEdit },
   ] as const;
@@ -89,9 +76,7 @@ function AdminLayout() {
       <div className="mt-auto space-y-1 border-t border-sidebar-border px-2 py-3 text-sidebar-foreground">
           <LanguageSwitcher />
           <a
-            href="https://demo-rentals.stagehomy.com/"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/"
             onClick={() => setNavOpen(false)}
             className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           >
