@@ -48,6 +48,22 @@ Deletion only. No new pages, components, or Lumidenta content. End state: the pr
 
 Brand strings become neutral/Lumidenta wording only — no new content or claims.
 
+## Static assets to delete
+
+**`public/images/`** (unused Dharma/Telšiai stock, plus the physical logo file):
+`banketine-sale.jpg/.webp`, `location-telsiai-aerial.jpg/.webp`, `restobaras-chef.jpg/.webp`, `restobaras-space.jpg/.webp`, `stay-terrace.jpg/.webp`, `stay-standard.jpg/.webp`, `stay-cottage.jpg/.webp`, `hero-telsiai-lake.jpg/.webp`, `logo-dharma.png`.
+
+**`src/assets/`** — Rentivo-named files: `rentivo-logo.png`, `rentivo_plate_brand.png`, `rentivo_plate_final.png`, `rentivo_plate_final_blue.png`, `rentivo_plate_printed.png`, `rentivo_plate_reference.png`, `rentivo_plate_standard.png`, plus `hero-car.jpg`.
+
+**`src/assets/*.asset.json` pointers** for the same hotel imagery (`logo-dharma.png.asset.json`, `banketine-sale.*`, `hero-telsiai-lake.*`, `location-telsiai-aerial.*`, `restobaras-space.*`, `demo-poster.jpg`, `demo-video.mp4`, `gearbox-icon.png`) are removed with the `lovable-assets delete` CLI so the CDN objects go too, not by plain `rm`.
+
+## Storage bucket cleanup
+
+The `car-images` bucket belongs to the `cars`/property layer being dropped and a SQL table drop does not touch storage. In the same migration: delete every object in `storage.objects` where `bucket_id = 'car-images'`, then delete the bucket row. The private `car-documents` bucket is emptied and dropped on the same grounds.
+
+`src/lib/image-optimize.ts` is kept (per AGENTS.md rule #4) but its hardcoded `car-images` bucket name no longer resolves after this. It is left pointing at a bucket name that step 2 recreates under a Lumidenta-appropriate name (e.g. `media`) when the photo pipeline is wired up — no uploads happen between step 1 and step 2, so nothing breaks in the interim.
+
+
 ## Database migration
 
 One migration dropping (cascade): `properties`, `property_documents`, `property_events`, `property_investments`, `property_maintenance`, `property_settings`, `bookings`, `booking_notifications`, `cars`, `car_investments`, `car_maintenance`, `housekeeping_comments`, `housekeeping_tasks`, `invoices`, `payment_transactions`, `contract_templates`, `signed_contracts`, `room_status`, `api_clients`, `api_request_log`, `app_secrets`, `expenses`, plus the now-orphaned functions that reference them (`get_active_booked_dates`, `get_property_booked_dates`, `admin_get_door_code`, `claim_invoice_number`, `cancel_expired_pending_bookings`, `set_booking_number`, `create_room_status_for_property`, `set_api_clients_updated_at`, `set_property_settings_updated_at`, `touch_room_status_updated_at`, `ensure_single_active_template` if unused).
