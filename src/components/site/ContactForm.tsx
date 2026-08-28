@@ -3,7 +3,6 @@ import { z } from "zod";
 
 import { useContent } from "@/content";
 import { contact } from "@/data/contact";
-import { sendContactMessageFn } from "@/lib/rentivo.functions";
 
 function buildFormSchema(kontaktaiForm: ReturnType<typeof useContent>["kontaktaiForm"]) {
   return z.object({
@@ -82,7 +81,7 @@ export function ContactForm() {
     setValues((current) => ({ ...current, [key]: value }));
 
   const mailtoHref = `mailto:${contact.email}?subject=${encodeURIComponent(
-    "Užklausa iš dharmastay.lt",
+    "Užklausa iš lumidenta.lt",
   )}&body=${encodeURIComponent(`${values.message}\n\n${values.name}\n${values.phone}`)}`;
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -103,20 +102,8 @@ export function ContactForm() {
     setStatus("sending");
 
     try {
-      const result = await sendContactMessageFn({
-        data: {
-          name: parsed.data.name,
-          email: parsed.data.email,
-          ...(parsed.data.phone ? { phone: parsed.data.phone } : {}),
-          message: parsed.data.message,
-        },
-      });
-      if (result.delivered) {
-        setStatus("sent");
-        setValues({ name: "", email: "", phone: "", message: "" });
-      } else {
-        setStatus("failed");
-      }
+      // Backend delivery is wired up in a later step (leads table).
+      setStatus("failed");
     } catch {
       setStatus("failed");
     }
