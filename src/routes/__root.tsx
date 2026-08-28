@@ -13,7 +13,6 @@ import appCss from "../styles.css?url";
 import "@/i18n";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { Toaster } from "@/components/ui/sonner";
-import { BookingProvider } from "@/components/site/BookingDialog";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { useRememberedLocaleRedirect } from "@/components/site/LanguageSwitcher";
@@ -142,14 +141,14 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="site-theme min-h-screen bg-background text-foreground">
-        <BookingProvider>
+        <>
           <SiteHeader />
           <main>
             {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
             <Outlet />
           </main>
           <SiteFooter />
-        </BookingProvider>
+        </>
       </div>
       <Toaster />
     </QueryClientProvider>
