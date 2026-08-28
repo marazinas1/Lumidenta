@@ -1,26 +1,18 @@
-import { LegalDocumentPage } from "@/components/site/LegalDocument";
+import { LegalDocumentPage, type LegalDocumentData } from "@/components/site/LegalDocument";
 import { getContent, useContent } from "@/content";
 import type { Locale } from "@/lib/locale";
-import type { LegalDocument } from "@/lib/rentivo-schemas";
-import { getLegal } from "@/lib/rentivo.functions";
 import { useLooseLoaderData } from "@/lib/route-data";
 import { pageHead } from "@/lib/seo";
 
-type LegalLoaderData = { doc: LegalDocument | null };
+type LegalLoaderData = { doc: LegalDocumentData | null };
 type Kind = "rental" | "privacy";
 
-/** Shared factory for the two engine-backed legal documents. */
+/** Shared factory for the two legal documents. Real texts land in a later step. */
 export function legalRoute(locale: Locale, kind: Kind) {
   const c = getContent(locale);
   const doc = c.legal[kind];
   return {
-    loader: async (): Promise<LegalLoaderData> => {
-      try {
-        return { doc: await getLegal({ data: { kind, language: locale } }) };
-      } catch {
-        return { doc: null };
-      }
-    },
+    loader: async (): Promise<LegalLoaderData> => ({ doc: null }),
     head: () => ({
       ...pageHead({
         path: doc.path,
@@ -43,7 +35,7 @@ function LegalPage({ kind }: { kind: Kind }) {
       eyebrow={meta.eyebrow}
       title={doc?.html.trim() && doc.name.trim() ? doc.name : meta.title}
       lead={meta.lead}
-      doc={doc}
+      doc={doc ?? null}
     />
   );
 }

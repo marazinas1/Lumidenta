@@ -1,10 +1,8 @@
-# Rentivo for Property rent
+# Lumidenta
 
-Sukurk automobilių nuomos puslapį, kuris vadinasi rentivo. Puslapyje turi galėti pasirinkti auto paėmimo vietą, datą nuo, data iki. Pagal dienų skaičių turi būti atfiltruojami laisvi nuomoje esantys automobiliai. Kol nesuvedi datų turi būti matomi visi automobiliI
+Website and appointment system for the Lumidenta private dental practice in Vilnius.
 
 This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://dharmastay.lovable.app
 
 ## Build with Lovable
 

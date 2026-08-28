@@ -1,9 +1,7 @@
 import { MapPin } from "lucide-react";
 
-import { Enso } from "@/components/site/Enso";
 import { LanguageSwitcher } from "@/components/site/LanguageSwitcher";
 import { LocaleLink } from "@/components/site/LocaleLink";
-import { Logo } from "@/components/site/Logo";
 import { useContent, useLocale } from "@/content";
 import { footerNav } from "@/data/nav";
 import { contact } from "@/data/contact";
@@ -17,9 +15,12 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6 py-20 lg:px-12">
         <div className="grid gap-12 md:grid-cols-3">
           <div>
-            <Enso className="h-9 w-9 text-warm-white/60" />
-            <LocaleLink to="/" aria-label={common.brand} className="mt-5 inline-flex">
-              <Logo className="h-24 w-24 text-warm-white" />
+            <LocaleLink
+              to="/"
+              aria-label={common.brand}
+              className="font-display text-2xl font-medium tracking-tight text-warm-white"
+            >
+              {common.brand}
             </LocaleLink>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-warm-white/70">
               {common.footer.intro}
@@ -29,7 +30,7 @@ export function SiteFooter() {
           <div>
             <h2 className="label-caps font-sans text-warm-white/60">{common.labels.contacts}</h2>
             <address className="mt-5 space-y-2 text-sm not-italic text-warm-white/85">
-              <p>{contact.address}</p>
+              {contact.address ? <p>{contact.address}</p> : null}
               {contact.phones.map((phone) => (
                 <p key={phone}>
                   <a className="hover:text-warm-white" href={`tel:${phone.replace(/\s/g, "")}`}>
@@ -37,12 +38,15 @@ export function SiteFooter() {
                   </a>
                 </p>
               ))}
-              <p>
-                <a className="hover:text-warm-white" href={`mailto:${contact.email}`}>
-                  {contact.email}
-                </a>
-              </p>
+              {contact.email ? (
+                <p>
+                  <a className="hover:text-warm-white" href={`mailto:${contact.email}`}>
+                    {contact.email}
+                  </a>
+                </p>
+              ) : null}
             </address>
+            {contact.mapUrl ? (
             <a
               href={contact.mapUrl}
               target="_blank"
@@ -52,6 +56,7 @@ export function SiteFooter() {
               <MapPin className="h-4 w-4" aria-hidden />
               {common.cta.openMap}
             </a>
+            ) : null}
           </div>
 
           <div>

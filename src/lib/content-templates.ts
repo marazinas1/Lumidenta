@@ -27,7 +27,7 @@ export const CONTENT_VARIABLES = [
 export const PREVIEW_SAMPLE: Record<string, string> = {
   "{{guest_name}}": "Jonas Jonaitis",
   "{{guest_name_vocative}}": "Jonai Jonaiti",
-  "{{property_name}}": "Dharma Stay",
+  "{{property_name}}": "Lumidenta",
   "{{location}}": "Vilniaus g. 10, Druskininkai — 2 aukštas, durys Nr. 3",
   "{{room_name}}": "Miegamasis 1",
   "{{booking_number}}": "R-26001",
@@ -39,12 +39,12 @@ export const PREVIEW_SAMPLE: Record<string, string> = {
   "{{quiet_hours_from}}": "22:00",
   "{{quiet_hours_to}}": "07:00",
   "{{door_code}}": "1234#",
-  "{{wifi_name}}": "DharmaStay_WiFi",
+  "{{wifi_name}}": "Lumidenta_WiFi",
   "{{wifi_password}}": "svecias2026",
   "{{total_amount}}": "480,00",
   "{{currency}}": "EUR",
   "{{phone}}": "+370 600 00000",
-  "{{email}}": "info@stagehomy.com",
+  "{{email}}": "info@lumidenta.lt",
   "{{review_link}}": "https://g.page/r/atsiliepimas",
 };
 

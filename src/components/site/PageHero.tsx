@@ -1,7 +1,6 @@
 import type { LinkProps } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
-import { Enso } from "@/components/site/Enso";
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { Reveal } from "@/components/site/Reveal";
 import { useContent } from "@/content";
@@ -65,9 +64,6 @@ export function PageHero({
         )}
       >
         <Reveal>
-          <Enso
-            className={cn("mx-auto h-9 w-9", hasImage ? "text-warm-white/60" : "text-sage/70")}
-          />
           {eyebrow ? (
             <p className={cn("label-caps mt-6", hasImage ? "text-warm-white/75" : "text-sage")}>
               {eyebrow}

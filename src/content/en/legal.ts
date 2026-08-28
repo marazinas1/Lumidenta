@@ -1,24 +1,21 @@
 export const legal = {
   rental: {
     path: "/taisykles",
-    seoTitle: "Terms of service — Dharma Stay",
-    seoDescription:
-      "Dharma Stay rental and terms of service: booking, payment, cancellation, and guest responsibility.",
+    seoTitle: "Terms of service — Lumidenta",
+    seoDescription: "Lumidenta terms of service.",
     eyebrow: "Terms",
     title: "Terms of service",
-    lead: "The conditions that apply when booking accommodation at Dharma Stay.",
+    lead: "Document in preparation.",
   },
   privacy: {
     path: "/privatumo-politika",
-    seoTitle: "Privacy policy — Dharma Stay",
-    seoDescription:
-      "How Dharma Stay collects, uses, and protects guests' personal data during booking and their stay.",
+    seoTitle: "Privacy policy — Lumidenta",
+    seoDescription: "Lumidenta privacy policy and personal data processing.",
     eyebrow: "Privacy",
     title: "Privacy policy",
-    lead: "How we handle your personal data.",
+    lead: "Document in preparation.",
   },
   updatedAt: "Updated",
-  unavailableTitle: "Content currently unavailable",
-  unavailableText:
-    "The document could not be loaded. Write to info@dharmastay.lt — we'll send it to you by email.",
+  unavailableTitle: "Document in preparation",
+  unavailableText: "This document has not been published yet.",
 };

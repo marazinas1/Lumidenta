@@ -1,9 +1,13 @@
 import { PageHero } from "@/components/site/PageHero";
 import { PageSection } from "@/components/site/Prose";
 import { useContent, useLocale } from "@/content";
-import type { LegalDocument as LegalDocumentData } from "@/lib/rentivo-schemas";
+export type LegalDocumentData = {
+  name: string;
+  html: string;
+  updated_at?: string | null;
+};
 
-/** Renders a legal document served (and sanitized) by the Core backend. */
+/** Renders a stored legal document (sanitized before it reaches the client). */
 export function LegalDocumentPage({
   eyebrow,
   title,

@@ -1,14 +1,12 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { getMyRole } from "@/lib/properties.functions";
+import { getMyRole } from "@/lib/roles.functions";
 import { requestPasswordReset } from "@/lib/auth-recovery.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getPublicBranding } from "@/lib/property-settings.functions";
-import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { PLATFORM_NAME } from "@/lib/brand";
 import { useTranslation } from "react-i18next";
@@ -23,12 +21,6 @@ function LoginPage() {
   const navigate = useNavigate();
   const fetchRole = useServerFn(getMyRole);
   const sendReset = useServerFn(requestPasswordReset);
-  const fetchBranding = useServerFn(getPublicBranding);
-  const { data: branding } = useQuery({
-    queryKey: ["public-branding"],
-    queryFn: () => fetchBranding(),
-    staleTime: 5 * 60 * 1000,
-  });
   const [mode, setMode] = useState<"login" | "forgot">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +31,6 @@ function LoginPage() {
       try {
         const role = await fetchRole();
         if (role.isAdmin) navigate({ to: "/admin", replace: true });
-        else if (role.roles.includes("housekeeper")) navigate({ to: "/staff", replace: true });
         else navigate({ to: "/admin", replace: true });
       } catch {
         navigate({ to: "/admin", replace: true });
@@ -145,22 +136,9 @@ function LoginPage() {
           className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,color-mix(in_oklab,var(--primary)_22%,transparent),transparent_60%),radial-gradient(circle_at_80%_80%,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_55%)]"
         />
         <div className="relative flex flex-col items-center gap-6 px-12 text-center">
-          {branding?.logoUrl ? (
-            <img
-              src={branding.logoUrl}
-              alt="Demo"
-              className="max-h-40 w-auto max-w-[22rem] object-contain drop-shadow-sm"
-            />
-          ) : (
-            <span className="text-4xl font-bold tracking-tight text-foreground">
-              Demo
-            </span>
-          )}
-          {branding?.logoUrl && branding.displayName ? (
-            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
-              Demo
-            </p>
-          ) : null}
+          <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
+            {PLATFORM_NAME}
+          </p>
         </div>
       </div>
     </div>

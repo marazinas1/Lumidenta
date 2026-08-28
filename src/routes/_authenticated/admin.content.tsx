@@ -6,7 +6,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { AutoTranslateAllButton } from "@/components/admin/AutoTranslateAllButton";
 import { FileText, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { getMyRole } from "@/lib/properties.functions";
+import { getMyRole } from "@/lib/roles.functions";
 import {
   listContentTemplates,
   saveContentTemplate,

@@ -1,4 +1,4 @@
-export type TranslatableEntity = "property" | "content_template" | "property_settings";
+export type TranslatableEntity = "content_template";
 
 export type TranslatableFieldDef = {
   /** Rakto reikšmė DB stulpelyje `field`. */
@@ -10,14 +10,6 @@ export type TranslatableFieldDef = {
   /** Laukas saugo HTML — rodyti/redaguoti su teksto redaktoriumi. */
   html?: boolean;
 };
-
-/** Objekto laukai, kuriuos galima versti. */
-export const PROPERTY_TRANSLATABLE_FIELDS: TranslatableFieldDef[] = [
-  { field: "name", label: "Pavadinimas", labelKey: "translations.fields.name" },
-  { field: "description", label: "Aprašymas", labelKey: "translations.fields.description", multiline: true },
-  { field: "location_note", label: "Vietos pastabos", labelKey: "translations.fields.location_note", multiline: true },
-  { field: "rooms_notes", label: "Kambarių pastabos", labelKey: "translations.fields.rooms_notes", multiline: true },
-];
 
 /**
  * Papildomos paslaugos saugomos jsonb masyve ir kainų skaičiavime atpažįstamos
@@ -34,12 +26,7 @@ export function isAllowedField(entityType: TranslatableEntity, field: string): b
   if (entityType === "content_template") {
     return field === "subject" || field === "content";
   }
-  if (entityType !== "property") return true; // kiti tipai bus pridėti vėlesniuose etapuose
-  if (PROPERTY_TRANSLATABLE_FIELDS.some((f) => f.field === field)) return true;
-  return (
-    field.startsWith(EXTRA_SERVICE_FIELD_PREFIX) &&
-    field.length > EXTRA_SERVICE_FIELD_PREFIX.length
-  );
+  return true; // kiti tipai bus pridėti vėlesniuose etapuose
 }
 
 /** Vertimų rinkinys: { [field]: { [lang]: value } } */

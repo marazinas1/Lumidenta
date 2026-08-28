@@ -62,11 +62,11 @@ export const inviteUser = createServerFn({ method: "POST" })
         data.role === "admin" ? "administratoriaus" : "kambarių tvarkytojos";
       await sendEmail({
         to: data.email,
-        subject: "Kvietimas prisijungti prie Dharma Stay sistemos",
+        subject: "Kvietimas prisijungti prie Lumidenta sistemos",
         html: `
           <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#111;line-height:1.6">
             <p>Sveiki,</p>
-            <p>Jums sukurta ${roleLabel} paskyra Dharma Stay valdymo sistemoje.</p>
+            <p>Jums sukurta ${roleLabel} paskyra Lumidenta valdymo sistemoje.</p>
             <p>Paspauskite nuorodą ir susikurkite slaptažodį:</p>
             <p><a href="${actionLink}" style="display:inline-block;padding:10px 18px;background:#111;color:#fff;text-decoration:none;border-radius:6px">Susikurti slaptažodį</a></p>
             <p style="font-size:13px;color:#666">Jei mygtukas neveikia, nukopijuokite šią nuorodą:<br>${actionLink}</p>
