@@ -26,8 +26,8 @@ function SettingsPage() {
         <Settings2 className="h-5 w-5 text-muted-foreground" />
         <h1 className="text-2xl font-semibold">Nustatymai</h1>
       </div>
-      <UsersSection />
-      <EmailTestSection />
+      <UsersSection canEdit />
+      <EmailTestSection canEdit />
     </div>
   );
 }

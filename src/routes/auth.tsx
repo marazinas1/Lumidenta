@@ -136,11 +136,9 @@ function LoginPage() {
           className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,color-mix(in_oklab,var(--primary)_22%,transparent),transparent_60%),radial-gradient(circle_at_80%_80%,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_55%)]"
         />
         <div className="relative flex flex-col items-center gap-6 px-12 text-center">
-                    {branding?.logoUrl && branding.displayName ? (
-            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
-              Demo
-            </p>
-          ) : null}
+          <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
+            {PLATFORM_NAME}
+          </p>
         </div>
       </div>
     </div>
