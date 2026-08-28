@@ -30,8 +30,6 @@ import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authenticated/admin.content'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
-import { Route as ApiPublicIcalSyncRouteImport } from './routes/api/public/ical-sync'
-import { Route as ApiPublicNotificationsCronRouteImport } from './routes/api/public/notifications-cron'
 import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
 import { Route as EnApieTaisyklesRouteImport } from './routes/en/apie.taisykles'
 
@@ -141,17 +139,6 @@ const AuthenticatedAdminSettingsRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const ApiPublicIcalSyncRoute = ApiPublicIcalSyncRouteImport.update({
-  id: '/api/public/ical-sync',
-  path: '/api/public/ical-sync',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicNotificationsCronRoute =
-  ApiPublicNotificationsCronRouteImport.update({
-    id: '/api/public/notifications-cron',
-    path: '/api/public/notifications-cron',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const EnApieIndexRoute = EnApieIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -183,8 +170,6 @@ export interface FileRoutesByFullPath {
   '/en/': typeof EnIndexRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
-  '/api/public/ical-sync': typeof ApiPublicIcalSyncRoute
-  '/api/public/notifications-cron': typeof ApiPublicNotificationsCronRoute
   '/en/apie/taisykles': typeof EnApieTaisyklesRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
@@ -205,8 +190,6 @@ export interface FileRoutesByTo {
   '/en': typeof EnIndexRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
-  '/api/public/ical-sync': typeof ApiPublicIcalSyncRoute
-  '/api/public/notifications-cron': typeof ApiPublicNotificationsCronRoute
   '/en/apie/taisykles': typeof EnApieTaisyklesRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/en/apie': typeof EnApieIndexRoute
@@ -233,8 +216,6 @@ export interface FileRoutesById {
   '/en/': typeof EnIndexRoute
   '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
-  '/api/public/ical-sync': typeof ApiPublicIcalSyncRoute
-  '/api/public/notifications-cron': typeof ApiPublicNotificationsCronRoute
   '/en/apie/taisykles': typeof EnApieTaisyklesRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
@@ -261,8 +242,6 @@ export interface FileRouteTypes {
     | '/en/'
     | '/admin/content'
     | '/admin/settings'
-    | '/api/public/ical-sync'
-    | '/api/public/notifications-cron'
     | '/en/apie/taisykles'
     | '/admin/'
     | '/en/apie/'
@@ -283,8 +262,6 @@ export interface FileRouteTypes {
     | '/en'
     | '/admin/content'
     | '/admin/settings'
-    | '/api/public/ical-sync'
-    | '/api/public/notifications-cron'
     | '/en/apie/taisykles'
     | '/admin'
     | '/en/apie'
@@ -310,8 +287,6 @@ export interface FileRouteTypes {
     | '/en/'
     | '/_authenticated/admin/content'
     | '/_authenticated/admin/settings'
-    | '/api/public/ical-sync'
-    | '/api/public/notifications-cron'
     | '/en/apie/taisykles'
     | '/_authenticated/admin/'
     | '/en/apie/'
@@ -328,8 +303,6 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TaisyklesRoute: typeof TaisyklesRoute
-  ApiPublicIcalSyncRoute: typeof ApiPublicIcalSyncRoute
-  ApiPublicNotificationsCronRoute: typeof ApiPublicNotificationsCronRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -481,20 +454,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/api/public/ical-sync': {
-      id: '/api/public/ical-sync'
-      path: '/api/public/ical-sync'
-      fullPath: '/api/public/ical-sync'
-      preLoaderRoute: typeof ApiPublicIcalSyncRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/notifications-cron': {
-      id: '/api/public/notifications-cron'
-      path: '/api/public/notifications-cron'
-      fullPath: '/api/public/notifications-cron'
-      preLoaderRoute: typeof ApiPublicNotificationsCronRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/en/apie/': {
       id: '/en/apie/'
       path: '/'
@@ -593,8 +552,6 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TaisyklesRoute: TaisyklesRoute,
-  ApiPublicIcalSyncRoute: ApiPublicIcalSyncRoute,
-  ApiPublicNotificationsCronRoute: ApiPublicNotificationsCronRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
