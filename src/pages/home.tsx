@@ -6,16 +6,10 @@ import { Hero } from "@/components/home/Hero";
 import { IntroStrip } from "@/components/home/IntroStrip";
 import { LocationSection } from "@/components/home/LocationSection";
 import { Ratings } from "@/components/home/Ratings";
-import { StaysSection } from "@/components/home/StaysSection";
 import { getContent } from "@/content";
 import { SITE_URL } from "@/data/nav";
 import type { Locale } from "@/lib/locale";
-import { propertiesQueryFor } from "@/lib/property-queries";
-import { useLooseLoaderData } from "@/lib/route-data";
-import type { Property } from "@/lib/rentivo-schemas";
 import { pageHead } from "@/lib/seo";
-
-type HomeLoaderData = { properties: Property[] | null };
 
 export function homeRoute(locale: Locale) {
   const c = getContent(locale);
@@ -48,33 +42,16 @@ export function homeRoute(locale: Locale) {
         },
       ],
     }),
-    loader: async ({ context }: { context: { queryClient: { ensureQueryData: (q: unknown) => Promise<unknown> } } }): Promise<HomeLoaderData> => {
-      // Fetch on the server and hand the rows to the component, so SSR and the
-      // first client render agree. An API hiccup must not take the landing page
-      // down — the section renders its own error state.
-      try {
-        return {
-          properties: (await context.queryClient.ensureQueryData(
-            propertiesQueryFor(locale),
-          )) as Property[],
-        };
-      } catch {
-        return { properties: null };
-      }
-    },
     component: Index,
   };
 }
 
 function Index() {
-  const { properties } = useLooseLoaderData<HomeLoaderData>();
-
   return (
     <>
       <Hero />
       <IntroStrip />
       <AvailabilityBand />
-      <StaysSection {...(properties ? { initialProperties: properties } : {})} />
       <LocationSection />
       <ExtrasSection />
       <Ratings />
