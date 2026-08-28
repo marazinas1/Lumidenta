@@ -1,61 +1,30 @@
-
-import { AvailabilityBand } from "@/components/home/AvailabilityBand";
-import { BookingBand } from "@/components/home/BookingBand";
-import { ExtrasSection } from "@/components/home/ExtrasSection";
-import { Hero } from "@/components/home/Hero";
-import { IntroStrip } from "@/components/home/IntroStrip";
-import { LocationSection } from "@/components/home/LocationSection";
-import { Ratings } from "@/components/home/Ratings";
-import { getContent } from "@/content";
-import { SITE_URL } from "@/data/nav";
+import { getContent, useContent } from "@/content";
 import type { Locale } from "@/lib/locale";
 import { pageHead } from "@/lib/seo";
 
 export function homeRoute(locale: Locale) {
   const c = getContent(locale);
-  const title = c.home.seoTitle;
-  const description = c.home.seoDescription;
-
   return {
     head: () => ({
-      ...pageHead({ path: "/", title, description, locale }),
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "LodgingBusiness",
-            name: "Dharma Stay",
-            url: SITE_URL,
-            description,
-            email: "info@dharmastay.lt",
-            telephone: "+37065911929",
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: "Birutės g. 1",
-              addressLocality: "Telšiai",
-              postalCode: "87130",
-              addressCountry: "LT",
-            },
-            priceRange: "€€",
-          }),
-        },
-      ],
+      ...pageHead({
+        path: "/",
+        title: c.home.seoTitle,
+        description: c.home.seoDescription,
+        locale,
+      }),
     }),
     component: Index,
   };
 }
 
 function Index() {
+  const c = useContent();
   return (
-    <>
-      <Hero />
-      <IntroStrip />
-      <AvailabilityBand />
-      <LocationSection />
-      <ExtrasSection />
-      <Ratings />
-      <BookingBand />
-    </>
+    <section className="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center px-6 py-32 text-center">
+      <h1 className="font-display text-[clamp(2.25rem,5vw,3.25rem)] font-medium text-ink">
+        {c.home.placeholder.title}
+      </h1>
+      <p className="mt-4 text-base text-stone">{c.home.placeholder.text}</p>
+    </section>
   );
 }
