@@ -5,7 +5,7 @@ import { SUPPORTED_LANGUAGES } from "@/lib/languages";
 import { isAllowedField } from "@/lib/translations";
 import type { TranslationMap } from "@/lib/translations";
 
-const entityTypes = ["property", "content_template", "property_settings"] as const;
+const entityTypes = ["content_template"] as const;
 const langCodes = SUPPORTED_LANGUAGES.map((l) => l.code) as [string, ...string[]];
 
 export const getTranslations = createServerFn({ method: "POST" })
