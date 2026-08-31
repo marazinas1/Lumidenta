@@ -6,15 +6,9 @@
 import { resolveDefaultLanguage } from "@/lib/languages";
 import { EXTRA_SERVICE_FIELD_PREFIX, extraServiceField } from "@/lib/translations";
 
-/** Objekto numatytoji kalba iš nustatymų (originalo kalba). */
+/** Default (source) content language. Practice-level settings arrive later. */
 export async function loadDefaultLanguage(): Promise<string> {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data } = await supabaseAdmin
-    .from("property_settings")
-    .select("default_language")
-    .eq("scope", "global")
-    .maybeSingle();
-  return resolveDefaultLanguage((data as { default_language?: string } | null)?.default_language);
+  return resolveDefaultLanguage(undefined);
 }
 
 /** { entityId: { field: value } } vienai kalbai. */
