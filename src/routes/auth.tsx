@@ -88,7 +88,8 @@ function LoginPage() {
   };
 
   return (
-    <main className="luma auth-split">
+    <div className="luma">
+    <main className="auth-split">
       <div className="auth-formside">
         <div className="auth-inner">
           <div className="auth-mobile-logo">
@@ -156,5 +157,6 @@ function LoginPage() {
         <p className="auth-brand-note">Tik įgaliotiems asmenims</p>
       </aside>
     </main>
+    </div>
   );
 }
