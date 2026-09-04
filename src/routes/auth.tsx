@@ -88,7 +88,7 @@ function LoginPage() {
   };
 
   return (
-    <main className="auth-split">
+    <main className="luma auth-split">
       <div className="auth-formside">
         <div className="auth-inner">
           <div className="auth-mobile-logo">
