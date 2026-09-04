@@ -429,6 +429,8 @@
 
 /* ============ Lumidenta site (variantas 3) ============ */
 .luma{
+  --font-display:'Manrope Variable','Manrope',sans-serif;
+  --font-sans:'Manrope Variable','Manrope',sans-serif;
   --bg:#FAFAF6;
   --card:#FFFFFF;
   --ink:#181A12;
