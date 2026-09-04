@@ -19,7 +19,10 @@ export function SiteFooter() {
           </nav>
         </div>
         <div className="foot-copy">
-          © Lumidenta · gyd. odontologė Erika · Braškių g. 2B-1, Vilnius
+          <span>© Lumidenta · gyd. odontologė Erika · Braškių g. 2B-1, Vilnius</span>
+          <a href="/admin" className="foot-admin">
+            Admin
+          </a>
         </div>
       </div>
     </footer>

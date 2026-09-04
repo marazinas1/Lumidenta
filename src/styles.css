@@ -567,4 +567,7 @@
 .luma .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
 .luma .foot-row .logo{font-size:1.05rem;}
 .luma .foot-links{display:flex;gap:26px;font-size:0.86rem;color:var(--ink-soft);flex-wrap:wrap;}
-.luma .foot-copy{font-size:0.82rem;color:var(--ink-soft);text-align:center;margin-top:26px;}
+.luma .foot-copy{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;font-size:0.82rem;color:var(--ink-soft);text-align:center;margin-top:26px;position:relative;}
+.luma .foot-admin{color:var(--ink-soft);opacity:0.6;text-decoration:none;transition:opacity 0.2s,color 0.2s;}
+.luma .foot-admin:hover{opacity:1;color:var(--sage);}
+@media (min-width:768px){.luma .foot-admin{position:absolute;right:0;}}
