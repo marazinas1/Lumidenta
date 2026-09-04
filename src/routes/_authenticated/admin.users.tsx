@@ -3,8 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { Trash2, UserPlus } from "lucide-react";
+import { ShieldCheck, Trash2, UserPlus } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -52,7 +53,11 @@ function fmt(value: string | null | undefined, withTime = false) {
 }
 
 function RoleBadge({ role }: { role: AdminRole }) {
-  return <span className={`admin-role-badge role-${role}`}>{ROLE_LABEL[role]}</span>;
+  return (
+    <Badge variant="outline" className="gap-1">
+      <ShieldCheck className="h-3 w-3" /> {ROLE_LABEL[role]}
+    </Badge>
+  );
 }
 
 function UsersPage() {
@@ -202,7 +207,9 @@ function UsersPage() {
                       <span className="truncate font-medium">{u.fullName || u.email}</span>
                       <RoleBadge role={u.role} />
                       {isSelf ? (
-                        <span className="text-xs text-muted-foreground">(jūs)</span>
+                        <Badge variant="outline" className="gap-1">
+                          <ShieldCheck className="h-3 w-3" /> Jūs
+                        </Badge>
                       ) : null}
                     </div>
                     <p className="mt-1 truncate text-sm text-muted-foreground">{u.email}</p>
