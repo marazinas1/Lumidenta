@@ -77,21 +77,26 @@ function AdminLayout() {
         <LumaLogo />
       </div>
       <nav className="admin-nav">
-        {links.map((l) => {
-          const Icon = l.icon;
-          const active = location.pathname === l.to;
-          return (
-            <Link
-              key={l.to}
-              to={l.to}
-              onClick={() => setNavOpen(false)}
-              className={`admin-nav-link${active ? " active" : ""}`}
-            >
-              <Icon className="h-4 w-4" />
-              {l.label}
-            </Link>
-          );
-        })}
+        {groups.map((g) => (
+          <div key={g.label} className="admin-nav-group">
+            <span className="admin-nav-group-label">{g.label}</span>
+            {g.links.map((l) => {
+              const Icon = l.icon;
+              const active = location.pathname === l.to;
+              return (
+                <Link
+                  key={l.to}
+                  to={l.to}
+                  onClick={() => setNavOpen(false)}
+                  className={`admin-nav-link${active ? " active" : ""}`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {l.label}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
       <div className="admin-foot">
         <div className="admin-me">
