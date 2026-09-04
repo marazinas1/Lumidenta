@@ -1,15 +1,10 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { getMyRole } from "@/lib/roles.functions";
 import { requestPasswordReset } from "@/lib/auth-recovery.functions";
 import { useServerFn } from "@tanstack/react-start";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
 import { PLATFORM_NAME } from "@/lib/brand";
-import { useTranslation } from "react-i18next";
+import { LumaLogo } from "@/components/site/LumaLogo";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [{ title: `Prisijungimas | ${PLATFORM_NAME}` }] }),
@@ -17,130 +12,151 @@ export const Route = createFileRoute("/auth")({
 });
 
 function LoginPage() {
-  const { t } = useTranslation();
   const navigate = useNavigate();
-  const fetchRole = useServerFn(getMyRole);
   const sendReset = useServerFn(requestPasswordReset);
-  const [mode, setMode] = useState<"login" | "forgot">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
+  // Already signed in with a staff role? Skip the form.
   useEffect(() => {
-    const goToDestination = async () => {
-      try {
-        const role = await fetchRole();
-        if (role.isAdmin) navigate({ to: "/admin", replace: true });
-        else navigate({ to: "/admin", replace: true });
-      } catch {
-        navigate({ to: "/admin", replace: true });
-      }
+    let active = true;
+    void (async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!active || !session) return;
+      const { data: roles } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", session.user.id);
+      if (active && (roles?.length ?? 0) > 0) navigate({ to: "/admin", replace: true });
+    })();
+    return () => {
+      active = false;
     };
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "PASSWORD_RECOVERY") return;
-      if (session) void goToDestination();
-    });
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) void goToDestination();
-    });
-    return () => subscription.unsubscribe();
-  }, [navigate, fetchRole]);
+  }, [navigate]);
 
-  const submit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setBusy(true);
-    try {
-      if (mode === "login") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast.success(t("auth.signedIn"));
-      } else {
-        await sendReset({
-          data: { email, redirectTo: `${window.location.origin}/reset-password` },
-        });
-        toast.success(t("auth.resetSent"));
-      }
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : t("auth.error"));
-    } finally {
-      setBusy(false);
+    setError(null);
+    setNotice(null);
+    setLoading(true);
+
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+
+    if (signInError || !data.session) {
+      setError("Neteisingas el. paštas arba slaptažodis.");
+      setLoading(false);
+      return;
     }
+
+    // Verify the account has a staff role; others are filtered out by RLS.
+    const { data: roleRows, error: roleError } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", data.session.user.id);
+
+    if (roleError || !roleRows || roleRows.length === 0) {
+      await supabase.auth.signOut();
+      setError("Ši paskyra neturi prieigos prie administravimo.");
+      setLoading(false);
+      return;
+    }
+
+    navigate({ to: "/admin", replace: true });
+  };
+
+  const handleForgotPassword = async () => {
+    setError(null);
+    setNotice(null);
+    if (!email.trim()) {
+      setError("Pirmiausia įveskite el. pašto adresą.");
+      return;
+    }
+    try {
+      await sendReset({
+        data: { email: email.trim(), redirectTo: `${window.location.origin}/reset-password` },
+      });
+    } catch {
+      /* Do not reveal whether the address exists. */
+    }
+    setNotice("Jei tokia paskyra egzistuoja, slaptažodžio nustatymo nuoroda jau pakeliui.");
   };
 
   return (
-    <div className="min-h-screen bg-background lg:grid lg:grid-cols-2">
-      {/* Kairė pusė — prisijungimas */}
-      <div className="flex min-h-screen items-center justify-center px-6 py-12 lg:min-h-0">
-        <div className="w-full max-w-sm space-y-6">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              {mode === "login" ? t("auth.loginTitle") : t("auth.forgotTitle")}
-            </h1>
-            <p className="mt-2 text-sm text-muted-foreground">
-              {mode === "forgot" ? t("auth.forgotSubtitle") : t("auth.loginSubtitle")}
-            </p>
+    <div className="luma">
+    <main className="auth-split">
+      <div className="auth-formside">
+        <div className="auth-inner">
+          <div className="auth-mobile-logo">
+            <LumaLogo />
           </div>
-          <form onSubmit={submit} className="space-y-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="email">{t("auth.email")}</Label>
-              <Input
-                id="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            {mode !== "forgot" && (
-              <div className="space-y-1.5">
-                <Label htmlFor="pw">{t("auth.password")}</Label>
-                <Input
-                  id="pw"
+
+          <p className="auth-eyebrow">Administravimas</p>
+          <h1 className="auth-title">Prisijungimas</h1>
+          <p className="auth-sub">Prieiga tik pakviestiems vartotojams.</p>
+
+          <div className="auth-card">
+            <form onSubmit={handleSubmit}>
+              <div className="auth-field">
+                <label htmlFor="email">El. paštas</label>
+                <input
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              <div className="auth-field">
+                <label htmlFor="password">Slaptažodis</label>
+                <input
+                  id="password"
                   type="password"
                   autoComplete="current-password"
                   required
-                  minLength={6}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-            )}
-            <Button type="submit" className="w-full" size="lg" disabled={busy}>
-              {busy ? t("auth.busy") : mode === "login" ? t("auth.submitLogin") : t("auth.submitReset")}
-            </Button>
-          </form>
-          <div className="space-y-2 text-center text-sm text-muted-foreground">
-            {mode === "login" ? (
-              <button type="button" className="underline" onClick={() => setMode("forgot")}>
-                {t("auth.forgotLink")}
+
+              {error && (
+                <p className="auth-error" role="alert">
+                  {error}
+                </p>
+              )}
+              {notice && <p className="auth-notice">{notice}</p>}
+
+              <button type="submit" className="auth-submit" disabled={loading}>
+                {loading ? "Jungiamasi…" : "Prisijungti"}
               </button>
-            ) : (
-              <button type="button" className="underline" onClick={() => setMode("login")}>
-                {t("auth.backToLogin")}
-              </button>
-            )}
-            <div>
-              <Link to="/" className="text-xs hover:underline">
-                {t("auth.home")}
-              </Link>
-            </div>
+            </form>
+
+            <button type="button" className="auth-alt" onClick={handleForgotPassword}>
+              Pamiršai slaptažodį?
+            </button>
           </div>
+
+          <Link to="/" className="auth-home">
+            ← Į pradžią
+          </Link>
         </div>
       </div>
 
-      {/* Dešinė pusė — prekės ženklo logotipas */}
-      <div className="relative hidden items-center justify-center overflow-hidden bg-muted lg:flex">
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,color-mix(in_oklab,var(--primary)_22%,transparent),transparent_60%),radial-gradient(circle_at_80%_80%,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_55%)]"
-        />
-        <div className="relative flex flex-col items-center gap-6 px-12 text-center">
-          <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
-            {PLATFORM_NAME}
-          </p>
+      <aside className="auth-brandside">
+        <div className="auth-brand-logo">
+          <LumaLogo />
         </div>
-      </div>
+        <div className="auth-brand-rule" />
+        <p className="auth-brand-note">Tik įgaliotiems asmenims</p>
+      </aside>
+    </main>
     </div>
   );
 }
