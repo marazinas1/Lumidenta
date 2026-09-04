@@ -38,9 +38,29 @@ function AdminLayout() {
     );
   }
 
-  const links = [
-    { to: "/admin", label: "Apžvalga", icon: LayoutDashboard },
-    ...(me.isOwner ? [{ to: "/admin/users", label: "Vartotojai", icon: Users }] : []),
+  const groups = [
+    {
+      label: "Workspace",
+      links: [
+        { to: "/admin", label: "Apžvalga", icon: LayoutDashboard },
+        { to: "/admin/inquiries", label: "Užklausos", icon: Inbox },
+        { to: "/admin/analytics", label: "Analitika", icon: BarChart3 },
+        ...(me.isOwner ? [{ to: "/admin/users", label: "Vartotojai", icon: Users }] : []),
+      ],
+    },
+    {
+      label: "Svetainė",
+      links: [
+        { to: "/admin/website/home", label: "Pradžia", icon: Home },
+        { to: "/admin/website/services", label: "Paslaugos", icon: Stethoscope },
+        { to: "/admin/website/about", label: "Apie", icon: FileText },
+        { to: "/admin/website/contact", label: "Kontaktai", icon: Phone },
+      ],
+    },
+    {
+      label: "Nustatymai",
+      links: [{ to: "/admin/settings", label: "Nustatymai", icon: Settings }],
+    },
   ] as const;
 
   async function signOut() {

@@ -27,8 +27,15 @@ import { Route as EnKontaktaiRouteImport } from './routes/en/kontaktai'
 import { Route as EnPrivatumoPolitikaRouteImport } from './routes/en/privatumo-politika'
 import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
+import { Route as AuthenticatedAdminInquiriesRouteImport } from './routes/_authenticated/admin.inquiries'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
+import { Route as AuthenticatedAdminWebsiteAboutRouteImport } from './routes/_authenticated/admin.website.about'
+import { Route as AuthenticatedAdminWebsiteContactRouteImport } from './routes/_authenticated/admin.website.contact'
+import { Route as AuthenticatedAdminWebsiteHomeRouteImport } from './routes/_authenticated/admin.website.home'
+import { Route as AuthenticatedAdminWebsiteServicesRouteImport } from './routes/_authenticated/admin.website.services'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -119,6 +126,24 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminAnalyticsRoute =
+  AuthenticatedAdminAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminInquiriesRoute =
+  AuthenticatedAdminInquiriesRouteImport.update({
+    id: '/inquiries',
+    path: '/inquiries',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -129,6 +154,30 @@ const EnApieIndexRoute = EnApieIndexRouteImport.update({
   path: '/',
   getParentRoute: () => EnApieRoute,
 } as any)
+const AuthenticatedAdminWebsiteAboutRoute =
+  AuthenticatedAdminWebsiteAboutRouteImport.update({
+    id: '/website/about',
+    path: '/website/about',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminWebsiteContactRoute =
+  AuthenticatedAdminWebsiteContactRouteImport.update({
+    id: '/website/contact',
+    path: '/website/contact',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminWebsiteHomeRoute =
+  AuthenticatedAdminWebsiteHomeRouteImport.update({
+    id: '/website/home',
+    path: '/website/home',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminWebsiteServicesRoute =
+  AuthenticatedAdminWebsiteServicesRouteImport.update({
+    id: '/website/services',
+    path: '/website/services',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -147,9 +196,16 @@ export interface FileRoutesByFullPath {
   '/en/taisykles': typeof EnTaisyklesRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
+  '/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
+  '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
+  '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
+  '/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -164,9 +220,16 @@ export interface FileRoutesByTo {
   '/en/taisykles': typeof EnTaisyklesRoute
   '/apie': typeof ApieIndexRoute
   '/en': typeof EnIndexRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/en/apie': typeof EnApieIndexRoute
+  '/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
+  '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
+  '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
+  '/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -187,9 +250,16 @@ export interface FileRoutesById {
   '/en/taisykles': typeof EnTaisyklesRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
+  '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/_authenticated/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
+  '/_authenticated/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
+  '/_authenticated/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
+  '/_authenticated/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
+  '/_authenticated/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -210,9 +280,16 @@ export interface FileRouteTypes {
     | '/en/taisykles'
     | '/apie/'
     | '/en/'
+    | '/admin/analytics'
+    | '/admin/inquiries'
+    | '/admin/settings'
     | '/admin/users'
     | '/admin/'
     | '/en/apie/'
+    | '/admin/website/about'
+    | '/admin/website/contact'
+    | '/admin/website/home'
+    | '/admin/website/services'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -227,9 +304,16 @@ export interface FileRouteTypes {
     | '/en/taisykles'
     | '/apie'
     | '/en'
+    | '/admin/analytics'
+    | '/admin/inquiries'
+    | '/admin/settings'
     | '/admin/users'
     | '/admin'
     | '/en/apie'
+    | '/admin/website/about'
+    | '/admin/website/contact'
+    | '/admin/website/home'
+    | '/admin/website/services'
   id:
     | '__root__'
     | '/'
@@ -249,9 +333,16 @@ export interface FileRouteTypes {
     | '/en/taisykles'
     | '/apie/'
     | '/en/'
+    | '/_authenticated/admin/analytics'
+    | '/_authenticated/admin/inquiries'
+    | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/'
     | '/en/apie/'
+    | '/_authenticated/admin/website/about'
+    | '/_authenticated/admin/website/contact'
+    | '/_authenticated/admin/website/home'
+    | '/_authenticated/admin/website/services'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -395,6 +486,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/analytics': {
+      id: '/_authenticated/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/inquiries': {
+      id: '/_authenticated/admin/inquiries'
+      path: '/inquiries'
+      fullPath: '/admin/inquiries'
+      preLoaderRoute: typeof AuthenticatedAdminInquiriesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/users': {
       id: '/_authenticated/admin/users'
       path: '/users'
@@ -409,17 +521,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnApieIndexRouteImport
       parentRoute: typeof EnApieRoute
     }
+    '/_authenticated/admin/website/about': {
+      id: '/_authenticated/admin/website/about'
+      path: '/website/about'
+      fullPath: '/admin/website/about'
+      preLoaderRoute: typeof AuthenticatedAdminWebsiteAboutRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/website/contact': {
+      id: '/_authenticated/admin/website/contact'
+      path: '/website/contact'
+      fullPath: '/admin/website/contact'
+      preLoaderRoute: typeof AuthenticatedAdminWebsiteContactRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/website/home': {
+      id: '/_authenticated/admin/website/home'
+      path: '/website/home'
+      fullPath: '/admin/website/home'
+      preLoaderRoute: typeof AuthenticatedAdminWebsiteHomeRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/website/services': {
+      id: '/_authenticated/admin/website/services'
+      path: '/website/services'
+      fullPath: '/admin/website/services'
+      preLoaderRoute: typeof AuthenticatedAdminWebsiteServicesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminInquiriesRoute: typeof AuthenticatedAdminInquiriesRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminWebsiteAboutRoute: typeof AuthenticatedAdminWebsiteAboutRoute
+  AuthenticatedAdminWebsiteContactRoute: typeof AuthenticatedAdminWebsiteContactRoute
+  AuthenticatedAdminWebsiteHomeRoute: typeof AuthenticatedAdminWebsiteHomeRoute
+  AuthenticatedAdminWebsiteServicesRoute: typeof AuthenticatedAdminWebsiteServicesRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+  AuthenticatedAdminInquiriesRoute: AuthenticatedAdminInquiriesRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminWebsiteAboutRoute: AuthenticatedAdminWebsiteAboutRoute,
+  AuthenticatedAdminWebsiteContactRoute: AuthenticatedAdminWebsiteContactRoute,
+  AuthenticatedAdminWebsiteHomeRoute: AuthenticatedAdminWebsiteHomeRoute,
+  AuthenticatedAdminWebsiteServicesRoute:
+    AuthenticatedAdminWebsiteServicesRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
