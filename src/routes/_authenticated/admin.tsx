@@ -2,7 +2,20 @@ import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-r
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Globe, LayoutDashboard, LogOut, Menu, Users } from "lucide-react";
+import {
+  BarChart3,
+  FileText,
+  Globe,
+  Home,
+  Inbox,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  Phone,
+  Settings,
+  Stethoscope,
+  Users,
+} from "lucide-react";
 import { getMyRole } from "@/lib/roles.functions";
 import { ROLE_LABEL } from "@/lib/roles";
 import { supabase } from "@/integrations/supabase/client";
@@ -38,9 +51,29 @@ function AdminLayout() {
     );
   }
 
-  const links = [
-    { to: "/admin", label: "Apžvalga", icon: LayoutDashboard },
-    ...(me.isOwner ? [{ to: "/admin/users", label: "Vartotojai", icon: Users }] : []),
+  const groups = [
+    {
+      label: "Workspace",
+      links: [
+        { to: "/admin", label: "Apžvalga", icon: LayoutDashboard },
+        { to: "/admin/inquiries", label: "Užklausos", icon: Inbox },
+        { to: "/admin/analytics", label: "Analitika", icon: BarChart3 },
+        ...(me.isOwner ? [{ to: "/admin/users", label: "Vartotojai", icon: Users }] : []),
+      ],
+    },
+    {
+      label: "Svetainė",
+      links: [
+        { to: "/admin/website/home", label: "Pradžia", icon: Home },
+        { to: "/admin/website/services", label: "Paslaugos", icon: Stethoscope },
+        { to: "/admin/website/about", label: "Apie", icon: FileText },
+        { to: "/admin/website/contact", label: "Kontaktai", icon: Phone },
+      ],
+    },
+    {
+      label: "Nustatymai",
+      links: [{ to: "/admin/settings", label: "Nustatymai", icon: Settings }],
+    },
   ] as const;
 
   async function signOut() {
@@ -57,21 +90,26 @@ function AdminLayout() {
         <LumaLogo />
       </div>
       <nav className="admin-nav">
-        {links.map((l) => {
-          const Icon = l.icon;
-          const active = location.pathname === l.to;
-          return (
-            <Link
-              key={l.to}
-              to={l.to}
-              onClick={() => setNavOpen(false)}
-              className={`admin-nav-link${active ? " active" : ""}`}
-            >
-              <Icon className="h-4 w-4" />
-              {l.label}
-            </Link>
-          );
-        })}
+        {groups.map((g) => (
+          <div key={g.label} className="admin-nav-group">
+            <span className="admin-nav-group-label">{g.label}</span>
+            {g.links.map((l) => {
+              const Icon = l.icon;
+              const active = location.pathname === l.to;
+              return (
+                <Link
+                  key={l.to}
+                  to={l.to}
+                  onClick={() => setNavOpen(false)}
+                  className={`admin-nav-link${active ? " active" : ""}`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {l.label}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
       <div className="admin-foot">
         <div className="admin-me">
@@ -93,7 +131,7 @@ function AdminLayout() {
   );
 
   return (
-    <div className="luma admin-shell">
+    <div className="luma site-theme admin-shell">
       <aside className="admin-sidebar">{navContent}</aside>
 
       <header className="admin-mobile-bar">
