@@ -26,9 +26,8 @@ function readLocaleCookie(): Locale | null {
 }
 
 /**
- * English is the default language for visitors: any Lithuanian (root) path is
- * redirected to its /en counterpart unless the visitor explicitly picked LT.
- * Runs on the client only, so the LT URLs stay canonical for crawlers.
+ * Lithuanian is canonical and the default: root paths stay as-is. A visitor is
+ * only sent to /en when they explicitly picked English before (cookie).
  */
 const NON_SITE_PREFIXES = ["/admin", "/staff", "/auth", "/reset-password", "/api"];
 
@@ -37,7 +36,7 @@ export function useRememberedLocaleRedirect() {
   useEffect(() => {
     if (NON_SITE_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))) return;
     if (localeFromPath(pathname) === "en") return;
-    if (readLocaleCookie() === "lt") return;
+    if (readLocaleCookie() !== "en") return;
     const target = localizePath(pathname, "en");
     if (target === pathname) return;
     window.location.replace(`${target}${window.location.search}${window.location.hash}`);
