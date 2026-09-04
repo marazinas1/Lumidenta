@@ -52,7 +52,11 @@ function fmt(value: string | null | undefined, withTime = false) {
 }
 
 function RoleBadge({ role }: { role: AdminRole }) {
-  return <span className={`admin-role-badge role-${role}`}>{ROLE_LABEL[role]}</span>;
+  return (
+    <Badge variant="outline" className="gap-1">
+      <ShieldCheck className="h-3 w-3" /> {ROLE_LABEL[role]}
+    </Badge>
+  );
 }
 
 function UsersPage() {
