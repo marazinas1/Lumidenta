@@ -131,7 +131,7 @@ function AdminLayout() {
   );
 
   return (
-    <div className="luma admin-shell">
+    <div className="luma site-theme admin-shell">
       <aside className="admin-sidebar">{navContent}</aside>
 
       <header className="admin-mobile-bar">
