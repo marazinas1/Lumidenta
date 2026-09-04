@@ -27,7 +27,6 @@ import { Route as EnKontaktaiRouteImport } from './routes/en/kontaktai'
 import { Route as EnPrivatumoPolitikaRouteImport } from './routes/en/privatumo-politika'
 import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
-import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authenticated/admin.content'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
 
@@ -120,12 +119,6 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
-const AuthenticatedAdminContentRoute =
-  AuthenticatedAdminContentRouteImport.update({
-    id: '/content',
-    path: '/content',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
 const AuthenticatedAdminSettingsRoute =
   AuthenticatedAdminSettingsRouteImport.update({
     id: '/settings',
@@ -155,7 +148,6 @@ export interface FileRoutesByFullPath {
   '/en/taisykles': typeof EnTaisyklesRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
-  '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
@@ -173,7 +165,6 @@ export interface FileRoutesByTo {
   '/en/taisykles': typeof EnTaisyklesRoute
   '/apie': typeof ApieIndexRoute
   '/en': typeof EnIndexRoute
-  '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/en/apie': typeof EnApieIndexRoute
@@ -197,7 +188,6 @@ export interface FileRoutesById {
   '/en/taisykles': typeof EnTaisyklesRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
-  '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
@@ -221,7 +211,6 @@ export interface FileRouteTypes {
     | '/en/taisykles'
     | '/apie/'
     | '/en/'
-    | '/admin/content'
     | '/admin/settings'
     | '/admin/'
     | '/en/apie/'
@@ -239,7 +228,6 @@ export interface FileRouteTypes {
     | '/en/taisykles'
     | '/apie'
     | '/en'
-    | '/admin/content'
     | '/admin/settings'
     | '/admin'
     | '/en/apie'
@@ -262,7 +250,6 @@ export interface FileRouteTypes {
     | '/en/taisykles'
     | '/apie/'
     | '/en/'
-    | '/_authenticated/admin/content'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/'
     | '/en/apie/'
@@ -409,13 +396,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/_authenticated/admin/content': {
-      id: '/_authenticated/admin/content'
-      path: '/content'
-      fullPath: '/admin/content'
-      preLoaderRoute: typeof AuthenticatedAdminContentRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
     '/_authenticated/admin/settings': {
       id: '/_authenticated/admin/settings'
       path: '/settings'
@@ -434,13 +414,11 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
-  AuthenticatedAdminContentRoute: typeof AuthenticatedAdminContentRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
-  AuthenticatedAdminContentRoute: AuthenticatedAdminContentRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
