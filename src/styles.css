@@ -152,6 +152,13 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    /* Manrope is the platform-wide standard font (public site + admin). */
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
   }
 }
 
