@@ -140,7 +140,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="site-theme min-h-screen bg-background text-foreground">
+      <div className="luma site-theme min-h-screen">
         <>
           <SiteHeader />
           <main>
