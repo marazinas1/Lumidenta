@@ -27,6 +27,7 @@ import { Route as EnKontaktaiRouteImport } from './routes/en/kontaktai'
 import { Route as EnPrivatumoPolitikaRouteImport } from './routes/en/privatumo-politika'
 import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
 
 const IndexRoute = IndexRouteImport.update({
@@ -118,6 +119,11 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const EnApieIndexRoute = EnApieIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/en/taisykles': typeof EnTaisyklesRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
 }
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/en/taisykles': typeof EnTaisyklesRoute
   '/apie': typeof ApieIndexRoute
   '/en': typeof EnIndexRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/en/apie': typeof EnApieIndexRoute
 }
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/en/taisykles': typeof EnTaisyklesRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
 }
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
     | '/en/taisykles'
     | '/apie/'
     | '/en/'
+    | '/admin/users'
     | '/admin/'
     | '/en/apie/'
   fileRoutesByTo: FileRoutesByTo
@@ -217,6 +227,7 @@ export interface FileRouteTypes {
     | '/en/taisykles'
     | '/apie'
     | '/en'
+    | '/admin/users'
     | '/admin'
     | '/en/apie'
   id:
@@ -238,6 +249,7 @@ export interface FileRouteTypes {
     | '/en/taisykles'
     | '/apie/'
     | '/en/'
+    | '/_authenticated/admin/users'
     | '/_authenticated/admin/'
     | '/en/apie/'
   fileRoutesById: FileRoutesById
@@ -383,6 +395,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/en/apie/': {
       id: '/en/apie/'
       path: '/'
@@ -394,10 +413,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
