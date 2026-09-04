@@ -78,7 +78,7 @@ function AdminLayout() {
           <span className="admin-me-email" title={me.email}>
             {me.email}
           </span>
-          <span className="admin-role-badge">{me.role ? ROLE_LABEL[me.role] : ""}</span>
+          <span className={`admin-role-badge${me.role ? ` role-${me.role}` : ""}`}>{me.role ? ROLE_LABEL[me.role] : ""}</span>
         </div>
         <a href="/" onClick={() => setNavOpen(false)} className="admin-nav-link">
           <Globe className="h-4 w-4" />
