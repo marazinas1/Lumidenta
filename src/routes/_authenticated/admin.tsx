@@ -2,7 +2,20 @@ import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-r
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Globe, LayoutDashboard, LogOut, Menu, Users } from "lucide-react";
+import {
+  BarChart3,
+  FileText,
+  Globe,
+  Home,
+  Inbox,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  Phone,
+  Settings,
+  Stethoscope,
+  Users,
+} from "lucide-react";
 import { getMyRole } from "@/lib/roles.functions";
 import { ROLE_LABEL } from "@/lib/roles";
 import { supabase } from "@/integrations/supabase/client";
