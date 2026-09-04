@@ -1,14 +1,12 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Building2, FileEdit, Globe, LayoutDashboard, LogOut, Menu, Settings2 } from "lucide-react";
+import { Globe, LayoutDashboard, LogOut, Menu, Users } from "lucide-react";
 import { getMyRole } from "@/lib/roles.functions";
+import { ROLE_LABEL } from "@/lib/roles";
 import { supabase } from "@/integrations/supabase/client";
-import { PLATFORM_NAME } from "@/lib/brand";
-import { useTranslation } from "react-i18next";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { useDefaultLanguage } from "@/hooks/useDefaultLanguage";
+import { LumaLogo } from "@/components/site/LumaLogo";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -16,118 +14,106 @@ export const Route = createFileRoute("/_authenticated/admin")({
 });
 
 function AdminLayout() {
-  const { t } = useTranslation();
-  useDefaultLanguage();
   const [navOpen, setNavOpen] = useState(false);
   const fetchRole = useServerFn(getMyRole);
-  const { data: role, isLoading } = useQuery({
+  const qc = useQueryClient();
+  const { data: me, isLoading } = useQuery({
     queryKey: ["my-role"],
     queryFn: () => fetchRole(),
     refetchOnMount: "always",
   });
-  const brandName = PLATFORM_NAME;
   const { location } = useRouterState();
 
   if (isLoading) {
-    return <div className="p-8 text-muted-foreground">{t("common.loading")}</div>;
+    return <div className="p-8 text-muted-foreground">Kraunama…</div>;
   }
-  if (!role?.isAdmin) {
+  if (!me?.isStaff) {
     return (
       <div className="mx-auto max-w-md p-8">
-        <h1 className="text-2xl font-semibold">{t("admin.noAdminTitle")}</h1>
-        <p className="mt-2 text-sm text-muted-foreground">{t("admin.noAdminText")}</p>
+        <h1 className="text-2xl font-semibold">Prieiga negalima</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Ši paskyra neturi prieigos prie valdymo skydelio.
+        </p>
       </div>
     );
   }
 
   const links = [
-    { to: "/admin", label: t("nav.dashboard"), icon: LayoutDashboard },
-    { to: "/admin/settings", label: t("nav.settings"), icon: Settings2 },
-    { to: "/admin/content", label: t("nav.content"), icon: FileEdit },
+    { to: "/admin", label: "Apžvalga", icon: LayoutDashboard },
+    ...(me.isOwner ? [{ to: "/admin/users", label: "Vartotojai", icon: Users }] : []),
   ] as const;
+
+  async function signOut() {
+    setNavOpen(false);
+    await qc.cancelQueries();
+    qc.clear();
+    await supabase.auth.signOut();
+    window.location.href = "/auth";
+  }
 
   const navContent = (
     <>
-      <div className="flex items-center gap-2 px-4 py-4 font-semibold text-sidebar-foreground">
-        <Building2 className="h-5 w-5 text-sidebar-foreground/80" />
-        <span>{brandName}</span>
+      <div className="admin-brand logo">
+        <LumaLogo />
       </div>
-      <nav className="flex-1 space-y-1 px-2">
-          {links.map((l) => {
-            const Icon = l.icon;
-            const active = location.pathname === l.to;
-            return (
-              <Link
-                key={l.to}
-                to={l.to}
-                onClick={() => setNavOpen(false)}
-                className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm ${
-                  active
-                    ? "bg-sidebar-primary font-medium text-sidebar-primary-foreground"
-                    : "text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                }`}
-              >
-                <Icon className="h-4 w-4" />
-                {l.label}
-              </Link>
-            );
-          })}
+      <nav className="admin-nav">
+        {links.map((l) => {
+          const Icon = l.icon;
+          const active = location.pathname === l.to;
+          return (
+            <Link
+              key={l.to}
+              to={l.to}
+              onClick={() => setNavOpen(false)}
+              className={`admin-nav-link${active ? " active" : ""}`}
+            >
+              <Icon className="h-4 w-4" />
+              {l.label}
+            </Link>
+          );
+        })}
       </nav>
-      <div className="mt-auto space-y-1 border-t border-sidebar-border px-2 py-3 text-sidebar-foreground">
-          <LanguageSwitcher />
-          <a
-            href="/"
-            onClick={() => setNavOpen(false)}
-            className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-          >
-            <Globe className="h-4 w-4" />
-            {t("nav.website")}
-          </a>
-          <button
-            className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            onClick={async () => {
-              setNavOpen(false);
-              await supabase.auth.signOut();
-              window.location.href = "/";
-            }}
-          >
-            <LogOut className="h-4 w-4" />
-            {t("nav.signOut")}
-          </button>
+      <div className="admin-foot">
+        <div className="admin-me">
+          <span className="admin-me-email" title={me.email}>
+            {me.email}
+          </span>
+          <span className="admin-role-badge">{me.role ? ROLE_LABEL[me.role] : ""}</span>
+        </div>
+        <a href="/" onClick={() => setNavOpen(false)} className="admin-nav-link">
+          <Globe className="h-4 w-4" />
+          Atgal į svetainę
+        </a>
+        <button type="button" className="admin-nav-link" onClick={signOut}>
+          <LogOut className="h-4 w-4" />
+          Atsijungti
+        </button>
       </div>
     </>
   );
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-background md:flex-row">
-      <aside className="hidden w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar md:flex">
-        {navContent}
-      </aside>
+    <div className="luma admin-shell">
+      <aside className="admin-sidebar">{navContent}</aside>
 
-
-      <header className="sticky top-0 z-40 flex items-center gap-2 border-b bg-card px-3 py-2 md:hidden">
+      <header className="admin-mobile-bar">
         <Sheet open={navOpen} onOpenChange={setNavOpen}>
           <SheetTrigger asChild>
-            <button
-              type="button"
-              aria-label={t("nav.dashboard")}
-              className="rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-foreground"
-            >
+            <button type="button" aria-label="Meniu" className="rounded-md p-2">
               <Menu className="h-5 w-5" />
             </button>
           </SheetTrigger>
-          <SheetContent side="left" className="flex w-72 flex-col bg-sidebar p-0">
-            <SheetTitle className="sr-only">{brandName}</SheetTitle>
+          <SheetContent side="left" className="admin-sidebar flex w-72 flex-col p-0">
+            <SheetTitle className="sr-only">Lumidenta</SheetTitle>
             {navContent}
           </SheetContent>
         </Sheet>
-        <span className="min-w-0 flex-1 truncate font-semibold">{brandName}</span>
-        <div className="shrink-0">
-          <LanguageSwitcher />
-        </div>
+        <span className="logo">
+          <LumaLogo />
+        </span>
       </header>
 
-      <main className="flex-1 overflow-x-hidden px-4 py-4 md:px-6 md:py-6">
+      <main className="admin-main">
         <Outlet />
       </main>
     </div>
