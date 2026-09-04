@@ -1,16 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminDashboard,
 });
 
 function AdminDashboard() {
-  const { t } = useTranslation();
   return (
     <div>
-      <h1 className="text-2xl font-semibold">{t("dashboard.title")}</h1>
-      <p className="mt-2 text-sm text-muted-foreground">{t("dashboard.subtitle")}</p>
+      <h1 className="text-2xl font-semibold">Valdymo skydelis</h1>
+      <p className="mt-2 max-w-prose text-sm text-muted-foreground">
+        Skydelis kol kas tuščias. Paslaugos, darbo laikas ir vizitų užklausos bus pridėtos
+        kituose etapuose.
+      </p>
     </div>
   );
 }

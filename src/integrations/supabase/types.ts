@@ -14,78 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      content_templates: {
-        Row: {
-          category: string
-          content: string
-          created_at: string
-          fields: Json
-          id: string
-          is_enabled: boolean
-          subject: string
-          template_name: string
-          updated_at: string
-          updated_by: string | null
-        }
-        Insert: {
-          category: string
-          content?: string
-          created_at?: string
-          fields?: Json
-          id?: string
-          is_enabled?: boolean
-          subject?: string
-          template_name: string
-          updated_at?: string
-          updated_by?: string | null
-        }
-        Update: {
-          category?: string
-          content?: string
-          created_at?: string
-          fields?: Json
-          id?: string
-          is_enabled?: boolean
-          subject?: string
-          template_name?: string
-          updated_at?: string
-          updated_by?: string | null
-        }
-        Relationships: []
-      }
-      content_translations: {
-        Row: {
-          entity_id: string
-          entity_type: string
-          field: string
-          id: string
-          lang: string
-          updated_at: string
-          updated_by: string | null
-          value: string
-        }
-        Insert: {
-          entity_id: string
-          entity_type: string
-          field: string
-          id?: string
-          lang: string
-          updated_at?: string
-          updated_by?: string | null
-          value: string
-        }
-        Update: {
-          entity_id?: string
-          entity_type?: string
-          field?: string
-          id?: string
-          lang?: string
-          updated_at?: string
-          updated_by?: string | null
-          value?: string
-        }
-        Relationships: []
-      }
       page_views: {
         Row: {
           country: string
@@ -149,9 +77,17 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_owner: { Args: { _user_id: string }; Returns: boolean }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "admin" | "user" | "housekeeper"
+      app_role:
+        | "admin"
+        | "user"
+        | "housekeeper"
+        | "developer"
+        | "owner"
+        | "editor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -279,7 +215,14 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user", "housekeeper"],
+      app_role: [
+        "admin",
+        "user",
+        "housekeeper",
+        "developer",
+        "owner",
+        "editor",
+      ],
     },
   },
 } as const
