@@ -27,9 +27,20 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="wrap nav-row">
-        <LocaleLink to="/" className="logo" aria-label="Lumidenta">
+        <LocaleLink
+          to="/"
+          className="logo"
+          aria-label="Lumidenta"
+          onClick={(e) => {
+            if (pathname === home) {
+              e.preventDefault();
+            }
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
           <LumaLogo />
         </LocaleLink>
+
 
         <nav className="primary" aria-label="Pagrindinė navigacija">
           {links.map((link) => (
