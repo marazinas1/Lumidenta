@@ -141,7 +141,7 @@ function UsersPage() {
               if (email.trim()) inviteM.mutate();
             }}
           >
-            <div className="flex-1 space-y-1.5">
+            <div className="flex flex-1 flex-col gap-1.5">
               <Label htmlFor="invite-email">El. paštas</Label>
               <Input
                 id="invite-email"
@@ -152,7 +152,7 @@ function UsersPage() {
                 required
               />
             </div>
-            <div className="flex-1 space-y-1.5">
+            <div className="flex flex-1 flex-col gap-1.5">
               <Label htmlFor="invite-name">Vardas</Label>
               <Input
                 id="invite-name"
@@ -161,7 +161,7 @@ function UsersPage() {
                 placeholder="Neprivaloma"
               />
             </div>
-            <div className="space-y-1.5">
+            <div className="flex flex-col gap-1.5">
               <Label htmlFor="invite-role">Teisės</Label>
               <Select value={role} onValueChange={(v) => setRole(v as "owner" | "editor")}>
                 <SelectTrigger id="invite-role" className="h-9 w-[180px]">
