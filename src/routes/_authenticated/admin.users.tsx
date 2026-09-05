@@ -293,13 +293,28 @@ function UsersPage() {
                     </p>
                   </div>
 
-                  <div className="flex shrink-0 items-center gap-2">
+                  <div className="flex shrink-0 flex-wrap items-center gap-2">
+                    {!u.confirmed && !isSelf && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={inviteM.isPending && resendingId === u.userId}
+                        title="Sugeneruoti ir išsiųsti pakvietimą iš naujo"
+                        onClick={() => resendInvite(u)}
+                      >
+                        <Send className="mr-2 h-3.5 w-3.5" />
+                        {inviteM.isPending && resendingId === u.userId
+                          ? "Siunčiama…"
+                          : "Siųsti iš naujo"}
+                      </Button>
+                    )}
                     {isDeveloper ? (
                       <span className="text-xs text-muted-foreground">Apsaugota paskyra</span>
                     ) : (
                       <>
                         <Select
                           value={u.role}
+
                           onValueChange={(v) =>
                             roleM.mutate({ userId: u.userId, role: v as "owner" | "editor" })
                           }
