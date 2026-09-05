@@ -32,6 +32,7 @@ import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
 import { Route as PaslaugosIndexRouteImport } from './routes/paslaugos.index'
 import { Route as PaslaugosSlugRouteImport } from './routes/paslaugos.$slug'
 import { Route as StraipsniaiIndexRouteImport } from './routes/straipsniai.index'
+import { Route as StraipsniaiSlugRouteImport } from './routes/straipsniai.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminInquiriesRouteImport } from './routes/_authenticated/admin.inquiries'
@@ -162,6 +163,11 @@ const StraipsniaiIndexRoute = StraipsniaiIndexRouteImport.update({
   path: '/',
   getParentRoute: () => StraipsniaiRoute,
 } as any)
+const StraipsniaiSlugRoute = StraipsniaiSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => StraipsniaiRoute,
+} as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -265,6 +271,7 @@ export interface FileRoutesByFullPath {
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
+  '/straipsniai/$slug': typeof StraipsniaiSlugRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
   '/paslaugos/': typeof PaslaugosIndexRoute
@@ -297,6 +304,7 @@ export interface FileRoutesByTo {
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
+  '/straipsniai/$slug': typeof StraipsniaiSlugRoute
   '/apie': typeof ApieIndexRoute
   '/en': typeof EnIndexRoute
   '/paslaugos': typeof PaslaugosIndexRoute
@@ -338,6 +346,7 @@ export interface FileRoutesById {
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
+  '/straipsniai/$slug': typeof StraipsniaiSlugRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
   '/paslaugos/': typeof PaslaugosIndexRoute
@@ -379,6 +388,7 @@ export interface FileRouteTypes {
     | '/en/privatumo-politika'
     | '/en/taisykles'
     | '/paslaugos/$slug'
+    | '/straipsniai/$slug'
     | '/apie/'
     | '/en/'
     | '/paslaugos/'
@@ -411,6 +421,7 @@ export interface FileRouteTypes {
     | '/en/privatumo-politika'
     | '/en/taisykles'
     | '/paslaugos/$slug'
+    | '/straipsniai/$slug'
     | '/apie'
     | '/en'
     | '/paslaugos'
@@ -451,6 +462,7 @@ export interface FileRouteTypes {
     | '/en/privatumo-politika'
     | '/en/taisykles'
     | '/paslaugos/$slug'
+    | '/straipsniai/$slug'
     | '/apie/'
     | '/en/'
     | '/paslaugos/'
@@ -650,6 +662,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/straipsniai/'
       preLoaderRoute: typeof StraipsniaiIndexRouteImport
+      parentRoute: typeof StraipsniaiRoute
+    }
+    '/straipsniai/$slug': {
+      id: '/straipsniai/$slug'
+      path: '/$slug'
+      fullPath: '/straipsniai/$slug'
+      preLoaderRoute: typeof StraipsniaiSlugRouteImport
       parentRoute: typeof StraipsniaiRoute
     }
     '/_authenticated/admin/': {
@@ -873,10 +892,12 @@ const PaslaugosRouteWithChildren = PaslaugosRoute._addFileChildren(
 )
 
 interface StraipsniaiRouteChildren {
+  StraipsniaiSlugRoute: typeof StraipsniaiSlugRoute
   StraipsniaiIndexRoute: typeof StraipsniaiIndexRoute
 }
 
 const StraipsniaiRouteChildren: StraipsniaiRouteChildren = {
+  StraipsniaiSlugRoute: StraipsniaiSlugRoute,
   StraipsniaiIndexRoute: StraipsniaiIndexRoute,
 }
 
