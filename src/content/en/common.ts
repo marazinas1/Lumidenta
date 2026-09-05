@@ -8,6 +8,7 @@ export const common = {
   },
   nav: {
     home: "Home",
+    services: "Services",
     about: "About",
     contacts: "Contacts",
     site: "Site",
