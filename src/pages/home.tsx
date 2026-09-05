@@ -169,7 +169,7 @@ function Index({ locale }: { locale: Locale }) {
 
 
       <section className="touch" id="apie">
-        <div className="wrap touch-grid">
+        <RevealItems className="wrap touch-grid">
           <div className="touch-photo">
             {touchPhoto ? (
               <img src={touchPhoto.url} alt={touchPhoto.alt || "Kabinetas"} loading="lazy" />
