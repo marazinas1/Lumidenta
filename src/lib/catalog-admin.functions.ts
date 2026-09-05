@@ -125,6 +125,7 @@ const settingsFields = z.object({
   aspi_licence: z.string().trim().max(120).default(""),
   facebook_url: z.string().trim().max(400).default(""),
   map_url: z.string().trim().max(600).default(""),
+  favicon_path: z.string().trim().max(400).nullable().default(null),
 });
 
 export const saveSiteSettings = createServerFn({ method: "POST" })

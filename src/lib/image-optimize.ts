@@ -117,3 +117,47 @@ export async function removeFromStorage(url: string): Promise<void> {
   if (!path) return;
   await supabase.storage.from("site-images").remove([path]);
 }
+
+/**
+ * Uploads a square 256x256 PNG site icon (favicon) into `site-images`.
+ * PNG keeps transparency and is understood by every browser and iOS.
+ */
+export async function uploadFaviconToStorage(
+  source: Blob | File,
+): Promise<{ url: string; path: string }> {
+  const objectUrl = URL.createObjectURL(source);
+  let blob: Blob;
+  try {
+    const img = await loadImage(objectUrl);
+    const size = 256;
+    const canvas = document.createElement("canvas");
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("Canvas kontekstas nepasiekiamas");
+    const scale = Math.min(size / img.naturalWidth, size / img.naturalHeight);
+    const w = Math.round(img.naturalWidth * scale);
+    const h = Math.round(img.naturalHeight * scale);
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(img, Math.round((size - w) / 2), Math.round((size - h) / 2), w, h);
+    blob = await new Promise<Blob>((resolve, reject) =>
+      canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Nepavyko paruošti ikonos"))), "image/png"),
+    );
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+
+  const uuid =
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const path = `favicon/${uuid}.png`;
+  const { error } = await supabase.storage.from("site-images").upload(path, blob, {
+    contentType: "image/png",
+    cacheControl: "3600",
+    upsert: false,
+  });
+  if (error) throw new Error(error.message);
+  const { data } = supabase.storage.from("site-images").getPublicUrl(path);
+  return { url: data.publicUrl, path };
+}

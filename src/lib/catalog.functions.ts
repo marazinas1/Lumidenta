@@ -55,6 +55,8 @@ export type SiteSettings = {
   aspiLicence: string;
   facebookUrl: string;
   mapUrl: string;
+  faviconPath: string;
+  faviconUrl: string | null;
 };
 
 export type CatalogPayload = {
@@ -75,6 +77,8 @@ export const emptySettings: SiteSettings = {
   aspiLicence: "",
   facebookUrl: "",
   mapUrl: "",
+  faviconPath: "",
+  faviconUrl: null,
 };
 
 export const emptyCatalog: CatalogPayload = {
@@ -177,6 +181,10 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
           aspiLicence: s['aspi_licence'] || "",
           facebookUrl: s['facebook_url'] || "",
           mapUrl: s['map_url'] || "",
+          faviconPath: s['favicon_path'] || "",
+          faviconUrl: s['favicon_path']
+            ? `${url}/storage/v1/object/public/site-images/${s['favicon_path']}`
+            : null,
         }
       : emptySettings;
 
