@@ -1,4 +1,5 @@
 import { ContactForm } from "@/components/site/ContactForm";
+import { ContactMapSection } from "@/components/site/ContactMapSection";
 import { getContent } from "@/content";
 import { ensureCatalog, useCatalog } from "@/lib/catalog";
 import type { Locale } from "@/lib/locale";
