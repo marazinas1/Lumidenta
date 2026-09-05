@@ -399,10 +399,12 @@
     transition-duration: 0.01ms !important;
   }
 
-  .reveal {
+  .reveal,
+  .reveal-items > * {
     opacity: 1;
     transform: none;
   }
+
 
   .hero-kenburns,
   .photo-zoom,
