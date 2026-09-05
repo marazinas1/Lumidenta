@@ -76,6 +76,9 @@ function ContactsPage({ locale }: { locale: Locale }) {
           <div style={{ marginTop: "56px" }}>
             <ContactForm />
           </div>
+
+          <ContactMapSection address={address} />
+
         </div>
       </section>
     </>
