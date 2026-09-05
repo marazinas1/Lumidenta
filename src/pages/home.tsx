@@ -1,7 +1,7 @@
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { getContent } from "@/content";
 import type { Locale } from "@/lib/locale";
-import { ensurePageContent, usePageContent } from "@/lib/page-content";
+import { ensurePageContent, usePageContent, type ContentLoaderArgs } from "@/lib/page-content";
 import { pageHead } from "@/lib/seo";
 
 const PAGE = "home";
@@ -11,7 +11,7 @@ export function homeRoute(locale: Locale) {
   return {
     // Fetched on the server before the HTML is sent, so the copy and photographs
     // are in the markup the crawler parses rather than requested after hydration.
-    loader: async ({ context }: { context: { queryClient: Parameters<typeof ensurePageContent>[0]["queryClient"] } }) => {
+    loader: async ({ context }: ContentLoaderArgs) => {
       await ensurePageContent(context);
       return null;
     },

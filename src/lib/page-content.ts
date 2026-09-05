@@ -59,3 +59,6 @@ export function usePageContent(page: string, locale: Locale) {
 export function ensurePageContent(context: { queryClient: QueryClient }) {
   return context.queryClient.ensureQueryData(pageContentQuery);
 }
+
+/** Loader argument shape for the shared page factories (locale-agnostic). */
+export type ContentLoaderArgs = { context: { queryClient: QueryClient } };
