@@ -39,12 +39,14 @@ export const inviteUser = createServerFn({ method: "POST" })
       redirectTo: appLink("/reset-password", data.redirectTo),
       ...(data.fullName ? { data: { full_name: data.fullName } } : {}),
     };
+    let reinvited = false;
     let link = await supabaseAdmin.auth.admin.generateLink({
       type: "invite",
       email: data.email,
       options: opts,
     });
     if (link.error && /registered|exists/i.test(link.error.message)) {
+      reinvited = true;
       link = await supabaseAdmin.auth.admin.generateLink({
         type: "recovery",
         email: data.email,
@@ -54,7 +56,7 @@ export const inviteUser = createServerFn({ method: "POST" })
     if (link.error) throw new Error(link.error.message);
 
     const newUserId = link.data.user?.id;
-    const actionLink = link.data.properties?.action_link;
+    const actionLink = link.data.properties?.action_link ?? null;
     if (!newUserId) throw new Error("Nepavyko sukurti vartotojo.");
 
     if (data.fullName) {
@@ -63,18 +65,30 @@ export const inviteUser = createServerFn({ method: "POST" })
       });
     }
 
-    await supabaseAdmin.from("user_roles").delete().eq("user_id", newUserId);
-    const { error: roleErr } = await supabaseAdmin
+    // A re-invite keeps whatever role the account already has.
+    const { data: existingRoles } = await supabaseAdmin
       .from("user_roles")
-      .insert({ user_id: newUserId, role: data.role } as never);
-    if (roleErr) throw new Error(roleErr.message);
+      .select("role")
+      .eq("user_id", newUserId);
+    const hasRole = (existingRoles ?? []).length > 0;
+    if (!reinvited || !hasRole) {
+      await supabaseAdmin.from("user_roles").delete().eq("user_id", newUserId);
+      const { error: roleErr } = await supabaseAdmin
+        .from("user_roles")
+        .insert({ user_id: newUserId, role: data.role } as never);
+      if (roleErr) throw new Error(roleErr.message);
+    }
 
+    // Email delivery can be unavailable (sender domain still verifying).
+    // The link is returned either way so it can be handed over manually.
+    let emailed = false;
     if (actionLink) {
-      const { sendEmail } = await import("@/lib/notifications.server");
-      await sendEmail({
-        to: data.email,
-        subject: "Kvietimas prisijungti prie Lumidenta valdymo skydelio",
-        html: `
+      try {
+        const { sendEmail } = await import("@/lib/notifications.server");
+        await sendEmail({
+          to: data.email,
+          subject: "Kvietimas prisijungti prie Lumidenta valdymo skydelio",
+          html: `
           <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#111;line-height:1.6">
             <p>Sveiki,</p>
             <p>Jums sukurta paskyra Lumidenta valdymo skydelyje.</p>
@@ -83,11 +97,16 @@ export const inviteUser = createServerFn({ method: "POST" })
             <p style="font-size:13px;color:#666">Jei mygtukas neveikia, nukopijuokite šią nuorodą:<br>${actionLink}</p>
           </div>
         `,
-      });
+        });
+        emailed = true;
+      } catch {
+        emailed = false;
+      }
     }
 
-    return { ok: true, userId: newUserId, emailed: Boolean(actionLink) };
+    return { ok: true, userId: newUserId, emailed, actionLink, reinvited };
   });
+
 
 export const listUsersWithRoles = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
