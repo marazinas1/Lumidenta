@@ -72,6 +72,10 @@ function UsersPage() {
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [role, setRole] = useState<"owner" | "editor">("editor");
+  const [result, setResult] = useState<
+    { email: string; actionLink: string | null; emailed: boolean; reinvited: boolean } | null
+  >(null);
+  const [resendingId, setResendingId] = useState<string | null>(null);
 
   const { data: me } = useQuery({ queryKey: ["my-role"], queryFn: () => fetchMe() });
   const { data: users, isLoading } = useQuery({
@@ -81,26 +85,55 @@ function UsersPage() {
 
   const refresh = () => qc.invalidateQueries({ queryKey: ["users-with-roles"] });
 
+  const copyLink = (value: string) => {
+    void navigator.clipboard.writeText(value);
+    toast.success("Nuoroda nukopijuota.");
+  };
+
   const inviteM = useMutation({
-    mutationFn: () =>
+    mutationFn: (vars: { email: string; role: "owner" | "editor"; fullName?: string }) =>
       invite({
         data: {
-          email,
-          role,
-          ...(fullName.trim() ? { fullName: fullName.trim() } : {}),
+          email: vars.email,
+          role: vars.role,
+          ...(vars.fullName ? { fullName: vars.fullName } : {}),
           ...(typeof window !== "undefined"
             ? { redirectTo: `${window.location.origin}/reset-password` }
             : {}),
         },
       }),
-    onSuccess: () => {
-      toast.success("Kvietimas išsiųstas.");
+    onSuccess: (data, vars) => {
+      setResult({
+        email: vars.email,
+        actionLink: data.actionLink,
+        emailed: data.emailed,
+        reinvited: data.reinvited,
+      });
+      toast.success(
+        data.emailed
+          ? data.reinvited
+            ? "Pakvietimas išsiųstas iš naujo."
+            : "Kvietimas išsiųstas."
+          : "Nuoroda sugeneruota — persiųskite ją rankiniu būdu.",
+      );
       setEmail("");
       setFullName("");
+      setResendingId(null);
       refresh();
     },
-    onError: (e) => toast.error(e instanceof Error ? e.message : "Nepavyko pakviesti."),
+    onError: (e) => {
+      setResendingId(null);
+      toast.error(e instanceof Error ? e.message : "Nepavyko pakviesti.");
+    },
   });
+
+  /** Re-issues the link for an account that exists but never signed in. */
+  const resendInvite = (user: { userId: string; email: string; role: AdminRole }) => {
+    const targetRole = user.role === "owner" ? "owner" : "editor";
+    setResendingId(user.userId);
+    inviteM.mutate({ email: user.email, role: targetRole });
+  };
+
 
   const roleM = useMutation({
     mutationFn: (vars: { userId: string; role: "owner" | "editor" }) => changeRole({ data: vars }),
