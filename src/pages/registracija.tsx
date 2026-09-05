@@ -170,7 +170,7 @@ function BookingPage() {
                   </a>
                 ) : null}
                 {settings.email ? (
-                  <a className="btn ghost" href={`mailto:${settings.email}`}>
+                  <a className="btn btn-line" href={`mailto:${settings.email}`}>
                     {settings.email}
                   </a>
                 ) : null}
