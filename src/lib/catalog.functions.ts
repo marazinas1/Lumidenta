@@ -28,6 +28,22 @@ export type TestimonialRow = {
   sortOrder: number;
 };
 
+export type PostRow = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  body: string;
+  author: string;
+  imageUrl: string | null;
+  imageAlt: string;
+  seoTitle: string;
+  seoDescription: string;
+  publishedAt: string;
+  showOnHome: boolean;
+};
+
+
 export type SiteSettings = {
   practiceName: string;
   dentistName: string;
