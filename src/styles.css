@@ -544,6 +544,39 @@
 .luma .t4{background:var(--peach-tint);}
 @media (max-width:900px){.luma .svc-grid{grid-template-columns:1fr 1fr;}}
 @media (max-width:560px){.luma .svc-grid{grid-template-columns:1fr;}}
+a.svc-card{text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s;}
+a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24,26,18,0.35);}
+.luma .svc-more{margin-top:36px;}
+
+/* Testimonials — same tinted card language as the services grid. */
+.luma .tstm{padding:100px 0;text-align:center;}
+.luma .tstm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;text-align:left;}
+.luma .tstm-card{margin:0;border-radius:var(--lradius);padding:28px 24px;display:flex;flex-direction:column;gap:18px;}
+.luma .tstm-card blockquote{margin:0;font-size:0.94rem;line-height:1.65;color:var(--ink);flex-grow:1;}
+.luma .tstm-card figcaption{display:flex;flex-direction:column;gap:2px;}
+.luma .tstm-card figcaption strong{font-size:0.9rem;font-weight:700;}
+.luma .tstm-card figcaption span{font-size:0.8rem;color:var(--ink-soft);}
+@media (max-width:900px){.luma .tstm-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:560px){.luma .tstm-grid{grid-template-columns:1fr;}}
+
+/* Inner pages — the calm sibling of the home sections. */
+.luma .page-head{padding:96px 0 12px;}
+.luma .page-head h1{font-size:clamp(2rem,4vw,3rem);line-height:1.14;margin-bottom:16px;}
+.luma .page-head p.lead{color:var(--ink-soft);font-size:1.02rem;max-width:56ch;}
+.luma .page-body{padding:48px 0 96px;}
+.luma .page-body .prose{max-width:68ch;}
+.luma .page-body .prose p{color:var(--ink-soft);margin-bottom:16px;line-height:1.75;}
+.luma .page-body h2{font-size:clamp(1.4rem,2.4vw,1.8rem);margin:36px 0 14px;}
+.luma .back-link{display:inline-block;margin-bottom:24px;font-size:0.86rem;color:var(--ink-soft);text-decoration:none;}
+.luma .back-link:hover{color:var(--sage);}
+.luma .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.luma .info-card{background:var(--card);border:1px solid var(--line);border-radius:var(--lradius);padding:24px;}
+.luma .info-card h2{font-size:0.76rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;}
+.luma .info-card a,.luma .info-card address{font-style:normal;color:var(--ink);text-decoration:none;font-size:0.98rem;}
+.luma .info-card a:hover{color:var(--sage);}
+@media (max-width:760px){.luma .info-grid{grid-template-columns:1fr;}}
+
+
 
 .luma .touch{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:100px 0;}
 .luma .touch-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:64px;align-items:center;}
