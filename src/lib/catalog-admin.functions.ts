@@ -138,3 +138,61 @@ export const saveSiteSettings = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+/* ------------------------------------------------------------------ posts */
+
+export const listAllPosts = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertStaff(context);
+    const { data, error } = await context.supabase
+      .from("posts")
+      .select("*")
+      .order("published_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+const postFields = z.object({
+  slug: z
+    .string()
+    .trim()
+    .min(1)
+    .max(160)
+    .regex(/^[a-z0-9-]+$/, "Adresas gali turėti tik mažąsias raides, skaičius ir brūkšnelius."),
+  title: z.string().trim().min(1).max(200),
+  excerpt: z.string().trim().max(600).default(""),
+  body: z.string().max(60000).default(""),
+  author: z.string().trim().max(160).default(""),
+  image_path: z.string().trim().max(400).nullable().default(null),
+  image_alt: z.string().trim().max(300).default(""),
+  seo_title: z.string().trim().max(200).default(""),
+  seo_description: z.string().trim().max(300).default(""),
+  published: z.boolean().default(false),
+  show_on_home: z.boolean().default(true),
+  published_at: z.string().min(4).max(40),
+});
+
+export const savePost = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => postFields.extend({ id: z.string().uuid().optional() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertStaff(context);
+    const { id, ...fields } = data;
+    const query = id
+      ? context.supabase.from("posts").update(fields).eq("id", id)
+      : context.supabase.from("posts").insert(fields);
+    const { error } = await query;
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deletePost = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => idInput.parse(d))
+  .handler(async ({ data, context }) => {
+    await assertStaff(context);
+    const { error } = await context.supabase.from("posts").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });

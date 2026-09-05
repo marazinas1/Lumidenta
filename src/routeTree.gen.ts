@@ -19,6 +19,7 @@ import { Route as PaslaugosRouteImport } from './routes/paslaugos'
 import { Route as PrivatumoPolitikaRouteImport } from './routes/privatumo-politika'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as StraipsniaiRouteImport } from './routes/straipsniai'
 import { Route as TaisyklesRouteImport } from './routes/taisykles'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApieIndexRouteImport } from './routes/apie.index'
@@ -27,9 +28,12 @@ import { Route as EnApieRouteImport } from './routes/en/apie'
 import { Route as EnKontaktaiRouteImport } from './routes/en/kontaktai'
 import { Route as EnPaslaugosRouteImport } from './routes/en/paslaugos'
 import { Route as EnPrivatumoPolitikaRouteImport } from './routes/en/privatumo-politika'
+import { Route as EnStraipsniaiRouteImport } from './routes/en/straipsniai'
 import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
 import { Route as PaslaugosIndexRouteImport } from './routes/paslaugos.index'
 import { Route as PaslaugosSlugRouteImport } from './routes/paslaugos.$slug'
+import { Route as StraipsniaiIndexRouteImport } from './routes/straipsniai.index'
+import { Route as StraipsniaiSlugRouteImport } from './routes/straipsniai.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminInquiriesRouteImport } from './routes/_authenticated/admin.inquiries'
@@ -38,9 +42,12 @@ import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authentic
 import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
 import { Route as EnPaslaugosIndexRouteImport } from './routes/en/paslaugos.index'
 import { Route as EnPaslaugosSlugRouteImport } from './routes/en/paslaugos.$slug'
+import { Route as EnStraipsniaiIndexRouteImport } from './routes/en/straipsniai.index'
+import { Route as EnStraipsniaiSlugRouteImport } from './routes/en/straipsniai.$slug'
 import { Route as AuthenticatedAdminWebsiteAboutRouteImport } from './routes/_authenticated/admin.website.about'
 import { Route as AuthenticatedAdminWebsiteContactRouteImport } from './routes/_authenticated/admin.website.contact'
 import { Route as AuthenticatedAdminWebsiteHomeRouteImport } from './routes/_authenticated/admin.website.home'
+import { Route as AuthenticatedAdminWebsitePostsRouteImport } from './routes/_authenticated/admin.website.posts'
 import { Route as AuthenticatedAdminWebsiteServicesRouteImport } from './routes/_authenticated/admin.website.services'
 import { Route as AuthenticatedAdminWebsiteTestimonialsRouteImport } from './routes/_authenticated/admin.website.testimonials'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
@@ -95,6 +102,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StraipsniaiRoute = StraipsniaiRouteImport.update({
+  id: '/straipsniai',
+  path: '/straipsniai',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TaisyklesRoute = TaisyklesRouteImport.update({
   id: '/taisykles',
   path: '/taisykles',
@@ -135,6 +147,11 @@ const EnPrivatumoPolitikaRoute = EnPrivatumoPolitikaRouteImport.update({
   path: '/privatumo-politika',
   getParentRoute: () => EnRouteRoute,
 } as any)
+const EnStraipsniaiRoute = EnStraipsniaiRouteImport.update({
+  id: '/straipsniai',
+  path: '/straipsniai',
+  getParentRoute: () => EnRouteRoute,
+} as any)
 const EnTaisyklesRoute = EnTaisyklesRouteImport.update({
   id: '/taisykles',
   path: '/taisykles',
@@ -149,6 +166,16 @@ const PaslaugosSlugRoute = PaslaugosSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => PaslaugosRoute,
+} as any)
+const StraipsniaiIndexRoute = StraipsniaiIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StraipsniaiRoute,
+} as any)
+const StraipsniaiSlugRoute = StraipsniaiSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => StraipsniaiRoute,
 } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
@@ -193,6 +220,16 @@ const EnPaslaugosSlugRoute = EnPaslaugosSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => EnPaslaugosRoute,
 } as any)
+const EnStraipsniaiIndexRoute = EnStraipsniaiIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EnStraipsniaiRoute,
+} as any)
+const EnStraipsniaiSlugRoute = EnStraipsniaiSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => EnStraipsniaiRoute,
+} as any)
 const AuthenticatedAdminWebsiteAboutRoute =
   AuthenticatedAdminWebsiteAboutRouteImport.update({
     id: '/website/about',
@@ -209,6 +246,12 @@ const AuthenticatedAdminWebsiteHomeRoute =
   AuthenticatedAdminWebsiteHomeRouteImport.update({
     id: '/website/home',
     path: '/website/home',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminWebsitePostsRoute =
+  AuthenticatedAdminWebsitePostsRouteImport.update({
+    id: '/website/posts',
+    path: '/website/posts',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminWebsiteServicesRoute =
@@ -244,28 +287,35 @@ export interface FileRoutesByFullPath {
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/straipsniai': typeof StraipsniaiRouteWithChildren
   '/taisykles': typeof TaisyklesRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/paslaugos': typeof EnPaslaugosRouteWithChildren
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
+  '/en/straipsniai': typeof EnStraipsniaiRouteWithChildren
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
+  '/straipsniai/$slug': typeof StraipsniaiSlugRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
   '/paslaugos/': typeof PaslaugosIndexRoute
+  '/straipsniai/': typeof StraipsniaiIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
+  '/en/straipsniai/$slug': typeof EnStraipsniaiSlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
   '/en/paslaugos/': typeof EnPaslaugosIndexRoute
+  '/en/straipsniai/': typeof EnStraipsniaiIndexRoute
   '/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
+  '/admin/website/posts': typeof AuthenticatedAdminWebsitePostsRoute
   '/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
   '/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -283,20 +333,25 @@ export interface FileRoutesByTo {
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
+  '/straipsniai/$slug': typeof StraipsniaiSlugRoute
   '/apie': typeof ApieIndexRoute
   '/en': typeof EnIndexRoute
   '/paslaugos': typeof PaslaugosIndexRoute
+  '/straipsniai': typeof StraipsniaiIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
+  '/en/straipsniai/$slug': typeof EnStraipsniaiSlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/en/apie': typeof EnApieIndexRoute
   '/en/paslaugos': typeof EnPaslaugosIndexRoute
+  '/en/straipsniai': typeof EnStraipsniaiIndexRoute
   '/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
+  '/admin/website/posts': typeof AuthenticatedAdminWebsitePostsRoute
   '/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
   '/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -314,28 +369,35 @@ export interface FileRoutesById {
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/straipsniai': typeof StraipsniaiRouteWithChildren
   '/taisykles': typeof TaisyklesRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/paslaugos': typeof EnPaslaugosRouteWithChildren
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
+  '/en/straipsniai': typeof EnStraipsniaiRouteWithChildren
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
+  '/straipsniai/$slug': typeof StraipsniaiSlugRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
   '/paslaugos/': typeof PaslaugosIndexRoute
+  '/straipsniai/': typeof StraipsniaiIndexRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
+  '/en/straipsniai/$slug': typeof EnStraipsniaiSlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
   '/en/paslaugos/': typeof EnPaslaugosIndexRoute
+  '/en/straipsniai/': typeof EnStraipsniaiIndexRoute
   '/_authenticated/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/_authenticated/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/_authenticated/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
+  '/_authenticated/admin/website/posts': typeof AuthenticatedAdminWebsitePostsRoute
   '/_authenticated/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
   '/_authenticated/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -353,28 +415,35 @@ export interface FileRouteTypes {
     | '/privatumo-politika'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/straipsniai'
     | '/taisykles'
     | '/admin'
     | '/en/apie'
     | '/en/kontaktai'
     | '/en/paslaugos'
     | '/en/privatumo-politika'
+    | '/en/straipsniai'
     | '/en/taisykles'
     | '/paslaugos/$slug'
+    | '/straipsniai/$slug'
     | '/apie/'
     | '/en/'
     | '/paslaugos/'
+    | '/straipsniai/'
     | '/admin/analytics'
     | '/admin/inquiries'
     | '/admin/settings'
     | '/admin/users'
     | '/en/paslaugos/$slug'
+    | '/en/straipsniai/$slug'
     | '/admin/'
     | '/en/apie/'
     | '/en/paslaugos/'
+    | '/en/straipsniai/'
     | '/admin/website/about'
     | '/admin/website/contact'
     | '/admin/website/home'
+    | '/admin/website/posts'
     | '/admin/website/services'
     | '/admin/website/testimonials'
     | '/lovable/email/auth/preview'
@@ -392,20 +461,25 @@ export interface FileRouteTypes {
     | '/en/privatumo-politika'
     | '/en/taisykles'
     | '/paslaugos/$slug'
+    | '/straipsniai/$slug'
     | '/apie'
     | '/en'
     | '/paslaugos'
+    | '/straipsniai'
     | '/admin/analytics'
     | '/admin/inquiries'
     | '/admin/settings'
     | '/admin/users'
     | '/en/paslaugos/$slug'
+    | '/en/straipsniai/$slug'
     | '/admin'
     | '/en/apie'
     | '/en/paslaugos'
+    | '/en/straipsniai'
     | '/admin/website/about'
     | '/admin/website/contact'
     | '/admin/website/home'
+    | '/admin/website/posts'
     | '/admin/website/services'
     | '/admin/website/testimonials'
     | '/lovable/email/auth/preview'
@@ -422,28 +496,35 @@ export interface FileRouteTypes {
     | '/privatumo-politika'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/straipsniai'
     | '/taisykles'
     | '/_authenticated/admin'
     | '/en/apie'
     | '/en/kontaktai'
     | '/en/paslaugos'
     | '/en/privatumo-politika'
+    | '/en/straipsniai'
     | '/en/taisykles'
     | '/paslaugos/$slug'
+    | '/straipsniai/$slug'
     | '/apie/'
     | '/en/'
     | '/paslaugos/'
+    | '/straipsniai/'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/inquiries'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
     | '/en/paslaugos/$slug'
+    | '/en/straipsniai/$slug'
     | '/_authenticated/admin/'
     | '/en/apie/'
     | '/en/paslaugos/'
+    | '/en/straipsniai/'
     | '/_authenticated/admin/website/about'
     | '/_authenticated/admin/website/contact'
     | '/_authenticated/admin/website/home'
+    | '/_authenticated/admin/website/posts'
     | '/_authenticated/admin/website/services'
     | '/_authenticated/admin/website/testimonials'
     | '/lovable/email/auth/preview'
@@ -461,6 +542,7 @@ export interface RootRouteChildren {
   PrivatumoPolitikaRoute: typeof PrivatumoPolitikaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  StraipsniaiRoute: typeof StraipsniaiRouteWithChildren
   TaisyklesRoute: typeof TaisyklesRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
@@ -538,6 +620,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/straipsniai': {
+      id: '/straipsniai'
+      path: '/straipsniai'
+      fullPath: '/straipsniai'
+      preLoaderRoute: typeof StraipsniaiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/taisykles': {
       id: '/taisykles'
       path: '/taisykles'
@@ -594,6 +683,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnPrivatumoPolitikaRouteImport
       parentRoute: typeof EnRouteRoute
     }
+    '/en/straipsniai': {
+      id: '/en/straipsniai'
+      path: '/straipsniai'
+      fullPath: '/en/straipsniai'
+      preLoaderRoute: typeof EnStraipsniaiRouteImport
+      parentRoute: typeof EnRouteRoute
+    }
     '/en/taisykles': {
       id: '/en/taisykles'
       path: '/taisykles'
@@ -614,6 +710,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/paslaugos/$slug'
       preLoaderRoute: typeof PaslaugosSlugRouteImport
       parentRoute: typeof PaslaugosRoute
+    }
+    '/straipsniai/': {
+      id: '/straipsniai/'
+      path: '/'
+      fullPath: '/straipsniai/'
+      preLoaderRoute: typeof StraipsniaiIndexRouteImport
+      parentRoute: typeof StraipsniaiRoute
+    }
+    '/straipsniai/$slug': {
+      id: '/straipsniai/$slug'
+      path: '/$slug'
+      fullPath: '/straipsniai/$slug'
+      preLoaderRoute: typeof StraipsniaiSlugRouteImport
+      parentRoute: typeof StraipsniaiRoute
     }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
@@ -671,6 +781,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnPaslaugosSlugRouteImport
       parentRoute: typeof EnPaslaugosRoute
     }
+    '/en/straipsniai/': {
+      id: '/en/straipsniai/'
+      path: '/'
+      fullPath: '/en/straipsniai/'
+      preLoaderRoute: typeof EnStraipsniaiIndexRouteImport
+      parentRoute: typeof EnStraipsniaiRoute
+    }
+    '/en/straipsniai/$slug': {
+      id: '/en/straipsniai/$slug'
+      path: '/$slug'
+      fullPath: '/en/straipsniai/$slug'
+      preLoaderRoute: typeof EnStraipsniaiSlugRouteImport
+      parentRoute: typeof EnStraipsniaiRoute
+    }
     '/_authenticated/admin/website/about': {
       id: '/_authenticated/admin/website/about'
       path: '/website/about'
@@ -690,6 +814,13 @@ declare module '@tanstack/react-router' {
       path: '/website/home'
       fullPath: '/admin/website/home'
       preLoaderRoute: typeof AuthenticatedAdminWebsiteHomeRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/website/posts': {
+      id: '/_authenticated/admin/website/posts'
+      path: '/website/posts'
+      fullPath: '/admin/website/posts'
+      preLoaderRoute: typeof AuthenticatedAdminWebsitePostsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/website/services': {
@@ -732,6 +863,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminWebsiteAboutRoute: typeof AuthenticatedAdminWebsiteAboutRoute
   AuthenticatedAdminWebsiteContactRoute: typeof AuthenticatedAdminWebsiteContactRoute
   AuthenticatedAdminWebsiteHomeRoute: typeof AuthenticatedAdminWebsiteHomeRoute
+  AuthenticatedAdminWebsitePostsRoute: typeof AuthenticatedAdminWebsitePostsRoute
   AuthenticatedAdminWebsiteServicesRoute: typeof AuthenticatedAdminWebsiteServicesRoute
   AuthenticatedAdminWebsiteTestimonialsRoute: typeof AuthenticatedAdminWebsiteTestimonialsRoute
 }
@@ -745,6 +877,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminWebsiteAboutRoute: AuthenticatedAdminWebsiteAboutRoute,
   AuthenticatedAdminWebsiteContactRoute: AuthenticatedAdminWebsiteContactRoute,
   AuthenticatedAdminWebsiteHomeRoute: AuthenticatedAdminWebsiteHomeRoute,
+  AuthenticatedAdminWebsitePostsRoute: AuthenticatedAdminWebsitePostsRoute,
   AuthenticatedAdminWebsiteServicesRoute:
     AuthenticatedAdminWebsiteServicesRoute,
   AuthenticatedAdminWebsiteTestimonialsRoute:
@@ -790,11 +923,26 @@ const EnPaslaugosRouteWithChildren = EnPaslaugosRoute._addFileChildren(
   EnPaslaugosRouteChildren,
 )
 
+interface EnStraipsniaiRouteChildren {
+  EnStraipsniaiSlugRoute: typeof EnStraipsniaiSlugRoute
+  EnStraipsniaiIndexRoute: typeof EnStraipsniaiIndexRoute
+}
+
+const EnStraipsniaiRouteChildren: EnStraipsniaiRouteChildren = {
+  EnStraipsniaiSlugRoute: EnStraipsniaiSlugRoute,
+  EnStraipsniaiIndexRoute: EnStraipsniaiIndexRoute,
+}
+
+const EnStraipsniaiRouteWithChildren = EnStraipsniaiRoute._addFileChildren(
+  EnStraipsniaiRouteChildren,
+)
+
 interface EnRouteRouteChildren {
   EnApieRoute: typeof EnApieRouteWithChildren
   EnKontaktaiRoute: typeof EnKontaktaiRoute
   EnPaslaugosRoute: typeof EnPaslaugosRouteWithChildren
   EnPrivatumoPolitikaRoute: typeof EnPrivatumoPolitikaRoute
+  EnStraipsniaiRoute: typeof EnStraipsniaiRouteWithChildren
   EnTaisyklesRoute: typeof EnTaisyklesRoute
   EnIndexRoute: typeof EnIndexRoute
 }
@@ -804,6 +952,7 @@ const EnRouteRouteChildren: EnRouteRouteChildren = {
   EnKontaktaiRoute: EnKontaktaiRoute,
   EnPaslaugosRoute: EnPaslaugosRouteWithChildren,
   EnPrivatumoPolitikaRoute: EnPrivatumoPolitikaRoute,
+  EnStraipsniaiRoute: EnStraipsniaiRouteWithChildren,
   EnTaisyklesRoute: EnTaisyklesRoute,
   EnIndexRoute: EnIndexRoute,
 }
@@ -835,6 +984,20 @@ const PaslaugosRouteWithChildren = PaslaugosRoute._addFileChildren(
   PaslaugosRouteChildren,
 )
 
+interface StraipsniaiRouteChildren {
+  StraipsniaiSlugRoute: typeof StraipsniaiSlugRoute
+  StraipsniaiIndexRoute: typeof StraipsniaiIndexRoute
+}
+
+const StraipsniaiRouteChildren: StraipsniaiRouteChildren = {
+  StraipsniaiSlugRoute: StraipsniaiSlugRoute,
+  StraipsniaiIndexRoute: StraipsniaiIndexRoute,
+}
+
+const StraipsniaiRouteWithChildren = StraipsniaiRoute._addFileChildren(
+  StraipsniaiRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -846,6 +1009,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivatumoPolitikaRoute: PrivatumoPolitikaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  StraipsniaiRoute: StraipsniaiRouteWithChildren,
   TaisyklesRoute: TaisyklesRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,

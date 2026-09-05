@@ -1,5 +1,6 @@
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { TestimonialCarousel } from "@/components/site/TestimonialCarousel";
+import { PostCard } from "@/pages/straipsniai";
 import { getContent } from "@/content";
 import { ensureCatalog, useCatalog } from "@/lib/catalog";
 import type { Locale } from "@/lib/locale";
@@ -32,10 +33,11 @@ export function homeRoute(locale: Locale) {
 
 function Index({ locale }: { locale: Locale }) {
   const { copy, image } = usePageContent(PAGE, locale);
-  const { services, testimonials } = useCatalog();
+  const { services, testimonials, posts } = useCatalog();
   const heroPortrait = image("hero_portrait");
   const touchPhoto = image("touch_photo");
   const homeServices = services.filter((s) => s.showOnHome).slice(0, 4);
+  const homePosts = posts.filter((p) => p.showOnHome).slice(0, 3);
 
   return (
     <>
@@ -225,6 +227,31 @@ function Index({ locale }: { locale: Locale }) {
 
         </div>
       </section>
+
+      {homePosts.length > 0 ? (
+        <section className="posts-teaser" id="straipsniai">
+          <div className="wrap">
+            <div className="section-head">
+              <h2>
+                {copy("posts_heading", "Naudinga")}{" "}
+                <span className="soft">{copy("posts_heading_soft", "skaityti.")}</span>
+              </h2>
+            </div>
+            <div className="post-grid">
+              {homePosts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
+            <div className="section-foot">
+              <LocaleLink to="/straipsniai" className="btn btn-line">
+                {copy("posts_all_button", "Visi straipsniai →")}
+              </LocaleLink>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+
 
       <div className="cta-band">
         <div className="cta-panel">

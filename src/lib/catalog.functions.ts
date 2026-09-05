@@ -28,6 +28,22 @@ export type TestimonialRow = {
   sortOrder: number;
 };
 
+export type PostRow = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  body: string;
+  author: string;
+  imageUrl: string | null;
+  imageAlt: string;
+  seoTitle: string;
+  seoDescription: string;
+  publishedAt: string;
+  showOnHome: boolean;
+};
+
+
 export type SiteSettings = {
   practiceName: string;
   dentistName: string;
@@ -44,6 +60,7 @@ export type SiteSettings = {
 export type CatalogPayload = {
   services: ServiceRow[];
   testimonials: TestimonialRow[];
+  posts: PostRow[];
   settings: SiteSettings;
 };
 
@@ -63,6 +80,7 @@ export const emptySettings: SiteSettings = {
 export const emptyCatalog: CatalogPayload = {
   services: [],
   testimonials: [],
+  posts: [],
   settings: emptySettings,
 };
 
@@ -82,7 +100,7 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
       auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
     });
 
-    const [servicesRes, testimonialsRes, settingsRes] = await Promise.all([
+    const [servicesRes, testimonialsRes, postsRes, settingsRes] = await Promise.all([
       supabase
         .from("services")
         .select(
@@ -95,6 +113,13 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
         .select("id, quote, author_name, author_detail, sort_order")
         .eq("published", true)
         .order("sort_order", { ascending: true }),
+      supabase
+        .from("posts")
+        .select(
+          "id, slug, title, excerpt, body, author, image_bucket, image_path, image_alt, seo_title, seo_description, published_at, show_on_home",
+        )
+        .eq("published", true)
+        .order("published_at", { ascending: false }),
       supabase.from("site_settings").select("*").limit(1).maybeSingle(),
     ]);
 
@@ -122,6 +147,23 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
       sortOrder: row.sort_order ?? 0,
     }));
 
+    const posts: PostRow[] = (postsRes.data ?? []).map((row) => ({
+      id: row.id,
+      slug: row.slug,
+      title: row.title,
+      excerpt: row.excerpt ?? "",
+      body: row.body ?? "",
+      author: row.author ?? "",
+      imageUrl: row.image_path
+        ? `${url}/storage/v1/object/public/${row.image_bucket}/${row.image_path}`
+        : null,
+      imageAlt: row.image_alt ?? "",
+      seoTitle: row.seo_title ?? "",
+      seoDescription: row.seo_description ?? "",
+      publishedAt: row.published_at,
+      showOnHome: Boolean(row.show_on_home),
+    }));
+
     const s = settingsRes.data as Record<string, string> | null;
     const settings: SiteSettings = s
       ? {
@@ -138,6 +180,6 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
         }
       : emptySettings;
 
-    return { services, testimonials, settings };
+    return { services, testimonials, posts, settings };
   },
 );

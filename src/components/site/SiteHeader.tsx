@@ -19,6 +19,7 @@ export function SiteHeader() {
   const links = [
     { label: "Pradžia", to: "/" as const, hash: undefined },
     { label: "Paslaugos", to: "/" as const, hash: "paslaugos" },
+    { label: "Straipsniai", to: "/straipsniai" as const, hash: undefined },
     { label: "Apie mane", to: "/apie" as const, hash: undefined },
     { label: "Kontaktai", to: "/kontaktai" as const, hash: undefined },
   ];
