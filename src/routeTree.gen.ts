@@ -28,6 +28,7 @@ import { Route as EnKontaktaiRouteImport } from './routes/en/kontaktai'
 import { Route as EnPrivatumoPolitikaRouteImport } from './routes/en/privatumo-politika'
 import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
 import { Route as PaslaugosIndexRouteImport } from './routes/paslaugos.index'
+import { Route as PaslaugosSlugRouteImport } from './routes/paslaugos.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminInquiriesRouteImport } from './routes/_authenticated/admin.inquiries'
@@ -135,6 +136,11 @@ const PaslaugosIndexRoute = PaslaugosIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PaslaugosRoute,
 } as any)
+const PaslaugosSlugRoute = PaslaugosSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => PaslaugosRoute,
+} as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -219,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
+  '/paslaugos/$slug': typeof PaslaugosSlugRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
   '/paslaugos/': typeof PaslaugosIndexRoute
@@ -246,6 +253,7 @@ export interface FileRoutesByTo {
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
+  '/paslaugos/$slug': typeof PaslaugosSlugRoute
   '/apie': typeof ApieIndexRoute
   '/en': typeof EnIndexRoute
   '/paslaugos': typeof PaslaugosIndexRoute
@@ -280,6 +288,7 @@ export interface FileRoutesById {
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
+  '/paslaugos/$slug': typeof PaslaugosSlugRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
   '/paslaugos/': typeof PaslaugosIndexRoute
@@ -314,6 +323,7 @@ export interface FileRouteTypes {
     | '/en/kontaktai'
     | '/en/privatumo-politika'
     | '/en/taisykles'
+    | '/paslaugos/$slug'
     | '/apie/'
     | '/en/'
     | '/paslaugos/'
@@ -341,6 +351,7 @@ export interface FileRouteTypes {
     | '/en/kontaktai'
     | '/en/privatumo-politika'
     | '/en/taisykles'
+    | '/paslaugos/$slug'
     | '/apie'
     | '/en'
     | '/paslaugos'
@@ -374,6 +385,7 @@ export interface FileRouteTypes {
     | '/en/kontaktai'
     | '/en/privatumo-politika'
     | '/en/taisykles'
+    | '/paslaugos/$slug'
     | '/apie/'
     | '/en/'
     | '/paslaugos/'
@@ -540,6 +552,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/paslaugos/'
       preLoaderRoute: typeof PaslaugosIndexRouteImport
+      parentRoute: typeof PaslaugosRoute
+    }
+    '/paslaugos/$slug': {
+      id: '/paslaugos/$slug'
+      path: '/$slug'
+      fullPath: '/paslaugos/$slug'
+      preLoaderRoute: typeof PaslaugosSlugRouteImport
       parentRoute: typeof PaslaugosRoute
     }
     '/_authenticated/admin/': {
@@ -709,10 +728,12 @@ const ApieRouteChildren: ApieRouteChildren = {
 const ApieRouteWithChildren = ApieRoute._addFileChildren(ApieRouteChildren)
 
 interface PaslaugosRouteChildren {
+  PaslaugosSlugRoute: typeof PaslaugosSlugRoute
   PaslaugosIndexRoute: typeof PaslaugosIndexRoute
 }
 
 const PaslaugosRouteChildren: PaslaugosRouteChildren = {
+  PaslaugosSlugRoute: PaslaugosSlugRoute,
   PaslaugosIndexRoute: PaslaugosIndexRoute,
 }
 
