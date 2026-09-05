@@ -22,6 +22,7 @@ import {
 import { getMyRole } from "@/lib/roles.functions";
 import { ROLE_LABEL } from "@/lib/roles";
 import { supabase } from "@/integrations/supabase/client";
+import { useUnreadInquiryCount } from "@/hooks/admin/useInquiries";
 import { LumaLogo } from "@/components/site/LumaLogo";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
@@ -39,6 +40,7 @@ function AdminLayout() {
     refetchOnMount: "always",
   });
   const { location } = useRouterState();
+  const { data: unread = 0 } = useUnreadInquiryCount();
 
   if (isLoading) {
     return <div className="p-8 text-muted-foreground">Kraunama…</div>;
@@ -59,7 +61,7 @@ function AdminLayout() {
       label: "Darbo sritis",
       links: [
         { to: "/admin", label: "Apžvalga", icon: LayoutDashboard },
-        { to: "/admin/inquiries", label: "Užklausos", icon: Inbox },
+        { to: "/admin/inquiries", label: "Užklausos", icon: Inbox, badge: unread },
         { to: "/admin/analytics", label: "Analitika", icon: BarChart3 },
         ...(me.isOwner ? [{ to: "/admin/users", label: "Vartotojai", icon: Users }] : []),
       ],
@@ -113,6 +115,11 @@ function AdminLayout() {
                 >
                   <Icon className="h-4 w-4" />
                   {l.label}
+                  {"badge" in l && l.badge ? (
+                    <span className="admin-nav-badge" aria-label={`${l.badge} neperskaitytos užklausos`}>
+                      {l.badge > 99 ? "99+" : l.badge}
+                    </span>
+                  ) : null}
                 </Link>
               );
             })}
@@ -145,8 +152,11 @@ function AdminLayout() {
       <header className="admin-mobile-bar">
         <Sheet open={navOpen} onOpenChange={setNavOpen}>
           <SheetTrigger asChild>
-            <button type="button" aria-label="Meniu" className="rounded-md p-2">
+            <button type="button" aria-label="Meniu" className="relative rounded-md p-2">
               <Menu className="h-5 w-5" />
+              {unread > 0 ? (
+                <span className="admin-mobile-dot">{unread > 99 ? "99+" : unread}</span>
+              ) : null}
             </button>
           </SheetTrigger>
           <SheetContent side="left" className="luma site-theme admin-drawer flex w-72 flex-col p-0">
