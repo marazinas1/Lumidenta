@@ -24,12 +24,17 @@ export function usePageViewTracking(pathname: string, enabled: boolean) {
   useEffect(() => {
     if (!enabled || typeof window === "undefined") return;
     const timer = window.setTimeout(() => {
-      void supabase.from("page_views").insert({
-        path: pathname.slice(0, 2048),
-        session_id: sessionId(),
-        referrer: (document.referrer || "").slice(0, 2048),
-        user_agent: navigator.userAgent.slice(0, 1024),
-      });
+      void supabase
+        .from("page_views")
+        .insert({
+          path: pathname.slice(0, 2048),
+          session_id: sessionId(),
+          referrer: (document.referrer || "").slice(0, 2048),
+          user_agent: navigator.userAgent.slice(0, 1024),
+        })
+        .then(({ error }) => {
+          if (error) console.warn("page view tracking failed", error.message);
+        });
     }, 300);
     return () => window.clearTimeout(timer);
   }, [pathname, enabled]);
