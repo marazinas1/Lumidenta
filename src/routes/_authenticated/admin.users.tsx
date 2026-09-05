@@ -220,6 +220,37 @@ function UsersPage() {
               Pakviesti
             </Button>
           </form>
+
+          {result && (
+            <div className="mt-6 rounded-xl border border-border bg-muted/40 p-4 text-sm">
+              <p className="font-medium">
+                {result.reinvited
+                  ? `${result.email} jau turi paskyrą — sugeneruota nauja slaptažodžio nustatymo nuoroda. Teisės nepakeistos.`
+                  : result.emailed
+                    ? `Kvietimo laiškas išsiųstas į ${result.email}.`
+                    : `Paskyra sukurta (${result.email}). Laiško išsiųsti nepavyko — perduokite nuorodą patys.`}
+              </p>
+              {result.actionLink && (
+                <div className="mt-3 flex items-center gap-2">
+                  <code className="min-w-0 flex-1 truncate rounded-md bg-background px-3 py-2 text-xs">
+                    {result.actionLink}
+                  </code>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => copyLink(result.actionLink!)}
+                  >
+                    <Copy className="mr-2 h-3.5 w-3.5" /> Kopijuoti
+                  </Button>
+                </div>
+              )}
+              <p className="mt-3 text-xs text-muted-foreground">
+                Nuoroda rodoma vieną kartą. Vėliau ją galima sugeneruoti iš naujo.
+              </p>
+            </div>
+          )}
+
         </CardContent>
       </Card>
 
