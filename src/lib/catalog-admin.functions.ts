@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { assertStaff } from "./users.server";
+import { assertOwner, assertStaff } from "./users.server";
 
 /** Everything here is staff-only (developer, owner or editor). */
 
@@ -58,7 +58,7 @@ export const saveService = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => serviceFields.extend({ id: z.string().uuid().optional() }).parse(d))
   .handler(async ({ data, context }) => {
-    await assertStaff(context);
+    await assertOwner(context);
     const { id, ...fields } = data;
     const query = id
       ? context.supabase.from("services").update(fields).eq("id", id)
@@ -72,7 +72,7 @@ export const deleteService = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => idInput.parse(d))
   .handler(async ({ data, context }) => {
-    await assertStaff(context);
+    await assertOwner(context);
     const { error } = await context.supabase.from("services").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -92,7 +92,7 @@ export const saveTestimonial = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => testimonialFields.extend({ id: z.string().uuid().optional() }).parse(d))
   .handler(async ({ data, context }) => {
-    await assertStaff(context);
+    await assertOwner(context);
     const { id, ...fields } = data;
     const query = id
       ? context.supabase.from("testimonials").update(fields).eq("id", id)
@@ -106,7 +106,7 @@ export const deleteTestimonial = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => idInput.parse(d))
   .handler(async ({ data, context }) => {
-    await assertStaff(context);
+    await assertOwner(context);
     const { error } = await context.supabase.from("testimonials").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -131,7 +131,7 @@ export const saveSiteSettings = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => settingsFields.parse(d))
   .handler(async ({ data, context }) => {
-    await assertStaff(context);
+    await assertOwner(context);
     const { error } = await context.supabase
       .from("site_settings")
       .upsert({ singleton: true, ...data }, { onConflict: "singleton" });
@@ -177,7 +177,7 @@ export const savePost = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => postFields.extend({ id: z.string().uuid().optional() }).parse(d))
   .handler(async ({ data, context }) => {
-    await assertStaff(context);
+    await assertOwner(context);
     const { id, ...fields } = data;
     const query = id
       ? context.supabase.from("posts").update(fields).eq("id", id)
@@ -191,7 +191,7 @@ export const deletePost = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => idInput.parse(d))
   .handler(async ({ data, context }) => {
-    await assertStaff(context);
+    await assertOwner(context);
     const { error } = await context.supabase.from("posts").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
