@@ -704,7 +704,7 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 
 /* Contact map — muted basemap framed like the site's cards. */
 .luma .contact-map-frame{margin-top:56px;border:1px solid var(--line);border-radius:var(--lradius);overflow:hidden;background:var(--card);}
-.luma .contact-map{height:360px;width:100%;filter:grayscale(45%) contrast(0.96) saturate(0.85);}
+.luma .contact-map{height:360px;width:100%;filter:grayscale(85%) contrast(0.92) brightness(1.06) saturate(0.6);}
 @media (min-width:900px){.luma .contact-map{height:460px;}}
 .luma .contact-map-placeholder{background:var(--sage-tint);filter:none;}
 .luma .map-pin{width:18px;height:18px;border-radius:999px;background:var(--sage);border:3px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.25);}
