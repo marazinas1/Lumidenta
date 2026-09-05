@@ -28,6 +28,7 @@ import { Route as EnApieRouteImport } from './routes/en/apie'
 import { Route as EnKontaktaiRouteImport } from './routes/en/kontaktai'
 import { Route as EnPaslaugosRouteImport } from './routes/en/paslaugos'
 import { Route as EnPrivatumoPolitikaRouteImport } from './routes/en/privatumo-politika'
+import { Route as EnStraipsniaiRouteImport } from './routes/en/straipsniai'
 import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
 import { Route as PaslaugosIndexRouteImport } from './routes/paslaugos.index'
 import { Route as PaslaugosSlugRouteImport } from './routes/paslaugos.$slug'
@@ -141,6 +142,11 @@ const EnPaslaugosRoute = EnPaslaugosRouteImport.update({
 const EnPrivatumoPolitikaRoute = EnPrivatumoPolitikaRouteImport.update({
   id: '/privatumo-politika',
   path: '/privatumo-politika',
+  getParentRoute: () => EnRouteRoute,
+} as any)
+const EnStraipsniaiRoute = EnStraipsniaiRouteImport.update({
+  id: '/straipsniai',
+  path: '/straipsniai',
   getParentRoute: () => EnRouteRoute,
 } as any)
 const EnTaisyklesRoute = EnTaisyklesRouteImport.update({
@@ -269,6 +275,7 @@ export interface FileRoutesByFullPath {
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/paslaugos': typeof EnPaslaugosRouteWithChildren
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
+  '/en/straipsniai': typeof EnStraipsniaiRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
   '/straipsniai/$slug': typeof StraipsniaiSlugRoute
@@ -302,6 +309,7 @@ export interface FileRoutesByTo {
   '/taisykles': typeof TaisyklesRoute
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
+  '/en/straipsniai': typeof EnStraipsniaiRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
   '/straipsniai/$slug': typeof StraipsniaiSlugRoute
@@ -344,6 +352,7 @@ export interface FileRoutesById {
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/paslaugos': typeof EnPaslaugosRouteWithChildren
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
+  '/en/straipsniai': typeof EnStraipsniaiRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
   '/straipsniai/$slug': typeof StraipsniaiSlugRoute
@@ -386,6 +395,7 @@ export interface FileRouteTypes {
     | '/en/kontaktai'
     | '/en/paslaugos'
     | '/en/privatumo-politika'
+    | '/en/straipsniai'
     | '/en/taisykles'
     | '/paslaugos/$slug'
     | '/straipsniai/$slug'
@@ -419,6 +429,7 @@ export interface FileRouteTypes {
     | '/taisykles'
     | '/en/kontaktai'
     | '/en/privatumo-politika'
+    | '/en/straipsniai'
     | '/en/taisykles'
     | '/paslaugos/$slug'
     | '/straipsniai/$slug'
@@ -460,6 +471,7 @@ export interface FileRouteTypes {
     | '/en/kontaktai'
     | '/en/paslaugos'
     | '/en/privatumo-politika'
+    | '/en/straipsniai'
     | '/en/taisykles'
     | '/paslaugos/$slug'
     | '/straipsniai/$slug'
@@ -634,6 +646,13 @@ declare module '@tanstack/react-router' {
       path: '/privatumo-politika'
       fullPath: '/en/privatumo-politika'
       preLoaderRoute: typeof EnPrivatumoPolitikaRouteImport
+      parentRoute: typeof EnRouteRoute
+    }
+    '/en/straipsniai': {
+      id: '/en/straipsniai'
+      path: '/straipsniai'
+      fullPath: '/en/straipsniai'
+      preLoaderRoute: typeof EnStraipsniaiRouteImport
       parentRoute: typeof EnRouteRoute
     }
     '/en/taisykles': {
@@ -851,6 +870,7 @@ interface EnRouteRouteChildren {
   EnKontaktaiRoute: typeof EnKontaktaiRoute
   EnPaslaugosRoute: typeof EnPaslaugosRouteWithChildren
   EnPrivatumoPolitikaRoute: typeof EnPrivatumoPolitikaRoute
+  EnStraipsniaiRoute: typeof EnStraipsniaiRoute
   EnTaisyklesRoute: typeof EnTaisyklesRoute
   EnIndexRoute: typeof EnIndexRoute
 }
@@ -860,6 +880,7 @@ const EnRouteRouteChildren: EnRouteRouteChildren = {
   EnKontaktaiRoute: EnKontaktaiRoute,
   EnPaslaugosRoute: EnPaslaugosRouteWithChildren,
   EnPrivatumoPolitikaRoute: EnPrivatumoPolitikaRoute,
+  EnStraipsniaiRoute: EnStraipsniaiRoute,
   EnTaisyklesRoute: EnTaisyklesRoute,
   EnIndexRoute: EnIndexRoute,
 }
