@@ -762,3 +762,21 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 
 .luma .maplibregl-ctrl-group{border-radius:12px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.12);}
 .luma .maplibregl-ctrl-attrib{font-size:10px;background:rgba(255,255,255,.75);}
+
+/* ---------------------------------------------------------- registracija */
+.luma .sched-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:28px;}
+.luma .sched-range{font-size:.95rem;color:var(--ink-soft);}
+.luma .sched-nav{border:1px solid var(--line);background:transparent;border-radius:999px;padding:8px 16px;font-size:.9rem;color:var(--ink);cursor:pointer;transition:background .2s ease;}
+.luma .sched-nav:hover:not(:disabled){background:var(--surface-2);}
+.luma .sched-nav:disabled{opacity:.4;cursor:default;}
+.luma .sched-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+.luma .sched-day{border:1px solid var(--line);border-radius:16px;padding:18px;background:var(--surface);}
+.luma .sched-day h2{font-size:1rem;margin:0 0 6px;}
+.luma .sched-hours{font-size:.85rem;color:var(--ink-soft);margin:0 0 12px;}
+.luma .sched-closed{font-size:.85rem;color:var(--ink-soft);margin:0;}
+.luma .sched-slots{display:flex;flex-wrap:wrap;gap:8px;}
+.luma .sched-slot{border:1px solid var(--accent-line,var(--line));background:var(--surface-2);border-radius:999px;padding:6px 12px;font-size:.85rem;}
+.luma .sched-cta{margin-top:48px;border:1px solid var(--line);border-radius:20px;padding:32px;background:var(--surface-2);}
+.luma .sched-cta h2{margin:0 0 8px;}
+.luma .sched-cta p{color:var(--ink-soft);margin:0 0 18px;max-width:60ch;}
+.luma .sched-cta-links{display:flex;flex-wrap:wrap;gap:12px;}
