@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { ShieldCheck, Trash2, UserPlus } from "lucide-react";
+import { Copy, Send, ShieldCheck, Trash2, UserPlus } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -72,6 +72,10 @@ function UsersPage() {
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [role, setRole] = useState<"owner" | "editor">("editor");
+  const [result, setResult] = useState<
+    { email: string; actionLink: string | null; emailed: boolean; reinvited: boolean } | null
+  >(null);
+  const [resendingId, setResendingId] = useState<string | null>(null);
 
   const { data: me } = useQuery({ queryKey: ["my-role"], queryFn: () => fetchMe() });
   const { data: users, isLoading } = useQuery({
@@ -81,26 +85,55 @@ function UsersPage() {
 
   const refresh = () => qc.invalidateQueries({ queryKey: ["users-with-roles"] });
 
+  const copyLink = (value: string) => {
+    void navigator.clipboard.writeText(value);
+    toast.success("Nuoroda nukopijuota.");
+  };
+
   const inviteM = useMutation({
-    mutationFn: () =>
+    mutationFn: (vars: { email: string; role: "owner" | "editor"; fullName?: string }) =>
       invite({
         data: {
-          email,
-          role,
-          ...(fullName.trim() ? { fullName: fullName.trim() } : {}),
+          email: vars.email,
+          role: vars.role,
+          ...(vars.fullName ? { fullName: vars.fullName } : {}),
           ...(typeof window !== "undefined"
             ? { redirectTo: `${window.location.origin}/reset-password` }
             : {}),
         },
       }),
-    onSuccess: () => {
-      toast.success("Kvietimas išsiųstas.");
+    onSuccess: (data, vars) => {
+      setResult({
+        email: vars.email,
+        actionLink: data.actionLink,
+        emailed: data.emailed,
+        reinvited: data.reinvited,
+      });
+      toast.success(
+        data.emailed
+          ? data.reinvited
+            ? "Pakvietimas išsiųstas iš naujo."
+            : "Kvietimas išsiųstas."
+          : "Nuoroda sugeneruota — persiųskite ją rankiniu būdu.",
+      );
       setEmail("");
       setFullName("");
+      setResendingId(null);
       refresh();
     },
-    onError: (e) => toast.error(e instanceof Error ? e.message : "Nepavyko pakviesti."),
+    onError: (e) => {
+      setResendingId(null);
+      toast.error(e instanceof Error ? e.message : "Nepavyko pakviesti.");
+    },
   });
+
+  /** Re-issues the link for an account that exists but never signed in. */
+  const resendInvite = (user: { userId: string; email: string; role: AdminRole }) => {
+    const targetRole = user.role === "owner" ? "owner" : "editor";
+    setResendingId(user.userId);
+    inviteM.mutate({ email: user.email, role: targetRole });
+  };
+
 
   const roleM = useMutation({
     mutationFn: (vars: { userId: string; role: "owner" | "editor" }) => changeRole({ data: vars }),
@@ -138,8 +171,14 @@ function UsersPage() {
             className="flex flex-col gap-3 sm:flex-row sm:items-end"
             onSubmit={(e) => {
               e.preventDefault();
-              if (email.trim()) inviteM.mutate();
+              if (email.trim())
+                inviteM.mutate({
+                  email: email.trim(),
+                  role,
+                  ...(fullName.trim() ? { fullName: fullName.trim() } : {}),
+                });
             }}
+
           >
             <div className="flex flex-1 flex-col gap-1.5">
               <Label htmlFor="invite-email">El. paštas</Label>
@@ -181,6 +220,37 @@ function UsersPage() {
               Pakviesti
             </Button>
           </form>
+
+          {result && (
+            <div className="mt-6 rounded-xl border border-border bg-muted/40 p-4 text-sm">
+              <p className="font-medium">
+                {result.reinvited
+                  ? `${result.email} jau turi paskyrą — sugeneruota nauja slaptažodžio nustatymo nuoroda. Teisės nepakeistos.`
+                  : result.emailed
+                    ? `Kvietimo laiškas išsiųstas į ${result.email}.`
+                    : `Paskyra sukurta (${result.email}). Laiško išsiųsti nepavyko — perduokite nuorodą patys.`}
+              </p>
+              {result.actionLink && (
+                <div className="mt-3 flex items-center gap-2">
+                  <code className="min-w-0 flex-1 truncate rounded-md bg-background px-3 py-2 text-xs">
+                    {result.actionLink}
+                  </code>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => copyLink(result.actionLink!)}
+                  >
+                    <Copy className="mr-2 h-3.5 w-3.5" /> Kopijuoti
+                  </Button>
+                </div>
+              )}
+              <p className="mt-3 text-xs text-muted-foreground">
+                Nuoroda rodoma vieną kartą. Vėliau ją galima sugeneruoti iš naujo.
+              </p>
+            </div>
+          )}
+
         </CardContent>
       </Card>
 
@@ -211,6 +281,10 @@ function UsersPage() {
                           <ShieldCheck className="h-3 w-3" /> Jūs
                         </Badge>
                       ) : null}
+                      {!u.confirmed && !isSelf ? (
+                        <Badge variant="outline">Pakviesta</Badge>
+                      ) : null}
+
                     </div>
                     <p className="mt-1 truncate text-sm text-muted-foreground">{u.email}</p>
                     <p className="mt-0.5 text-xs text-muted-foreground">
@@ -219,13 +293,28 @@ function UsersPage() {
                     </p>
                   </div>
 
-                  <div className="flex shrink-0 items-center gap-2">
+                  <div className="flex shrink-0 flex-wrap items-center gap-2">
+                    {!u.confirmed && !isSelf && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={inviteM.isPending && resendingId === u.userId}
+                        title="Sugeneruoti ir išsiųsti pakvietimą iš naujo"
+                        onClick={() => resendInvite(u)}
+                      >
+                        <Send className="mr-2 h-3.5 w-3.5" />
+                        {inviteM.isPending && resendingId === u.userId
+                          ? "Siunčiama…"
+                          : "Siųsti iš naujo"}
+                      </Button>
+                    )}
                     {isDeveloper ? (
                       <span className="text-xs text-muted-foreground">Apsaugota paskyra</span>
                     ) : (
                       <>
                         <Select
                           value={u.role}
+
                           onValueChange={(v) =>
                             roleM.mutate({ userId: u.userId, role: v as "owner" | "editor" })
                           }
