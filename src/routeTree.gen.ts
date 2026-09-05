@@ -19,6 +19,7 @@ import { Route as PaslaugosRouteImport } from './routes/paslaugos'
 import { Route as PrivatumoPolitikaRouteImport } from './routes/privatumo-politika'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as StraipsniaiRouteImport } from './routes/straipsniai'
 import { Route as TaisyklesRouteImport } from './routes/taisykles'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApieIndexRouteImport } from './routes/apie.index'
@@ -93,6 +94,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StraipsniaiRoute = StraipsniaiRouteImport.update({
+  id: '/straipsniai',
+  path: '/straipsniai',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TaisyklesRoute = TaisyklesRouteImport.update({
@@ -244,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/straipsniai': typeof StraipsniaiRoute
   '/taisykles': typeof TaisyklesRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
@@ -278,6 +285,7 @@ export interface FileRoutesByTo {
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/straipsniai': typeof StraipsniaiRoute
   '/taisykles': typeof TaisyklesRoute
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
@@ -314,6 +322,7 @@ export interface FileRoutesById {
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/straipsniai': typeof StraipsniaiRoute
   '/taisykles': typeof TaisyklesRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
@@ -353,6 +362,7 @@ export interface FileRouteTypes {
     | '/privatumo-politika'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/straipsniai'
     | '/taisykles'
     | '/admin'
     | '/en/apie'
@@ -387,6 +397,7 @@ export interface FileRouteTypes {
     | '/privatumo-politika'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/straipsniai'
     | '/taisykles'
     | '/en/kontaktai'
     | '/en/privatumo-politika'
@@ -422,6 +433,7 @@ export interface FileRouteTypes {
     | '/privatumo-politika'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/straipsniai'
     | '/taisykles'
     | '/_authenticated/admin'
     | '/en/apie'
@@ -461,6 +473,7 @@ export interface RootRouteChildren {
   PrivatumoPolitikaRoute: typeof PrivatumoPolitikaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  StraipsniaiRoute: typeof StraipsniaiRoute
   TaisyklesRoute: typeof TaisyklesRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
@@ -536,6 +549,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/straipsniai': {
+      id: '/straipsniai'
+      path: '/straipsniai'
+      fullPath: '/straipsniai'
+      preLoaderRoute: typeof StraipsniaiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/taisykles': {
@@ -846,6 +866,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivatumoPolitikaRoute: PrivatumoPolitikaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  StraipsniaiRoute: StraipsniaiRoute,
   TaisyklesRoute: TaisyklesRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
