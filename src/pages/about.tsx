@@ -1,4 +1,5 @@
 import { getContent } from "@/content";
+import { Reveal, RevealItems } from "@/components/site/Reveal";
 import { localizePath, type Locale } from "@/lib/locale";
 import { ensurePageContent, usePageContent, type ContentLoaderArgs } from "@/lib/page-content";
 import { breadcrumbLd, pageHead } from "@/lib/seo";
@@ -70,7 +71,7 @@ function AboutPage({ locale }: { locale: Locale }) {
       </section>
 
       <section className="page-body">
-        <div className="wrap about-grid">
+        <RevealItems className="wrap about-grid">
           <div className="prose">
             {paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
@@ -86,11 +87,12 @@ function AboutPage({ locale }: { locale: Locale }) {
               </div>
             )}
           </div>
-        </div>
+        </RevealItems>
 
         <div className="wrap">
 
 
+          <Reveal>
           <h2>{copy("about_credentials_heading", "Kvalifikacija")}</h2>
           <div className="prose">
             <p>
@@ -100,6 +102,7 @@ function AboutPage({ locale }: { locale: Locale }) {
               )}
             </p>
           </div>
+          </Reveal>
         </div>
       </section>
     </>

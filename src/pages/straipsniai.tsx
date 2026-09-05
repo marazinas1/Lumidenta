@@ -1,6 +1,7 @@
 import { notFound, useParams } from "@tanstack/react-router";
 
 import { LocaleLink } from "@/components/site/LocaleLink";
+import { Reveal, RevealItems } from "@/components/site/Reveal";
 import { getContent } from "@/content";
 import { ensureCatalog, useCatalog } from "@/lib/catalog";
 import type { PostRow } from "@/lib/catalog.functions";
@@ -86,11 +87,11 @@ function PostsPage({ locale }: { locale: Locale }) {
           {posts.length === 0 ? (
             <p className="lead">Straipsnių kol kas nėra — netrukus atsiras.</p>
           ) : (
-            <div className="post-grid">
+            <RevealItems className="post-grid">
               {posts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
-            </div>
+            </RevealItems>
           )}
         </div>
       </section>

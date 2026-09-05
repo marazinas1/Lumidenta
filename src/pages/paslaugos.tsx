@@ -1,6 +1,7 @@
 import { notFound, useParams } from "@tanstack/react-router";
 
 import { LocaleLink } from "@/components/site/LocaleLink";
+import { Reveal, RevealItems } from "@/components/site/Reveal";
 import { getContent } from "@/content";
 import { ensureCatalog, useCatalog } from "@/lib/catalog";
 import type { ServiceRow } from "@/lib/catalog.functions";
@@ -54,7 +55,7 @@ function ServicesPage({ locale }: { locale: Locale }) {
 
       <section className="page-body">
         <div className="wrap">
-          <div className="svc-grid">
+          <RevealItems className="svc-grid">
             {services.map((service, index) => (
               <LocaleLink
                 key={service.id}
@@ -69,7 +70,7 @@ function ServicesPage({ locale }: { locale: Locale }) {
                 <span className="lm">Sužinoti daugiau →</span>
               </LocaleLink>
             ))}
-          </div>
+          </RevealItems>
         </div>
       </section>
     </>
@@ -148,24 +149,24 @@ function ServiceDetailView({ service, tone }: { service: ServiceRow; tone: strin
 
       <section className="page-body">
         <div className="wrap">
-          <div className="prose">
+          <Reveal className="prose">
             {service.body
               .split("\n")
               .filter((p) => p.trim())
               .map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
-          </div>
+          </Reveal>
 
           {service.includes.length > 0 ? (
-            <div className="checklist" style={{ marginTop: "32px" }}>
+            <RevealItems className="checklist" style={{ marginTop: "32px" }}>
               {service.includes.map((item) => (
                 <div className="check" key={item}>
                   <div className="dot">✓</div>
                   {item}
                 </div>
               ))}
-            </div>
+            </RevealItems>
           ) : null}
 
           <div style={{ marginTop: "40px" }}>
