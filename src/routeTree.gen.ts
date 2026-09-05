@@ -43,6 +43,7 @@ import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
 import { Route as EnPaslaugosIndexRouteImport } from './routes/en/paslaugos.index'
 import { Route as EnPaslaugosSlugRouteImport } from './routes/en/paslaugos.$slug'
 import { Route as EnStraipsniaiIndexRouteImport } from './routes/en/straipsniai.index'
+import { Route as EnStraipsniaiSlugRouteImport } from './routes/en/straipsniai.$slug'
 import { Route as AuthenticatedAdminWebsiteAboutRouteImport } from './routes/_authenticated/admin.website.about'
 import { Route as AuthenticatedAdminWebsiteContactRouteImport } from './routes/_authenticated/admin.website.contact'
 import { Route as AuthenticatedAdminWebsiteHomeRouteImport } from './routes/_authenticated/admin.website.home'
@@ -223,6 +224,11 @@ const EnStraipsniaiIndexRoute = EnStraipsniaiIndexRouteImport.update({
   path: '/',
   getParentRoute: () => EnStraipsniaiRoute,
 } as any)
+const EnStraipsniaiSlugRoute = EnStraipsniaiSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => EnStraipsniaiRoute,
+} as any)
 const AuthenticatedAdminWebsiteAboutRoute =
   AuthenticatedAdminWebsiteAboutRouteImport.update({
     id: '/website/about',
@@ -294,6 +300,7 @@ export interface FileRoutesByFullPath {
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
+  '/en/straipsniai/$slug': typeof EnStraipsniaiSlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
   '/en/paslaugos/': typeof EnPaslaugosIndexRoute
@@ -328,6 +335,7 @@ export interface FileRoutesByTo {
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
+  '/en/straipsniai/$slug': typeof EnStraipsniaiSlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/en/apie': typeof EnApieIndexRoute
   '/en/paslaugos': typeof EnPaslaugosIndexRoute
@@ -372,6 +380,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
+  '/en/straipsniai/$slug': typeof EnStraipsniaiSlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
   '/en/paslaugos/': typeof EnPaslaugosIndexRoute
@@ -416,6 +425,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/users'
     | '/en/paslaugos/$slug'
+    | '/en/straipsniai/$slug'
     | '/admin/'
     | '/en/apie/'
     | '/en/paslaugos/'
@@ -450,6 +460,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/users'
     | '/en/paslaugos/$slug'
+    | '/en/straipsniai/$slug'
     | '/admin'
     | '/en/apie'
     | '/en/paslaugos'
@@ -493,6 +504,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
     | '/en/paslaugos/$slug'
+    | '/en/straipsniai/$slug'
     | '/_authenticated/admin/'
     | '/en/apie/'
     | '/en/paslaugos/'
@@ -763,6 +775,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnStraipsniaiIndexRouteImport
       parentRoute: typeof EnStraipsniaiRoute
     }
+    '/en/straipsniai/$slug': {
+      id: '/en/straipsniai/$slug'
+      path: '/$slug'
+      fullPath: '/en/straipsniai/$slug'
+      preLoaderRoute: typeof EnStraipsniaiSlugRouteImport
+      parentRoute: typeof EnStraipsniaiRoute
+    }
     '/_authenticated/admin/website/about': {
       id: '/_authenticated/admin/website/about'
       path: '/website/about'
@@ -883,10 +902,12 @@ const EnPaslaugosRouteWithChildren = EnPaslaugosRoute._addFileChildren(
 )
 
 interface EnStraipsniaiRouteChildren {
+  EnStraipsniaiSlugRoute: typeof EnStraipsniaiSlugRoute
   EnStraipsniaiIndexRoute: typeof EnStraipsniaiIndexRoute
 }
 
 const EnStraipsniaiRouteChildren: EnStraipsniaiRouteChildren = {
+  EnStraipsniaiSlugRoute: EnStraipsniaiSlugRoute,
   EnStraipsniaiIndexRoute: EnStraipsniaiIndexRoute,
 }
 
