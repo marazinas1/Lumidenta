@@ -215,21 +215,23 @@ function Index({ locale }: { locale: Locale }) {
               {copy("touch_cta", "Apie mane →")}
             </LocaleLink>
           </div>
-        </div>
+        </RevealItems>
       </section>
 
       <section className="tstm" id="atsiliepimai">
         <div className="wrap">
-          <div className="section-head">
+          <Reveal className="section-head">
             <h2>
               {copy("testimonials_heading", "Ką sako")}{" "}
               <span className="soft">{copy("testimonials_heading_soft", "pacientai.")}</span>
             </h2>
-          </div>
-          <TestimonialCarousel items={testimonials} />
-
+          </Reveal>
+          <Reveal>
+            <TestimonialCarousel items={testimonials} />
+          </Reveal>
         </div>
       </section>
+
 
       {homePosts.length > 0 ? (
         <section className="posts-teaser" id="straipsniai">
