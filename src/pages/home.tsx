@@ -1,5 +1,7 @@
 import { LocaleLink } from "@/components/site/LocaleLink";
+import { Reveal, RevealItems } from "@/components/site/Reveal";
 import { TestimonialCarousel } from "@/components/site/TestimonialCarousel";
+
 import { PostCard } from "@/pages/straipsniai";
 import { getContent } from "@/content";
 import { ensureCatalog, useCatalog } from "@/lib/catalog";
