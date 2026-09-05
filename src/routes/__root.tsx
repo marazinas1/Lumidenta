@@ -116,7 +116,15 @@ function RootShell({ children }: { children: React.ReactNode }) {
     <html lang={htmlLang[locale]}>
       <head>
         <HeadContent />
+        {/* Recover from a stale/cached shell that lost its SSR payload:
+            reload once instead of leaving the visitor on a blank screen. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var K="__tsr_hydration_reload";function h(m){if(!m||m.indexOf("dehydrated data")===-1)return;try{if(sessionStorage.getItem(K))return;sessionStorage.setItem(K,"1");}catch(e){}location.reload();}window.addEventListener("unhandledrejection",function(e){h(e&&e.reason&&e.reason.message);});window.addEventListener("error",function(e){h(e&&e.message);});window.addEventListener("load",function(){setTimeout(function(){try{sessionStorage.removeItem(K);}catch(e){}},4000);});})();`,
+          }}
+        />
       </head>
+
       <body>
         {children}
         <Scripts />
