@@ -149,7 +149,7 @@ function AdminLayout() {
               <Menu className="h-5 w-5" />
             </button>
           </SheetTrigger>
-          <SheetContent side="left" className="admin-drawer flex w-72 flex-col p-0">
+          <SheetContent side="left" className="luma site-theme admin-drawer flex w-72 flex-col p-0">
             <SheetTitle className="sr-only">Lumidenta</SheetTitle>
             {navContent}
           </SheetContent>
