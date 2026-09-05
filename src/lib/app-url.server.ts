@@ -1,5 +1,8 @@
-/** Atsarginis kanoninis adresas — naudojamas, kai kliento origin nežinomas. */
-export const APP_BASE_URL = "https://lumidenta.lt";
+/**
+ * Atsarginis kanoninis adresas — naudojamas, kai kliento origin nežinomas.
+ * Kol projektas statomas, tai laikinas domenas; per paleidimą keičiama į https://lumidenta.lt.
+ */
+export const APP_BASE_URL = "https://lumidenta.deerva.com";
 
 /**
  * Grąžina absoliučią nuorodą.
