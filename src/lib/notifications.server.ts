@@ -38,8 +38,8 @@ export async function sendEmail({
       },
       { apiKey: lovableKey },
     );
-    if (result.sent === false) {
-      return { ok: false, detail: result.reason };
+    if (!result.success) {
+      return { ok: false, detail: result.status ?? "email-send-failed" };
     }
     return { ok: true };
   } catch (error) {
