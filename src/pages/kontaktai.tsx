@@ -1,4 +1,5 @@
 import { ContactForm } from "@/components/site/ContactForm";
+import { ContactMapSection } from "@/components/site/ContactMapSection";
 import { getContent } from "@/content";
 import { ensureCatalog, useCatalog } from "@/lib/catalog";
 import type { Locale } from "@/lib/locale";
@@ -75,6 +76,9 @@ function ContactsPage({ locale }: { locale: Locale }) {
           <div style={{ marginTop: "56px" }}>
             <ContactForm />
           </div>
+
+          <ContactMapSection address={address} />
+
         </div>
       </section>
     </>
