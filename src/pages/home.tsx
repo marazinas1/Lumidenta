@@ -226,6 +226,31 @@ function Index({ locale }: { locale: Locale }) {
         </div>
       </section>
 
+      {homePosts.length > 0 ? (
+        <section className="posts-teaser" id="straipsniai">
+          <div className="wrap">
+            <div className="section-head">
+              <h2>
+                {copy("posts_heading", "Naudinga")}{" "}
+                <span className="soft">{copy("posts_heading_soft", "skaityti.")}</span>
+              </h2>
+            </div>
+            <div className="post-grid">
+              {homePosts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
+            <div className="section-foot">
+              <LocaleLink to="/straipsniai" className="btn btn-line">
+                {copy("posts_all_button", "Visi straipsniai →")}
+              </LocaleLink>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+
+
       <div className="cta-band">
         <div className="cta-panel">
           <div>
