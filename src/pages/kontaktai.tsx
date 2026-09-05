@@ -75,8 +75,8 @@ function ContactsPage({ locale }: { locale: Locale }) {
           <ContactMapSection address={address} />
 
           {address ? (
-            <p className="contact-map-note">
-              <address>{address}</address>
+            <address className="contact-map-note">
+              <span>{address}</span>
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
                 target="_blank"
@@ -84,7 +84,7 @@ function ContactsPage({ locale }: { locale: Locale }) {
               >
                 Atidaryti žemėlapyje →
               </a>
-            </p>
+            </address>
           ) : null}
 
 
