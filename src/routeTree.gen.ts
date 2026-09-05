@@ -36,6 +36,7 @@ import { Route as StraipsniaiIndexRouteImport } from './routes/straipsniai.index
 import { Route as StraipsniaiSlugRouteImport } from './routes/straipsniai.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
+import { Route as AuthenticatedAdminCalendarRouteImport } from './routes/_authenticated/admin.calendar'
 import { Route as AuthenticatedAdminInquiriesRouteImport } from './routes/_authenticated/admin.inquiries'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
@@ -189,6 +190,12 @@ const AuthenticatedAdminAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminCalendarRoute =
+  AuthenticatedAdminCalendarRouteImport.update({
+    id: '/calendar',
+    path: '/calendar',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminInquiriesRoute =
   AuthenticatedAdminInquiriesRouteImport.update({
     id: '/inquiries',
@@ -309,6 +316,7 @@ export interface FileRoutesByFullPath {
   '/paslaugos/': typeof PaslaugosIndexRoute
   '/straipsniai/': typeof StraipsniaiIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/calendar': typeof AuthenticatedAdminCalendarRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -346,6 +354,7 @@ export interface FileRoutesByTo {
   '/paslaugos': typeof PaslaugosIndexRoute
   '/straipsniai': typeof StraipsniaiIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/calendar': typeof AuthenticatedAdminCalendarRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -393,6 +402,7 @@ export interface FileRoutesById {
   '/paslaugos/': typeof PaslaugosIndexRoute
   '/straipsniai/': typeof StraipsniaiIndexRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/_authenticated/admin/calendar': typeof AuthenticatedAdminCalendarRoute
   '/_authenticated/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -440,6 +450,7 @@ export interface FileRouteTypes {
     | '/paslaugos/'
     | '/straipsniai/'
     | '/admin/analytics'
+    | '/admin/calendar'
     | '/admin/inquiries'
     | '/admin/settings'
     | '/admin/users'
@@ -477,6 +488,7 @@ export interface FileRouteTypes {
     | '/paslaugos'
     | '/straipsniai'
     | '/admin/analytics'
+    | '/admin/calendar'
     | '/admin/inquiries'
     | '/admin/settings'
     | '/admin/users'
@@ -523,6 +535,7 @@ export interface FileRouteTypes {
     | '/paslaugos/'
     | '/straipsniai/'
     | '/_authenticated/admin/analytics'
+    | '/_authenticated/admin/calendar'
     | '/_authenticated/admin/inquiries'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
@@ -752,6 +765,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/calendar': {
+      id: '/_authenticated/admin/calendar'
+      path: '/calendar'
+      fullPath: '/admin/calendar'
+      preLoaderRoute: typeof AuthenticatedAdminCalendarRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/inquiries': {
       id: '/_authenticated/admin/inquiries'
       path: '/inquiries'
@@ -876,6 +896,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminCalendarRoute: typeof AuthenticatedAdminCalendarRoute
   AuthenticatedAdminInquiriesRoute: typeof AuthenticatedAdminInquiriesRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
@@ -890,6 +911,7 @@ interface AuthenticatedAdminRouteChildren {
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+  AuthenticatedAdminCalendarRoute: AuthenticatedAdminCalendarRoute,
   AuthenticatedAdminInquiriesRoute: AuthenticatedAdminInquiriesRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
