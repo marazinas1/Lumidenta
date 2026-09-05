@@ -70,27 +70,26 @@ function AboutPage({ locale }: { locale: Locale }) {
       </section>
 
       <section className="page-body">
-        <div className="wrap">
-          {portrait ? (
-            <img
-              src={portrait.url}
-              alt={portrait.alt || "Gydytoja odontologė"}
-              loading="lazy"
-              style={{
-                width: "100%",
-                maxHeight: "460px",
-                objectFit: "cover",
-                borderRadius: "var(--lradius)",
-                marginBottom: "40px",
-              }}
-            />
-          ) : null}
-
+        <div className="wrap about-grid">
           <div className="prose">
             {paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
+
+          <div className="about-photo">
+            {portrait ? (
+              <img src={portrait.url} alt={portrait.alt || "Gydytoja odontologė"} loading="lazy" />
+            ) : (
+              <div className="hero-photo-label">
+                {copy("about_portrait_label", "Nuotrauka bus netrukus")}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="wrap">
+
 
           <h2>{copy("about_credentials_heading", "Kvalifikacija")}</h2>
           <div className="prose">
