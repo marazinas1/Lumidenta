@@ -42,6 +42,7 @@ import { Route as AuthenticatedAdminWebsiteAboutRouteImport } from './routes/_au
 import { Route as AuthenticatedAdminWebsiteContactRouteImport } from './routes/_authenticated/admin.website.contact'
 import { Route as AuthenticatedAdminWebsiteHomeRouteImport } from './routes/_authenticated/admin.website.home'
 import { Route as AuthenticatedAdminWebsiteServicesRouteImport } from './routes/_authenticated/admin.website.services'
+import { Route as AuthenticatedAdminWebsiteTestimonialsRouteImport } from './routes/_authenticated/admin.website.testimonials'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 
@@ -216,6 +217,12 @@ const AuthenticatedAdminWebsiteServicesRoute =
     path: '/website/services',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminWebsiteTestimonialsRoute =
+  AuthenticatedAdminWebsiteTestimonialsRouteImport.update({
+    id: '/website/testimonials',
+    path: '/website/testimonials',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
   id: '/lovable/email/auth/preview',
   path: '/lovable/email/auth/preview',
@@ -260,6 +267,7 @@ export interface FileRoutesByFullPath {
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
   '/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
+  '/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
@@ -290,6 +298,7 @@ export interface FileRoutesByTo {
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
   '/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
+  '/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
@@ -328,6 +337,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/_authenticated/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
   '/_authenticated/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
+  '/_authenticated/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
@@ -366,6 +376,7 @@ export interface FileRouteTypes {
     | '/admin/website/contact'
     | '/admin/website/home'
     | '/admin/website/services'
+    | '/admin/website/testimonials'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -396,6 +407,7 @@ export interface FileRouteTypes {
     | '/admin/website/contact'
     | '/admin/website/home'
     | '/admin/website/services'
+    | '/admin/website/testimonials'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
   id:
@@ -433,6 +445,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/website/contact'
     | '/_authenticated/admin/website/home'
     | '/_authenticated/admin/website/services'
+    | '/_authenticated/admin/website/testimonials'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
   fileRoutesById: FileRoutesById
@@ -686,6 +699,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminWebsiteServicesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/website/testimonials': {
+      id: '/_authenticated/admin/website/testimonials'
+      path: '/website/testimonials'
+      fullPath: '/admin/website/testimonials'
+      preLoaderRoute: typeof AuthenticatedAdminWebsiteTestimonialsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/lovable/email/auth/preview': {
       id: '/lovable/email/auth/preview'
       path: '/lovable/email/auth/preview'
@@ -713,6 +733,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminWebsiteContactRoute: typeof AuthenticatedAdminWebsiteContactRoute
   AuthenticatedAdminWebsiteHomeRoute: typeof AuthenticatedAdminWebsiteHomeRoute
   AuthenticatedAdminWebsiteServicesRoute: typeof AuthenticatedAdminWebsiteServicesRoute
+  AuthenticatedAdminWebsiteTestimonialsRoute: typeof AuthenticatedAdminWebsiteTestimonialsRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
@@ -726,6 +747,8 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminWebsiteHomeRoute: AuthenticatedAdminWebsiteHomeRoute,
   AuthenticatedAdminWebsiteServicesRoute:
     AuthenticatedAdminWebsiteServicesRoute,
+  AuthenticatedAdminWebsiteTestimonialsRoute:
+    AuthenticatedAdminWebsiteTestimonialsRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
