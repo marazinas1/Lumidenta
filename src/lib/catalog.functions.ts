@@ -60,6 +60,7 @@ export type SiteSettings = {
 export type CatalogPayload = {
   services: ServiceRow[];
   testimonials: TestimonialRow[];
+  posts: PostRow[];
   settings: SiteSettings;
 };
 
@@ -79,6 +80,7 @@ export const emptySettings: SiteSettings = {
 export const emptyCatalog: CatalogPayload = {
   services: [],
   testimonials: [],
+  posts: [],
   settings: emptySettings,
 };
 
