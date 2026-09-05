@@ -64,7 +64,7 @@ function Field({
           className={className}
         />
       )}
-      {error ? <span className="block text-xs text-stone">{error}</span> : null}
+      {error ? <span className="block text-xs font-medium text-destructive">{error}</span> : null}
     </label>
   );
 }
@@ -159,6 +159,11 @@ export function ContactForm() {
       />
 
       <div aria-live="polite">
+        {Object.keys(errors).length > 0 ? (
+          <p className="rounded-xl bg-warm-white p-4 text-sm font-medium text-destructive">
+            Patikrinkite pažymėtus laukus ir bandykite dar kartą.
+          </p>
+        ) : null}
         {status === "sent" ? (
           <p className="rounded-xl bg-warm-white p-4 text-sm text-ink">{kontaktaiForm.success}</p>
         ) : null}
