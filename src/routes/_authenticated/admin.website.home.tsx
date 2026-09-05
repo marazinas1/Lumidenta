@@ -153,7 +153,7 @@ const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
 ];
 
 function HomeEditor() {
-  const { canEdit, isDeveloper: canSetDefaults } = useCanEdit();
+  const { canEdit } = useCanEdit();
   const { data, isLoading } = useQuery(pageContentQuery);
   const content = data ?? emptyPageContent;
 

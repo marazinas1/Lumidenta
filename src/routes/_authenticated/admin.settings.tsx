@@ -55,7 +55,7 @@ const EMPTY: Form = {
 };
 
 function SettingsPage() {
-  const { canEdit, isDeveloper: canSetDefaults } = useCanEdit();
+  const { canEdit } = useCanEdit();
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery(catalogQuery);
   const save = useServerFn(saveSiteSettings);

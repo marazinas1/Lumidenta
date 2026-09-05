@@ -65,7 +65,7 @@ const emptyDraft = (): Draft => ({
 });
 
 function PostsEditor() {
-  const { canEdit, isDeveloper: canSetDefaults } = useCanEdit();
+  const { canEdit } = useCanEdit();
   const queryClient = useQueryClient();
   const fetchAll = useServerFn(listAllPosts);
   const save = useServerFn(savePost);
