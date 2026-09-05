@@ -27,8 +27,23 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
     );
     observer.observe(node);
 
-    return () => observer.disconnect();
+    // Fallback for very fast scroll jumps, where the observer can skip an
+    // element entirely: reveal anything that ends up above the viewport.
+    const onScroll = () => {
+      if (node.getBoundingClientRect().bottom < 0) {
+        setVisible(true);
+        observer.disconnect();
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
+
 
   return { ref, visible };
 }
