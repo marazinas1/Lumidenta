@@ -25,3 +25,10 @@ export async function assertOwner(ctx: Ctx): Promise<AdminRole> {
   if (role === "editor") throw new Error("Šiam veiksmui reikia savininko teisių.");
   return role;
 }
+
+/** Developer only — the account allowed to pin developer defaults. */
+export async function assertDeveloper(ctx: Ctx): Promise<AdminRole> {
+  const role = await assertStaff(ctx);
+  if (role !== "developer") throw new Error("Šiam veiksmui reikia developer teisių.");
+  return role;
+}
