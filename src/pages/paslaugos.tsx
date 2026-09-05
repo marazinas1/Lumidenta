@@ -1,8 +1,8 @@
-import { notFound } from "@tanstack/react-router";
+import { notFound, useParams } from "@tanstack/react-router";
 
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { getContent } from "@/content";
-import { catalogQuery, ensureCatalog, useCatalog } from "@/lib/catalog";
+import { ensureCatalog, useCatalog } from "@/lib/catalog";
 import type { ServiceRow } from "@/lib/catalog.functions";
 import type { Locale } from "@/lib/locale";
 import { ensurePageContent, usePageContent, type ContentLoaderArgs } from "@/lib/page-content";
@@ -122,8 +122,8 @@ export function serviceDetailRoute(locale: Locale) {
 
 function ServiceDetailPage() {
   const { services } = useCatalog();
-  const slug = typeof window === "undefined" ? "" : window.location.pathname.split("/").pop();
-  const service = services.find((s) => s.slug === slug) ?? services[0];
+  const params = useParams({ strict: false }) as { slug?: string };
+  const service = services.find((s) => s.slug === params.slug);
   if (!service) return null;
   const index = services.indexOf(service);
 
