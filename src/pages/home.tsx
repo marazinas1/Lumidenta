@@ -246,4 +246,3 @@ function Index({ locale }: { locale: Locale }) {
   );
 }
 
-const TONES = ["t1", "t2", "t3", "t4"] as const;
