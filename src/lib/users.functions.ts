@@ -85,9 +85,11 @@ export const inviteUser = createServerFn({ method: "POST" })
     if (actionLink) {
       try {
         const { sendEmail } = await import("@/lib/notifications.server");
-        await sendEmail({
+        const delivery = await sendEmail({
           to: data.email,
           subject: "Kvietimas prisijungti prie Lumidenta valdymo skydelio",
+          text: `Jums sukurta paskyra Lumidenta valdymo skydelyje. Susikurkite slaptažodį: ${actionLink}`,
+          idempotencyKey: `admin-invite-${newUserId}-${Date.now()}`,
           html: `
           <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#111;line-height:1.6">
             <p>Sveiki,</p>
@@ -98,7 +100,7 @@ export const inviteUser = createServerFn({ method: "POST" })
           </div>
         `,
         });
-        emailed = true;
+        emailed = delivery.ok;
       } catch {
         emailed = false;
       }

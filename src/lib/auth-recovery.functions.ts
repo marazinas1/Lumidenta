@@ -3,8 +3,7 @@ import { z } from "zod";
 
 /**
  * Viešas slaptažodžio atstatymas.
- * Nuorodą generuojame per Auth Admin API ir siunčiame per patvirtintą Resend domeną
- * (Supabase numatytieji auth laiškai šiam projektui nenaudojami).
+ * Nuorodą generuojame per Auth Admin API ir siunčiame per patvirtintą Lumidenta domeną.
  * Visada grąžina { ok: true }, kad neatskleistume, ar el. paštas registruotas.
  */
 export const requestPasswordReset = createServerFn({ method: "POST" })
@@ -35,6 +34,8 @@ export const requestPasswordReset = createServerFn({ method: "POST" })
       await sendEmail({
         to: data.email,
         subject: "Slaptažodžio atstatymas — Lumidenta",
+         text: `Nustatykite naują Lumidenta paskyros slaptažodį: ${actionLink}`,
+         idempotencyKey: `password-reset-${link.data.user?.id ?? data.email}-${Date.now()}`,
         html: `
           <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#111;line-height:1.6">
             <p>Sveiki,</p>
