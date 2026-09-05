@@ -50,6 +50,102 @@ export type Database = {
         }
         Relationships: []
       }
+      page_media: {
+        Row: {
+          alt: string
+          bucket: string
+          created_at: string
+          id: string
+          page: string
+          path: string
+          slot: string
+          updated_at: string
+        }
+        Insert: {
+          alt?: string
+          bucket?: string
+          created_at?: string
+          id?: string
+          page: string
+          path: string
+          slot: string
+          updated_at?: string
+        }
+        Update: {
+          alt?: string
+          bucket?: string
+          created_at?: string
+          id?: string
+          page?: string
+          path?: string
+          slot?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      page_media_defaults: {
+        Row: {
+          alt: string
+          bucket: string
+          created_at: string
+          id: string
+          page: string
+          path: string
+          slot: string
+          updated_at: string
+        }
+        Insert: {
+          alt?: string
+          bucket?: string
+          created_at?: string
+          id?: string
+          page: string
+          path: string
+          slot: string
+          updated_at?: string
+        }
+        Update: {
+          alt?: string
+          bucket?: string
+          created_at?: string
+          id?: string
+          page?: string
+          path?: string
+          slot?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      page_text: {
+        Row: {
+          created_at: string
+          id: string
+          locale: string
+          page: string
+          slot: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          locale?: string
+          page: string
+          slot: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          locale?: string
+          page?: string
+          slot?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       page_views: {
         Row: {
           country: string
@@ -114,17 +210,12 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_developer: { Args: { _user_id: string }; Returns: boolean }
       is_owner: { Args: { _user_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role:
-        | "admin"
-        | "user"
-        | "housekeeper"
-        | "developer"
-        | "owner"
-        | "editor"
+      app_role: "developer" | "owner" | "editor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -252,14 +343,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: [
-        "admin",
-        "user",
-        "housekeeper",
-        "developer",
-        "owner",
-        "editor",
-      ],
+      app_role: ["developer", "owner", "editor"],
     },
   },
 } as const
