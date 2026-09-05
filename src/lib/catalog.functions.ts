@@ -100,7 +100,7 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
       auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
     });
 
-    const [servicesRes, testimonialsRes, settingsRes] = await Promise.all([
+    const [servicesRes, testimonialsRes, postsRes, settingsRes] = await Promise.all([
       supabase
         .from("services")
         .select(
@@ -113,6 +113,13 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
         .select("id, quote, author_name, author_detail, sort_order")
         .eq("published", true)
         .order("sort_order", { ascending: true }),
+      supabase
+        .from("posts")
+        .select(
+          "id, slug, title, excerpt, body, author, image_bucket, image_path, image_alt, seo_title, seo_description, published_at, show_on_home",
+        )
+        .eq("published", true)
+        .order("published_at", { ascending: false }),
       supabase.from("site_settings").select("*").limit(1).maybeSingle(),
     ]);
 
