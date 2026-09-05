@@ -50,14 +50,8 @@ function ContactsPage({ locale }: { locale: Locale }) {
 
       <section className="page-body">
         <div className="wrap">
-          {address || settings.phone || settings.email ? (
+          {settings.phone || settings.email ? (
             <div className="info-grid">
-              {address ? (
-                <div className="info-card">
-                  <h2>{c.kontaktai.addressLabel}</h2>
-                  <address>{address}</address>
-                </div>
-              ) : null}
               {settings.phone ? (
                 <div className="info-card">
                   <h2>{c.kontaktai.phonesLabel}</h2>
@@ -78,6 +72,21 @@ function ContactsPage({ locale }: { locale: Locale }) {
           </div>
 
           <ContactMapSection address={address} />
+
+          {address ? (
+            <p className="contact-map-note">
+              <address>{address}</address>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Atidaryti žemėlapyje →
+              </a>
+            </p>
+          ) : null}
+
+
 
         </div>
       </section>
