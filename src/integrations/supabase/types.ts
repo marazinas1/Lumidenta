@@ -14,6 +14,65 @@ export type Database = {
   }
   public: {
     Tables: {
+      appointments: {
+        Row: {
+          created_at: string
+          ends_at: string
+          id: string
+          kind: string
+          note: string
+          patient_email: string
+          patient_name: string
+          patient_phone: string
+          service_id: string | null
+          service_title: string
+          source: string
+          starts_at: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          ends_at: string
+          id?: string
+          kind?: string
+          note?: string
+          patient_email?: string
+          patient_name?: string
+          patient_phone?: string
+          service_id?: string | null
+          service_title?: string
+          source?: string
+          starts_at: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          ends_at?: string
+          id?: string
+          kind?: string
+          note?: string
+          patient_email?: string
+          patient_name?: string
+          patient_phone?: string
+          service_id?: string | null
+          service_title?: string
+          source?: string
+          starts_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leads: {
         Row: {
           archived_at: string | null
@@ -233,10 +292,45 @@ export type Database = {
         }
         Relationships: []
       }
+      schedule_exceptions: {
+        Row: {
+          created_at: string
+          day: string
+          end_min: number | null
+          id: string
+          kind: string
+          note: string
+          start_min: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          day: string
+          end_min?: number | null
+          id?: string
+          kind?: string
+          note?: string
+          start_min?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          end_min?: number | null
+          id?: string
+          kind?: string
+          note?: string
+          start_min?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           body: string
+          bookable: boolean
           created_at: string
+          duration_min: number
           excerpt: string
           icon: string
           id: string
@@ -253,7 +347,9 @@ export type Database = {
         }
         Insert: {
           body?: string
+          bookable?: boolean
           created_at?: string
+          duration_min?: number
           excerpt?: string
           icon?: string
           id?: string
@@ -270,7 +366,9 @@ export type Database = {
         }
         Update: {
           body?: string
+          bookable?: boolean
           created_at?: string
+          duration_min?: number
           excerpt?: string
           icon?: string
           id?: string
@@ -392,6 +490,33 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      working_hours: {
+        Row: {
+          created_at: string
+          end_min: number
+          id: string
+          start_min: number
+          updated_at: string
+          weekday: number
+        }
+        Insert: {
+          created_at?: string
+          end_min: number
+          id?: string
+          start_min: number
+          updated_at?: string
+          weekday: number
+        }
+        Update: {
+          created_at?: string
+          end_min?: number
+          id?: string
+          start_min?: number
+          updated_at?: string
+          weekday?: number
         }
         Relationships: []
       }
