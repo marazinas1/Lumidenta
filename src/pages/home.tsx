@@ -102,7 +102,7 @@ function Index({ locale }: { locale: Locale }) {
         </div>
 
         <div className="statbar">
-          <div className="wrap">
+          <RevealItems className="wrap">
             <div className="stat">
               <strong>{copy("stat1_value", "10+")}</strong>
               <span>{copy("stat1_label", "metų klinikinės patirties")}</span>
@@ -121,13 +121,13 @@ function Index({ locale }: { locale: Locale }) {
                 {copy("stat_cta_button", "Parašykite →")}
               </LocaleLink>
             </div>
-          </div>
+          </RevealItems>
         </div>
       </section>
 
       <section className="services" id="paslaugos">
         <div className="wrap">
-          <div className="section-head">
+          <Reveal className="section-head">
             <h2>
               {copy("services_heading", "Viskas, ko reikia dantų sveikatai,")}{" "}
               <span className="soft">
@@ -140,8 +140,8 @@ function Index({ locale }: { locale: Locale }) {
                 "Nuo kasdienės profilaktikos iki sudėtingesnio atstatymo — sprendimas visada aptariamas kartu.",
               )}
             </p>
-          </div>
-          <div className="svc-grid">
+          </Reveal>
+          <RevealItems className="svc-grid">
             {homeServices.map((service, index) => (
               <LocaleLink
                 key={service.id}
@@ -156,14 +156,15 @@ function Index({ locale }: { locale: Locale }) {
                 <span className="lm">Sužinoti daugiau →</span>
               </LocaleLink>
             ))}
-          </div>
-          <div className="svc-more">
+          </RevealItems>
+          <Reveal className="svc-more">
             <LocaleLink to="/paslaugos" className="btn btn-line">
               {copy("services_all_button", "Visos paslaugos →")}
             </LocaleLink>
-          </div>
+          </Reveal>
         </div>
       </section>
+
 
       <section className="touch" id="apie">
         <div className="wrap touch-grid">
