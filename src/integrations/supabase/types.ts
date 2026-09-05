@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      leads: {
+        Row: {
+          archived_at: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          name: string
+          phone: string | null
+          read_at: string | null
+          source: string | null
+        }
+        Insert: {
+          archived_at?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+          phone?: string | null
+          read_at?: string | null
+          source?: string | null
+        }
+        Update: {
+          archived_at?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string | null
+          read_at?: string | null
+          source?: string | null
+        }
+        Relationships: []
+      }
       page_views: {
         Row: {
           country: string
@@ -70,6 +106,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      analytics_summary: { Args: { _from: string; _to: string }; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
