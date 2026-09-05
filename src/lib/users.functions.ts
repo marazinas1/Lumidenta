@@ -148,6 +148,8 @@ export const listUsersWithRoles = createServerFn({ method: "GET" })
       email: info.get(userId)?.email ?? "",
       fullName: info.get(userId)?.fullName ?? "",
       lastSignInAt: info.get(userId)?.lastSignInAt ?? null,
+      confirmed: info.get(userId)?.confirmed ?? false,
+
     }));
   });
 
