@@ -40,6 +40,7 @@ const emptyDraft = (sortOrder: number): Draft => ({
 });
 
 function TestimonialsEditor() {
+  const { canEdit, isDeveloper: canSetDefaults } = useCanEdit();
   const queryClient = useQueryClient();
   const fetchAll = useServerFn(listAllTestimonials);
   const save = useServerFn(saveTestimonial);

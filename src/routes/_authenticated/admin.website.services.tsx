@@ -64,6 +64,7 @@ const emptyDraft = (sortOrder: number): ServiceDraft => ({
 });
 
 function ServicesEditor() {
+  const { canEdit, isDeveloper: canSetDefaults } = useCanEdit();
   const queryClient = useQueryClient();
   const fetchAll = useServerFn(listAllServices);
   const save = useServerFn(saveService);
