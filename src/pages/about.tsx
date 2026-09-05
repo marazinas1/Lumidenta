@@ -3,11 +3,16 @@ import { PageSection, Prose } from "@/components/site/Prose";
 import { Reveal } from "@/components/site/Reveal";
 import { getContent, useContent } from "@/content";
 import { localizePath, type Locale } from "@/lib/locale";
+import { ensurePageContent, type ContentLoaderArgs } from "@/lib/page-content";
 import { breadcrumbLd, pageHead } from "@/lib/seo";
 
 export function aboutRoute(locale: Locale) {
   const c = getContent(locale);
   return {
+    loader: async ({ context }: ContentLoaderArgs) => {
+      await ensurePageContent(context);
+      return null;
+    },
     head: () => ({
       ...pageHead({ path: "/apie", title: c.apie.seoTitle, description: c.apie.seoDescription, locale }),
       scripts: [
