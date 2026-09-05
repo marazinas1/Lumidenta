@@ -162,7 +162,7 @@ function ServicesEditor() {
               <div key={id} className="rounded-xl border border-border/70">
                 <div className="flex flex-wrap items-center gap-3 p-4">
                   <span className="text-lg">{String(row['icon'] ?? "")}</span>
-                  <div className="min-w-0 flex-1">
+                  <div className="w-full min-w-0 sm:w-auto sm:flex-1">
                     <p className="truncate font-medium">{String(row['title'] ?? "")}</p>
                     <p className="truncate text-xs text-muted-foreground">
                       /paslaugos/{String(row['slug'] ?? "")} · eilė {String(row['sort_order'] ?? 0)}
