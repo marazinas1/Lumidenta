@@ -27,6 +27,7 @@ import { Route as EnApieRouteImport } from './routes/en/apie'
 import { Route as EnKontaktaiRouteImport } from './routes/en/kontaktai'
 import { Route as EnPrivatumoPolitikaRouteImport } from './routes/en/privatumo-politika'
 import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
+import { Route as PaslaugosIndexRouteImport } from './routes/paslaugos.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminInquiriesRouteImport } from './routes/_authenticated/admin.inquiries'
@@ -129,6 +130,11 @@ const EnTaisyklesRoute = EnTaisyklesRouteImport.update({
   path: '/taisykles',
   getParentRoute: () => EnRouteRoute,
 } as any)
+const PaslaugosIndexRoute = PaslaugosIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PaslaugosRoute,
+} as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -203,7 +209,7 @@ export interface FileRoutesByFullPath {
   '/apie': typeof ApieRouteWithChildren
   '/auth': typeof AuthRoute
   '/kontaktai': typeof KontaktaiRoute
-  '/paslaugos': typeof PaslaugosRoute
+  '/paslaugos': typeof PaslaugosRouteWithChildren
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -215,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/en/taisykles': typeof EnTaisyklesRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
+  '/paslaugos/': typeof PaslaugosIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
@@ -232,7 +239,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/kontaktai': typeof KontaktaiRoute
-  '/paslaugos': typeof PaslaugosRoute
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -242,6 +248,7 @@ export interface FileRoutesByTo {
   '/en/taisykles': typeof EnTaisyklesRoute
   '/apie': typeof ApieIndexRoute
   '/en': typeof EnIndexRoute
+  '/paslaugos': typeof PaslaugosIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
@@ -263,7 +270,7 @@ export interface FileRoutesById {
   '/apie': typeof ApieRouteWithChildren
   '/auth': typeof AuthRoute
   '/kontaktai': typeof KontaktaiRoute
-  '/paslaugos': typeof PaslaugosRoute
+  '/paslaugos': typeof PaslaugosRouteWithChildren
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -275,6 +282,7 @@ export interface FileRoutesById {
   '/en/taisykles': typeof EnTaisyklesRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
+  '/paslaugos/': typeof PaslaugosIndexRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
@@ -308,6 +316,7 @@ export interface FileRouteTypes {
     | '/en/taisykles'
     | '/apie/'
     | '/en/'
+    | '/paslaugos/'
     | '/admin/analytics'
     | '/admin/inquiries'
     | '/admin/settings'
@@ -325,7 +334,6 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/kontaktai'
-    | '/paslaugos'
     | '/privatumo-politika'
     | '/reset-password'
     | '/sitemap.xml'
@@ -335,6 +343,7 @@ export interface FileRouteTypes {
     | '/en/taisykles'
     | '/apie'
     | '/en'
+    | '/paslaugos'
     | '/admin/analytics'
     | '/admin/inquiries'
     | '/admin/settings'
@@ -367,6 +376,7 @@ export interface FileRouteTypes {
     | '/en/taisykles'
     | '/apie/'
     | '/en/'
+    | '/paslaugos/'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/inquiries'
     | '/_authenticated/admin/settings'
@@ -388,7 +398,7 @@ export interface RootRouteChildren {
   ApieRoute: typeof ApieRouteWithChildren
   AuthRoute: typeof AuthRoute
   KontaktaiRoute: typeof KontaktaiRoute
-  PaslaugosRoute: typeof PaslaugosRoute
+  PaslaugosRoute: typeof PaslaugosRouteWithChildren
   PrivatumoPolitikaRoute: typeof PrivatumoPolitikaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -524,6 +534,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/en/taisykles'
       preLoaderRoute: typeof EnTaisyklesRouteImport
       parentRoute: typeof EnRouteRoute
+    }
+    '/paslaugos/': {
+      id: '/paslaugos/'
+      path: '/'
+      fullPath: '/paslaugos/'
+      preLoaderRoute: typeof PaslaugosIndexRouteImport
+      parentRoute: typeof PaslaugosRoute
     }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
@@ -691,6 +708,18 @@ const ApieRouteChildren: ApieRouteChildren = {
 
 const ApieRouteWithChildren = ApieRoute._addFileChildren(ApieRouteChildren)
 
+interface PaslaugosRouteChildren {
+  PaslaugosIndexRoute: typeof PaslaugosIndexRoute
+}
+
+const PaslaugosRouteChildren: PaslaugosRouteChildren = {
+  PaslaugosIndexRoute: PaslaugosIndexRoute,
+}
+
+const PaslaugosRouteWithChildren = PaslaugosRoute._addFileChildren(
+  PaslaugosRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -698,7 +727,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApieRoute: ApieRouteWithChildren,
   AuthRoute: AuthRoute,
   KontaktaiRoute: KontaktaiRoute,
-  PaslaugosRoute: PaslaugosRoute,
+  PaslaugosRoute: PaslaugosRouteWithChildren,
   PrivatumoPolitikaRoute: PrivatumoPolitikaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
