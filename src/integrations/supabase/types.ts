@@ -296,6 +296,7 @@ export type Database = {
           district: string
           email: string
           facebook_url: string
+          favicon_path: string | null
           id: string
           map_url: string
           opl_licence: string
@@ -312,6 +313,7 @@ export type Database = {
           district?: string
           email?: string
           facebook_url?: string
+          favicon_path?: string | null
           id?: string
           map_url?: string
           opl_licence?: string
@@ -328,6 +330,7 @@ export type Database = {
           district?: string
           email?: string
           facebook_url?: string
+          favicon_path?: string | null
           id?: string
           map_url?: string
           opl_licence?: string
