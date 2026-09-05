@@ -128,6 +128,8 @@ export const listUsersWithRoles = createServerFn({ method: "GET" })
           email: u.email ?? "",
           fullName: ((u.user_metadata as { full_name?: string } | null)?.full_name ?? "").trim(),
           lastSignInAt: u.last_sign_in_at ?? null,
+          confirmed: Boolean(u.email_confirmed_at ?? u.confirmed_at ?? u.last_sign_in_at),
+
         },
       ]),
     );
