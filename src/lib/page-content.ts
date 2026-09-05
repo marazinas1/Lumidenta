@@ -12,8 +12,18 @@ export const PAGE_CONTENT_KEY = ["page-content"] as const;
 
 export const pageContentQuery = queryOptions({
   queryKey: PAGE_CONTENT_KEY,
-  queryFn: () => fetchPageContent(),
+  // Never reject: a rejected loader promise aborts the SSR stream, which leaves
+  // the client without dehydrated router data and blanks the page.
+  queryFn: async () => {
+    try {
+      return await fetchPageContent();
+    } catch (error) {
+      console.error("[page-content] fetch failed", error);
+      return emptyPageContent;
+    }
+  },
   staleTime: 60_000,
+  retry: false,
 });
 
 /**
