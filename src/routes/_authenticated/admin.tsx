@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import {
   BarChart3,
+  CalendarDays,
+  Clock,
   FileText,
   Globe,
   Home,
