@@ -281,6 +281,10 @@ function UsersPage() {
                           <ShieldCheck className="h-3 w-3" /> Jūs
                         </Badge>
                       ) : null}
+                      {!u.confirmed && !isSelf ? (
+                        <Badge variant="outline">Pakviesta</Badge>
+                      ) : null}
+
                     </div>
                     <p className="mt-1 truncate text-sm text-muted-foreground">{u.email}</p>
                     <p className="mt-0.5 text-xs text-muted-foreground">
