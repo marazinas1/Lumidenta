@@ -17,6 +17,7 @@ import { Route as EnRouteRouteImport } from './routes/en/route'
 import { Route as KontaktaiRouteImport } from './routes/kontaktai'
 import { Route as PaslaugosRouteImport } from './routes/paslaugos'
 import { Route as PrivatumoPolitikaRouteImport } from './routes/privatumo-politika'
+import { Route as RegistracijaRouteImport } from './routes/registracija'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StraipsniaiRouteImport } from './routes/straipsniai'
@@ -93,6 +94,11 @@ const PaslaugosRoute = PaslaugosRouteImport.update({
 const PrivatumoPolitikaRoute = PrivatumoPolitikaRouteImport.update({
   id: '/privatumo-politika',
   path: '/privatumo-politika',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegistracijaRoute = RegistracijaRouteImport.update({
+  id: '/registracija',
+  path: '/registracija',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -305,6 +311,7 @@ export interface FileRoutesByFullPath {
   '/kontaktai': typeof KontaktaiRoute
   '/paslaugos': typeof PaslaugosRouteWithChildren
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
+  '/registracija': typeof RegistracijaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/straipsniai': typeof StraipsniaiRouteWithChildren
@@ -349,6 +356,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/kontaktai': typeof KontaktaiRoute
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
+  '/registracija': typeof RegistracijaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/taisykles': typeof TaisyklesRoute
@@ -393,6 +401,7 @@ export interface FileRoutesById {
   '/kontaktai': typeof KontaktaiRoute
   '/paslaugos': typeof PaslaugosRouteWithChildren
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
+  '/registracija': typeof RegistracijaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/straipsniai': typeof StraipsniaiRouteWithChildren
@@ -442,6 +451,7 @@ export interface FileRouteTypes {
     | '/kontaktai'
     | '/paslaugos'
     | '/privatumo-politika'
+    | '/registracija'
     | '/reset-password'
     | '/sitemap.xml'
     | '/straipsniai'
@@ -486,6 +496,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/kontaktai'
     | '/privatumo-politika'
+    | '/registracija'
     | '/reset-password'
     | '/sitemap.xml'
     | '/taisykles'
@@ -529,6 +540,7 @@ export interface FileRouteTypes {
     | '/kontaktai'
     | '/paslaugos'
     | '/privatumo-politika'
+    | '/registracija'
     | '/reset-password'
     | '/sitemap.xml'
     | '/straipsniai'
@@ -578,6 +590,7 @@ export interface RootRouteChildren {
   KontaktaiRoute: typeof KontaktaiRoute
   PaslaugosRoute: typeof PaslaugosRouteWithChildren
   PrivatumoPolitikaRoute: typeof PrivatumoPolitikaRoute
+  RegistracijaRoute: typeof RegistracijaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StraipsniaiRoute: typeof StraipsniaiRouteWithChildren
@@ -643,6 +656,13 @@ declare module '@tanstack/react-router' {
       path: '/privatumo-politika'
       fullPath: '/privatumo-politika'
       preLoaderRoute: typeof PrivatumoPolitikaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/registracija': {
+      id: '/registracija'
+      path: '/registracija'
+      fullPath: '/registracija'
+      preLoaderRoute: typeof RegistracijaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -1071,6 +1091,7 @@ const rootRouteChildren: RootRouteChildren = {
   KontaktaiRoute: KontaktaiRoute,
   PaslaugosRoute: PaslaugosRouteWithChildren,
   PrivatumoPolitikaRoute: PrivatumoPolitikaRoute,
+  RegistracijaRoute: RegistracijaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StraipsniaiRoute: StraipsniaiRouteWithChildren,
