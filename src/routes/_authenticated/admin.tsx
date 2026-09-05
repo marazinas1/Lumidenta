@@ -12,7 +12,9 @@ import {
   LogOut,
   Menu,
   Phone,
+  Quote,
   Settings,
+
   Stethoscope,
   Users,
 } from "lucide-react";
