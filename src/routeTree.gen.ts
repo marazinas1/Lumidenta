@@ -36,6 +36,7 @@ import { Route as AuthenticatedAdminInquiriesRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
+import { Route as EnPaslaugosIndexRouteImport } from './routes/en/paslaugos.index'
 import { Route as AuthenticatedAdminWebsiteAboutRouteImport } from './routes/_authenticated/admin.website.about'
 import { Route as AuthenticatedAdminWebsiteContactRouteImport } from './routes/_authenticated/admin.website.contact'
 import { Route as AuthenticatedAdminWebsiteHomeRouteImport } from './routes/_authenticated/admin.website.home'
@@ -180,6 +181,11 @@ const EnApieIndexRoute = EnApieIndexRouteImport.update({
   path: '/',
   getParentRoute: () => EnApieRoute,
 } as any)
+const EnPaslaugosIndexRoute = EnPaslaugosIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EnPaslaugosRoute,
+} as any)
 const AuthenticatedAdminWebsiteAboutRoute =
   AuthenticatedAdminWebsiteAboutRouteImport.update({
     id: '/website/about',
@@ -229,7 +235,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
   '/en/kontaktai': typeof EnKontaktaiRoute
-  '/en/paslaugos': typeof EnPaslaugosRoute
+  '/en/paslaugos': typeof EnPaslaugosRouteWithChildren
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
@@ -242,6 +248,7 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
+  '/en/paslaugos/': typeof EnPaslaugosIndexRoute
   '/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
@@ -258,7 +265,6 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/taisykles': typeof TaisyklesRoute
   '/en/kontaktai': typeof EnKontaktaiRoute
-  '/en/paslaugos': typeof EnPaslaugosRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
@@ -271,6 +277,7 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/en/apie': typeof EnApieIndexRoute
+  '/en/paslaugos': typeof EnPaslaugosIndexRoute
   '/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
@@ -294,7 +301,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
   '/en/kontaktai': typeof EnKontaktaiRoute
-  '/en/paslaugos': typeof EnPaslaugosRoute
+  '/en/paslaugos': typeof EnPaslaugosRouteWithChildren
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
@@ -307,6 +314,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
+  '/en/paslaugos/': typeof EnPaslaugosIndexRoute
   '/_authenticated/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/_authenticated/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/_authenticated/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
@@ -343,6 +351,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/'
     | '/en/apie/'
+    | '/en/paslaugos/'
     | '/admin/website/about'
     | '/admin/website/contact'
     | '/admin/website/home'
@@ -359,7 +368,6 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/taisykles'
     | '/en/kontaktai'
-    | '/en/paslaugos'
     | '/en/privatumo-politika'
     | '/en/taisykles'
     | '/paslaugos/$slug'
@@ -372,6 +380,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin'
     | '/en/apie'
+    | '/en/paslaugos'
     | '/admin/website/about'
     | '/admin/website/contact'
     | '/admin/website/home'
@@ -407,6 +416,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/'
     | '/en/apie/'
+    | '/en/paslaugos/'
     | '/_authenticated/admin/website/about'
     | '/_authenticated/admin/website/contact'
     | '/_authenticated/admin/website/home'
@@ -622,6 +632,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnApieIndexRouteImport
       parentRoute: typeof EnApieRoute
     }
+    '/en/paslaugos/': {
+      id: '/en/paslaugos/'
+      path: '/'
+      fullPath: '/en/paslaugos/'
+      preLoaderRoute: typeof EnPaslaugosIndexRouteImport
+      parentRoute: typeof EnPaslaugosRoute
+    }
     '/_authenticated/admin/website/about': {
       id: '/_authenticated/admin/website/about'
       path: '/website/about'
@@ -717,10 +734,22 @@ const EnApieRouteChildren: EnApieRouteChildren = {
 const EnApieRouteWithChildren =
   EnApieRoute._addFileChildren(EnApieRouteChildren)
 
+interface EnPaslaugosRouteChildren {
+  EnPaslaugosIndexRoute: typeof EnPaslaugosIndexRoute
+}
+
+const EnPaslaugosRouteChildren: EnPaslaugosRouteChildren = {
+  EnPaslaugosIndexRoute: EnPaslaugosIndexRoute,
+}
+
+const EnPaslaugosRouteWithChildren = EnPaslaugosRoute._addFileChildren(
+  EnPaslaugosRouteChildren,
+)
+
 interface EnRouteRouteChildren {
   EnApieRoute: typeof EnApieRouteWithChildren
   EnKontaktaiRoute: typeof EnKontaktaiRoute
-  EnPaslaugosRoute: typeof EnPaslaugosRoute
+  EnPaslaugosRoute: typeof EnPaslaugosRouteWithChildren
   EnPrivatumoPolitikaRoute: typeof EnPrivatumoPolitikaRoute
   EnTaisyklesRoute: typeof EnTaisyklesRoute
   EnIndexRoute: typeof EnIndexRoute
@@ -729,7 +758,7 @@ interface EnRouteRouteChildren {
 const EnRouteRouteChildren: EnRouteRouteChildren = {
   EnApieRoute: EnApieRouteWithChildren,
   EnKontaktaiRoute: EnKontaktaiRoute,
-  EnPaslaugosRoute: EnPaslaugosRoute,
+  EnPaslaugosRoute: EnPaslaugosRouteWithChildren,
   EnPrivatumoPolitikaRoute: EnPrivatumoPolitikaRoute,
   EnTaisyklesRoute: EnTaisyklesRoute,
   EnIndexRoute: EnIndexRoute,
