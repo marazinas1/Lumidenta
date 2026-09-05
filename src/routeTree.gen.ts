@@ -15,6 +15,7 @@ import { Route as ApieRouteImport } from './routes/apie'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as EnRouteRouteImport } from './routes/en/route'
 import { Route as KontaktaiRouteImport } from './routes/kontaktai'
+import { Route as PaslaugosRouteImport } from './routes/paslaugos'
 import { Route as PrivatumoPolitikaRouteImport } from './routes/privatumo-politika'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -24,18 +25,24 @@ import { Route as ApieIndexRouteImport } from './routes/apie.index'
 import { Route as EnIndexRouteImport } from './routes/en/index'
 import { Route as EnApieRouteImport } from './routes/en/apie'
 import { Route as EnKontaktaiRouteImport } from './routes/en/kontaktai'
+import { Route as EnPaslaugosRouteImport } from './routes/en/paslaugos'
 import { Route as EnPrivatumoPolitikaRouteImport } from './routes/en/privatumo-politika'
 import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
+import { Route as PaslaugosIndexRouteImport } from './routes/paslaugos.index'
+import { Route as PaslaugosSlugRouteImport } from './routes/paslaugos.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminInquiriesRouteImport } from './routes/_authenticated/admin.inquiries'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
+import { Route as EnPaslaugosIndexRouteImport } from './routes/en/paslaugos.index'
+import { Route as EnPaslaugosSlugRouteImport } from './routes/en/paslaugos.$slug'
 import { Route as AuthenticatedAdminWebsiteAboutRouteImport } from './routes/_authenticated/admin.website.about'
 import { Route as AuthenticatedAdminWebsiteContactRouteImport } from './routes/_authenticated/admin.website.contact'
 import { Route as AuthenticatedAdminWebsiteHomeRouteImport } from './routes/_authenticated/admin.website.home'
 import { Route as AuthenticatedAdminWebsiteServicesRouteImport } from './routes/_authenticated/admin.website.services'
+import { Route as AuthenticatedAdminWebsiteTestimonialsRouteImport } from './routes/_authenticated/admin.website.testimonials'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 
@@ -66,6 +73,11 @@ const EnRouteRoute = EnRouteRouteImport.update({
 const KontaktaiRoute = KontaktaiRouteImport.update({
   id: '/kontaktai',
   path: '/kontaktai',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaslaugosRoute = PaslaugosRouteImport.update({
+  id: '/paslaugos',
+  path: '/paslaugos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivatumoPolitikaRoute = PrivatumoPolitikaRouteImport.update({
@@ -113,6 +125,11 @@ const EnKontaktaiRoute = EnKontaktaiRouteImport.update({
   path: '/kontaktai',
   getParentRoute: () => EnRouteRoute,
 } as any)
+const EnPaslaugosRoute = EnPaslaugosRouteImport.update({
+  id: '/paslaugos',
+  path: '/paslaugos',
+  getParentRoute: () => EnRouteRoute,
+} as any)
 const EnPrivatumoPolitikaRoute = EnPrivatumoPolitikaRouteImport.update({
   id: '/privatumo-politika',
   path: '/privatumo-politika',
@@ -122,6 +139,16 @@ const EnTaisyklesRoute = EnTaisyklesRouteImport.update({
   id: '/taisykles',
   path: '/taisykles',
   getParentRoute: () => EnRouteRoute,
+} as any)
+const PaslaugosIndexRoute = PaslaugosIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PaslaugosRoute,
+} as any)
+const PaslaugosSlugRoute = PaslaugosSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => PaslaugosRoute,
 } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
@@ -156,6 +183,16 @@ const EnApieIndexRoute = EnApieIndexRouteImport.update({
   path: '/',
   getParentRoute: () => EnApieRoute,
 } as any)
+const EnPaslaugosIndexRoute = EnPaslaugosIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EnPaslaugosRoute,
+} as any)
+const EnPaslaugosSlugRoute = EnPaslaugosSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => EnPaslaugosRoute,
+} as any)
 const AuthenticatedAdminWebsiteAboutRoute =
   AuthenticatedAdminWebsiteAboutRouteImport.update({
     id: '/website/about',
@@ -180,6 +217,12 @@ const AuthenticatedAdminWebsiteServicesRoute =
     path: '/website/services',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminWebsiteTestimonialsRoute =
+  AuthenticatedAdminWebsiteTestimonialsRouteImport.update({
+    id: '/website/testimonials',
+    path: '/website/testimonials',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
   id: '/lovable/email/auth/preview',
   path: '/lovable/email/auth/preview',
@@ -197,6 +240,7 @@ export interface FileRoutesByFullPath {
   '/apie': typeof ApieRouteWithChildren
   '/auth': typeof AuthRoute
   '/kontaktai': typeof KontaktaiRoute
+  '/paslaugos': typeof PaslaugosRouteWithChildren
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -204,20 +248,26 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
   '/en/kontaktai': typeof EnKontaktaiRoute
+  '/en/paslaugos': typeof EnPaslaugosRouteWithChildren
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
+  '/paslaugos/$slug': typeof PaslaugosSlugRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
+  '/paslaugos/': typeof PaslaugosIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
+  '/en/paslaugos/': typeof EnPaslaugosIndexRoute
   '/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
   '/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
+  '/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
@@ -232,18 +282,23 @@ export interface FileRoutesByTo {
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
+  '/paslaugos/$slug': typeof PaslaugosSlugRoute
   '/apie': typeof ApieIndexRoute
   '/en': typeof EnIndexRoute
+  '/paslaugos': typeof PaslaugosIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/en/apie': typeof EnApieIndexRoute
+  '/en/paslaugos': typeof EnPaslaugosIndexRoute
   '/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
   '/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
+  '/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
@@ -255,6 +310,7 @@ export interface FileRoutesById {
   '/apie': typeof ApieRouteWithChildren
   '/auth': typeof AuthRoute
   '/kontaktai': typeof KontaktaiRoute
+  '/paslaugos': typeof PaslaugosRouteWithChildren
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -262,20 +318,26 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
   '/en/kontaktai': typeof EnKontaktaiRoute
+  '/en/paslaugos': typeof EnPaslaugosRouteWithChildren
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
+  '/paslaugos/$slug': typeof PaslaugosSlugRoute
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
+  '/paslaugos/': typeof PaslaugosIndexRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
+  '/en/paslaugos/': typeof EnPaslaugosIndexRoute
   '/_authenticated/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/_authenticated/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/_authenticated/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
   '/_authenticated/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
+  '/_authenticated/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
@@ -287,6 +349,7 @@ export interface FileRouteTypes {
     | '/apie'
     | '/auth'
     | '/kontaktai'
+    | '/paslaugos'
     | '/privatumo-politika'
     | '/reset-password'
     | '/sitemap.xml'
@@ -294,20 +357,26 @@ export interface FileRouteTypes {
     | '/admin'
     | '/en/apie'
     | '/en/kontaktai'
+    | '/en/paslaugos'
     | '/en/privatumo-politika'
     | '/en/taisykles'
+    | '/paslaugos/$slug'
     | '/apie/'
     | '/en/'
+    | '/paslaugos/'
     | '/admin/analytics'
     | '/admin/inquiries'
     | '/admin/settings'
     | '/admin/users'
+    | '/en/paslaugos/$slug'
     | '/admin/'
     | '/en/apie/'
+    | '/en/paslaugos/'
     | '/admin/website/about'
     | '/admin/website/contact'
     | '/admin/website/home'
     | '/admin/website/services'
+    | '/admin/website/testimonials'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -322,18 +391,23 @@ export interface FileRouteTypes {
     | '/en/kontaktai'
     | '/en/privatumo-politika'
     | '/en/taisykles'
+    | '/paslaugos/$slug'
     | '/apie'
     | '/en'
+    | '/paslaugos'
     | '/admin/analytics'
     | '/admin/inquiries'
     | '/admin/settings'
     | '/admin/users'
+    | '/en/paslaugos/$slug'
     | '/admin'
     | '/en/apie'
+    | '/en/paslaugos'
     | '/admin/website/about'
     | '/admin/website/contact'
     | '/admin/website/home'
     | '/admin/website/services'
+    | '/admin/website/testimonials'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
   id:
@@ -344,6 +418,7 @@ export interface FileRouteTypes {
     | '/apie'
     | '/auth'
     | '/kontaktai'
+    | '/paslaugos'
     | '/privatumo-politika'
     | '/reset-password'
     | '/sitemap.xml'
@@ -351,20 +426,26 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/en/apie'
     | '/en/kontaktai'
+    | '/en/paslaugos'
     | '/en/privatumo-politika'
     | '/en/taisykles'
+    | '/paslaugos/$slug'
     | '/apie/'
     | '/en/'
+    | '/paslaugos/'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/inquiries'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
+    | '/en/paslaugos/$slug'
     | '/_authenticated/admin/'
     | '/en/apie/'
+    | '/en/paslaugos/'
     | '/_authenticated/admin/website/about'
     | '/_authenticated/admin/website/contact'
     | '/_authenticated/admin/website/home'
     | '/_authenticated/admin/website/services'
+    | '/_authenticated/admin/website/testimonials'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
   fileRoutesById: FileRoutesById
@@ -376,6 +457,7 @@ export interface RootRouteChildren {
   ApieRoute: typeof ApieRouteWithChildren
   AuthRoute: typeof AuthRoute
   KontaktaiRoute: typeof KontaktaiRoute
+  PaslaugosRoute: typeof PaslaugosRouteWithChildren
   PrivatumoPolitikaRoute: typeof PrivatumoPolitikaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -426,6 +508,13 @@ declare module '@tanstack/react-router' {
       path: '/kontaktai'
       fullPath: '/kontaktai'
       preLoaderRoute: typeof KontaktaiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paslaugos': {
+      id: '/paslaugos'
+      path: '/paslaugos'
+      fullPath: '/paslaugos'
+      preLoaderRoute: typeof PaslaugosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privatumo-politika': {
@@ -491,6 +580,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnKontaktaiRouteImport
       parentRoute: typeof EnRouteRoute
     }
+    '/en/paslaugos': {
+      id: '/en/paslaugos'
+      path: '/paslaugos'
+      fullPath: '/en/paslaugos'
+      preLoaderRoute: typeof EnPaslaugosRouteImport
+      parentRoute: typeof EnRouteRoute
+    }
     '/en/privatumo-politika': {
       id: '/en/privatumo-politika'
       path: '/privatumo-politika'
@@ -504,6 +600,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/en/taisykles'
       preLoaderRoute: typeof EnTaisyklesRouteImport
       parentRoute: typeof EnRouteRoute
+    }
+    '/paslaugos/': {
+      id: '/paslaugos/'
+      path: '/'
+      fullPath: '/paslaugos/'
+      preLoaderRoute: typeof PaslaugosIndexRouteImport
+      parentRoute: typeof PaslaugosRoute
+    }
+    '/paslaugos/$slug': {
+      id: '/paslaugos/$slug'
+      path: '/$slug'
+      fullPath: '/paslaugos/$slug'
+      preLoaderRoute: typeof PaslaugosSlugRouteImport
+      parentRoute: typeof PaslaugosRoute
     }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
@@ -547,6 +657,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnApieIndexRouteImport
       parentRoute: typeof EnApieRoute
     }
+    '/en/paslaugos/': {
+      id: '/en/paslaugos/'
+      path: '/'
+      fullPath: '/en/paslaugos/'
+      preLoaderRoute: typeof EnPaslaugosIndexRouteImport
+      parentRoute: typeof EnPaslaugosRoute
+    }
+    '/en/paslaugos/$slug': {
+      id: '/en/paslaugos/$slug'
+      path: '/$slug'
+      fullPath: '/en/paslaugos/$slug'
+      preLoaderRoute: typeof EnPaslaugosSlugRouteImport
+      parentRoute: typeof EnPaslaugosRoute
+    }
     '/_authenticated/admin/website/about': {
       id: '/_authenticated/admin/website/about'
       path: '/website/about'
@@ -573,6 +697,13 @@ declare module '@tanstack/react-router' {
       path: '/website/services'
       fullPath: '/admin/website/services'
       preLoaderRoute: typeof AuthenticatedAdminWebsiteServicesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/website/testimonials': {
+      id: '/_authenticated/admin/website/testimonials'
+      path: '/website/testimonials'
+      fullPath: '/admin/website/testimonials'
+      preLoaderRoute: typeof AuthenticatedAdminWebsiteTestimonialsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/lovable/email/auth/preview': {
@@ -602,6 +733,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminWebsiteContactRoute: typeof AuthenticatedAdminWebsiteContactRoute
   AuthenticatedAdminWebsiteHomeRoute: typeof AuthenticatedAdminWebsiteHomeRoute
   AuthenticatedAdminWebsiteServicesRoute: typeof AuthenticatedAdminWebsiteServicesRoute
+  AuthenticatedAdminWebsiteTestimonialsRoute: typeof AuthenticatedAdminWebsiteTestimonialsRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
@@ -615,6 +747,8 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminWebsiteHomeRoute: AuthenticatedAdminWebsiteHomeRoute,
   AuthenticatedAdminWebsiteServicesRoute:
     AuthenticatedAdminWebsiteServicesRoute,
+  AuthenticatedAdminWebsiteTestimonialsRoute:
+    AuthenticatedAdminWebsiteTestimonialsRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
@@ -642,9 +776,24 @@ const EnApieRouteChildren: EnApieRouteChildren = {
 const EnApieRouteWithChildren =
   EnApieRoute._addFileChildren(EnApieRouteChildren)
 
+interface EnPaslaugosRouteChildren {
+  EnPaslaugosSlugRoute: typeof EnPaslaugosSlugRoute
+  EnPaslaugosIndexRoute: typeof EnPaslaugosIndexRoute
+}
+
+const EnPaslaugosRouteChildren: EnPaslaugosRouteChildren = {
+  EnPaslaugosSlugRoute: EnPaslaugosSlugRoute,
+  EnPaslaugosIndexRoute: EnPaslaugosIndexRoute,
+}
+
+const EnPaslaugosRouteWithChildren = EnPaslaugosRoute._addFileChildren(
+  EnPaslaugosRouteChildren,
+)
+
 interface EnRouteRouteChildren {
   EnApieRoute: typeof EnApieRouteWithChildren
   EnKontaktaiRoute: typeof EnKontaktaiRoute
+  EnPaslaugosRoute: typeof EnPaslaugosRouteWithChildren
   EnPrivatumoPolitikaRoute: typeof EnPrivatumoPolitikaRoute
   EnTaisyklesRoute: typeof EnTaisyklesRoute
   EnIndexRoute: typeof EnIndexRoute
@@ -653,6 +802,7 @@ interface EnRouteRouteChildren {
 const EnRouteRouteChildren: EnRouteRouteChildren = {
   EnApieRoute: EnApieRouteWithChildren,
   EnKontaktaiRoute: EnKontaktaiRoute,
+  EnPaslaugosRoute: EnPaslaugosRouteWithChildren,
   EnPrivatumoPolitikaRoute: EnPrivatumoPolitikaRoute,
   EnTaisyklesRoute: EnTaisyklesRoute,
   EnIndexRoute: EnIndexRoute,
@@ -671,6 +821,20 @@ const ApieRouteChildren: ApieRouteChildren = {
 
 const ApieRouteWithChildren = ApieRoute._addFileChildren(ApieRouteChildren)
 
+interface PaslaugosRouteChildren {
+  PaslaugosSlugRoute: typeof PaslaugosSlugRoute
+  PaslaugosIndexRoute: typeof PaslaugosIndexRoute
+}
+
+const PaslaugosRouteChildren: PaslaugosRouteChildren = {
+  PaslaugosSlugRoute: PaslaugosSlugRoute,
+  PaslaugosIndexRoute: PaslaugosIndexRoute,
+}
+
+const PaslaugosRouteWithChildren = PaslaugosRoute._addFileChildren(
+  PaslaugosRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -678,6 +842,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApieRoute: ApieRouteWithChildren,
   AuthRoute: AuthRoute,
   KontaktaiRoute: KontaktaiRoute,
+  PaslaugosRoute: PaslaugosRouteWithChildren,
   PrivatumoPolitikaRoute: PrivatumoPolitikaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

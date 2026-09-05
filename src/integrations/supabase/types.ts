@@ -176,6 +176,144 @@ export type Database = {
         }
         Relationships: []
       }
+      services: {
+        Row: {
+          body: string
+          created_at: string
+          excerpt: string
+          icon: string
+          id: string
+          image_bucket: string
+          image_path: string | null
+          includes: Json
+          published: boolean
+          show_on_home: boolean
+          slug: string
+          sort_order: number
+          title: string
+          tone: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          excerpt?: string
+          icon?: string
+          id?: string
+          image_bucket?: string
+          image_path?: string | null
+          includes?: Json
+          published?: boolean
+          show_on_home?: boolean
+          slug: string
+          sort_order?: number
+          title: string
+          tone?: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          excerpt?: string
+          icon?: string
+          id?: string
+          image_bucket?: string
+          image_path?: string | null
+          includes?: Json
+          published?: boolean
+          show_on_home?: boolean
+          slug?: string
+          sort_order?: number
+          title?: string
+          tone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          address_line: string
+          aspi_licence: string
+          created_at: string
+          dentist_name: string
+          district: string
+          email: string
+          facebook_url: string
+          id: string
+          map_url: string
+          opl_licence: string
+          phone: string
+          practice_name: string
+          singleton: boolean
+          updated_at: string
+        }
+        Insert: {
+          address_line?: string
+          aspi_licence?: string
+          created_at?: string
+          dentist_name?: string
+          district?: string
+          email?: string
+          facebook_url?: string
+          id?: string
+          map_url?: string
+          opl_licence?: string
+          phone?: string
+          practice_name?: string
+          singleton?: boolean
+          updated_at?: string
+        }
+        Update: {
+          address_line?: string
+          aspi_licence?: string
+          created_at?: string
+          dentist_name?: string
+          district?: string
+          email?: string
+          facebook_url?: string
+          id?: string
+          map_url?: string
+          opl_licence?: string
+          phone?: string
+          practice_name?: string
+          singleton?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          author_detail: string | null
+          author_name: string
+          created_at: string
+          id: string
+          published: boolean
+          quote: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          author_detail?: string | null
+          author_name: string
+          created_at?: string
+          id?: string
+          published?: boolean
+          quote: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          author_detail?: string | null
+          author_name?: string
+          created_at?: string
+          id?: string
+          published?: boolean
+          quote?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

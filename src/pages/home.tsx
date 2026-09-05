@@ -1,5 +1,6 @@
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { getContent } from "@/content";
+import { ensureCatalog, useCatalog } from "@/lib/catalog";
 import type { Locale } from "@/lib/locale";
 import { ensurePageContent, usePageContent, type ContentLoaderArgs } from "@/lib/page-content";
 import { pageHead } from "@/lib/seo";
@@ -9,10 +10,11 @@ const PAGE = "home";
 export function homeRoute(locale: Locale) {
   const c = getContent(locale);
   return {
-    // Fetched on the server before the HTML is sent, so the copy and photographs
-    // are in the markup the crawler parses rather than requested after hydration.
+    // Fetched on the server before the HTML is sent, so the copy, services and
+    // testimonials are in the markup the crawler parses rather than requested
+    // after hydration.
     loader: async ({ context }: ContentLoaderArgs) => {
-      await ensurePageContent(context);
+      await Promise.all([ensurePageContent(context), ensureCatalog(context)]);
       return null;
     },
     head: () => ({
@@ -27,41 +29,12 @@ export function homeRoute(locale: Locale) {
   };
 }
 
-const services = [
-  {
-    tone: "t1",
-    num: "01",
-    icon: "🦷",
-    title: "Profilaktika",
-    text: "Reguliarūs patikrinimai ir ankstyva ėduonies diagnostika su odontologine optika.",
-  },
-  {
-    tone: "t2",
-    num: "02",
-    icon: "✦",
-    title: "Dantų plombavimas",
-    text: "Estetiškos, atsparios medžiagos — rezultatas matomas jau pirmo vizito metu.",
-  },
-  {
-    tone: "t3",
-    num: "03",
-    icon: "◈",
-    title: "Protezavimas",
-    text: "Užklotai ir vainikėliai stipriai pažeistiems dantims, kai plomba nebepakanka.",
-  },
-  {
-    tone: "t4",
-    num: "04",
-    icon: "✧",
-    title: "Dantų balinimas",
-    text: "Kabinetinis balinimas ir tęstinis balinimas namuose individualiomis kapomis.",
-  },
-];
-
 function Index({ locale }: { locale: Locale }) {
   const { copy, image } = usePageContent(PAGE, locale);
+  const { services, testimonials } = useCatalog();
   const heroPortrait = image("hero_portrait");
   const touchPhoto = image("touch_photo");
+  const homeServices = services.filter((s) => s.showOnHome).slice(0, 4);
 
   return (
     <>
@@ -96,7 +69,11 @@ function Index({ locale }: { locale: Locale }) {
 
           <div className="hero-photo">
             {heroPortrait ? (
-              <img src={heroPortrait.url} alt={heroPortrait.alt || "Gyd. odontologė Erika"} loading="eager" />
+              <img
+                src={heroPortrait.url}
+                alt={heroPortrait.alt || "Gyd. odontologė Erika"}
+                loading="eager"
+              />
             ) : (
               <div className="hero-photo-label">
                 Erikos portretas kabinete
@@ -162,15 +139,25 @@ function Index({ locale }: { locale: Locale }) {
             </p>
           </div>
           <div className="svc-grid">
-            {services.map((service) => (
-              <div key={service.num} className={`svc-card ${service.tone}`}>
-                <span className="num">{service.num}</span>
+            {homeServices.map((service, index) => (
+              <LocaleLink
+                key={service.id}
+                to="/paslaugos/$slug"
+                params={{ slug: service.slug }}
+                className={`svc-card ${service.tone}`}
+              >
+                <span className="num">{String(index + 1).padStart(2, "0")}</span>
                 <div className="svc-ic">{service.icon}</div>
                 <h3>{service.title}</h3>
-                <p>{service.text}</p>
+                <p>{service.excerpt}</p>
                 <span className="lm">Sužinoti daugiau →</span>
-              </div>
+              </LocaleLink>
             ))}
+          </div>
+          <div className="svc-more">
+            <LocaleLink to="/paslaugos" className="btn btn-line">
+              {copy("services_all_button", "Visos paslaugos →")}
+            </LocaleLink>
           </div>
         </div>
       </section>
@@ -225,6 +212,28 @@ function Index({ locale }: { locale: Locale }) {
         </div>
       </section>
 
+      <section className="tstm" id="atsiliepimai">
+        <div className="wrap">
+          <div className="section-head">
+            <h2>
+              {copy("testimonials_heading", "Ką sako")}{" "}
+              <span className="soft">{copy("testimonials_heading_soft", "pacientai.")}</span>
+            </h2>
+          </div>
+          <div className="tstm-grid">
+            {testimonials.map((t, index) => (
+              <figure key={t.id} className={`tstm-card ${TONES[index % TONES.length]}`}>
+                <blockquote>{t.quote}</blockquote>
+                <figcaption>
+                  <strong>{t.authorName}</strong>
+                  {t.authorDetail ? <span>{t.authorDetail}</span> : null}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <div className="cta-band">
         <div className="cta-panel">
           <div>
@@ -244,3 +253,5 @@ function Index({ locale }: { locale: Locale }) {
     </>
   );
 }
+
+const TONES = ["t1", "t2", "t3", "t4"] as const;

@@ -12,6 +12,7 @@ export const common = {
   },
   nav: {
     home: "Pagrindinis",
+    services: "Paslaugos",
     about: "Apie",
     contacts: "Kontaktai",
     site: "Svetainė",
