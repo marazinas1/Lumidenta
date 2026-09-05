@@ -64,7 +64,7 @@ function Field({
           className={className}
         />
       )}
-      {error ? <span className="block text-xs text-stone">{error}</span> : null}
+      {error ? <span className="block text-xs font-medium text-destructive">{error}</span> : null}
     </label>
   );
 }
