@@ -658,6 +658,9 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 .admin-me{display:flex;flex-direction:column;gap:6px;padding:6px 12px 12px;}
 .admin-me-email{font-size:0.85rem;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .admin-role-badge{display:inline-flex;align-items:center;font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-soft);}
+.admin-drawer{background:#FFFFFF;color:var(--ink);border-right:1px solid var(--line);}
+.admin-drawer .admin-brand{padding:18px 20px;}
+.admin-drawer .admin-nav{overflow-y:auto;}
 .admin-mobile-bar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:8px;padding:10px 14px;background:#FFFFFF;border-bottom:1px solid var(--line);}
 @media (min-width:768px){.admin-mobile-bar{display:none;}}
 .admin-main{flex:1;overflow-x:hidden;padding:24px 20px;}
