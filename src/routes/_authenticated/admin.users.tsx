@@ -171,8 +171,14 @@ function UsersPage() {
             className="flex flex-col gap-3 sm:flex-row sm:items-end"
             onSubmit={(e) => {
               e.preventDefault();
-              if (email.trim()) inviteM.mutate();
+              if (email.trim())
+                inviteM.mutate({
+                  email: email.trim(),
+                  role,
+                  ...(fullName.trim() ? { fullName: fullName.trim() } : {}),
+                });
             }}
+
           >
             <div className="flex flex-1 flex-col gap-1.5">
               <Label htmlFor="invite-email">El. paštas</Label>
