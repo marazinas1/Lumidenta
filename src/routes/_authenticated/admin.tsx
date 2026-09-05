@@ -53,7 +53,7 @@ function AdminLayout() {
 
   const groups = [
     {
-      label: "Workspace",
+      label: "Darbo sritis",
       links: [
         { to: "/admin", label: "Apžvalga", icon: LayoutDashboard },
         { to: "/admin/inquiries", label: "Užklausos", icon: Inbox },
