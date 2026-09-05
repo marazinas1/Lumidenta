@@ -1,18 +1,17 @@
 import { ContactForm } from "@/components/site/ContactForm";
-import { PageHero } from "@/components/site/PageHero";
-import { PageSection } from "@/components/site/Prose";
-import { Reveal } from "@/components/site/Reveal";
-import { getContent, useContent } from "@/content";
-import { contact } from "@/data/contact";
+import { getContent } from "@/content";
+import { ensureCatalog, useCatalog } from "@/lib/catalog";
 import type { Locale } from "@/lib/locale";
-import { ensurePageContent, type ContentLoaderArgs } from "@/lib/page-content";
+import { ensurePageContent, usePageContent, type ContentLoaderArgs } from "@/lib/page-content";
 import { pageHead } from "@/lib/seo";
+
+const PAGE = "contact";
 
 export function contactsRoute(locale: Locale) {
   const c = getContent(locale);
   return {
     loader: async ({ context }: ContentLoaderArgs) => {
-      await ensurePageContent(context);
+      await Promise.all([ensurePageContent(context), ensureCatalog(context)]);
       return null;
     },
     head: () => ({
@@ -23,68 +22,61 @@ export function contactsRoute(locale: Locale) {
         locale,
       }),
     }),
-    component: ContactsPage,
+    component: () => <ContactsPage locale={locale} />,
   };
 }
 
-function ContactsPage() {
-  const c = useContent();
-  const kontaktai = c.kontaktai;
+function ContactsPage({ locale }: { locale: Locale }) {
+  const c = getContent(locale);
+  const { copy } = usePageContent(PAGE, locale);
+  const { settings } = useCatalog();
+  const address = [settings.addressLine, settings.district].filter(Boolean).join(", ");
+
   return (
     <>
-      <PageHero
-        eyebrow={kontaktai.eyebrow}
-        title={kontaktai.title}
-        lead={kontaktai.lead}
-        crumbs={[{ label: c.common.nav.home, to: "/" }, { label: kontaktai.eyebrow }]}
-      />
+      <section className="page-head">
+        <div className="wrap">
+          <div className="eyebrow">{copy("contact_eyebrow", c.kontaktai.eyebrow)}</div>
+          <h1>{copy("contact_heading", "Susisiekime.")}</h1>
+          <p className="lead">
+            {copy(
+              "contact_lead",
+              "Parašykite arba paskambinkite — vizito laiką suderinsime Jums patogiu metu.",
+            )}
+          </p>
+        </div>
+      </section>
 
-      <PageSection>
-        {contact.address || contact.phones.length > 0 || contact.email ? (
-          <div className="mx-auto grid max-w-7xl gap-12 sm:grid-cols-3">
-            {contact.address ? (
-              <Reveal>
-                <h2 className="label-caps text-stone/80">{kontaktai.addressLabel}</h2>
-                <address className="mt-3 text-base not-italic leading-relaxed text-ink">
-                  {contact.address}
-                </address>
-              </Reveal>
-            ) : null}
-
-            {contact.phones.length > 0 ? (
-              <Reveal delay={80}>
-                <h2 className="label-caps text-stone/80">{kontaktai.phonesLabel}</h2>
-                <div className="mt-3 space-y-2 text-base text-ink">
-                  {contact.phones.map((phone) => (
-                    <p key={phone}>
-                      <a className="hover:text-sage" href={`tel:${phone.replace(/\s/g, "")}`}>
-                        {phone}
-                      </a>
-                    </p>
-                  ))}
+      <section className="page-body">
+        <div className="wrap">
+          {address || settings.phone || settings.email ? (
+            <div className="info-grid">
+              {address ? (
+                <div className="info-card">
+                  <h2>{c.kontaktai.addressLabel}</h2>
+                  <address>{address}</address>
                 </div>
-              </Reveal>
-            ) : null}
+              ) : null}
+              {settings.phone ? (
+                <div className="info-card">
+                  <h2>{c.kontaktai.phonesLabel}</h2>
+                  <a href={`tel:${settings.phone.replace(/\s/g, "")}`}>{settings.phone}</a>
+                </div>
+              ) : null}
+              {settings.email ? (
+                <div className="info-card">
+                  <h2>{c.kontaktai.emailLabel}</h2>
+                  <a href={`mailto:${settings.email}`}>{settings.email}</a>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
 
-            {contact.email ? (
-              <Reveal delay={160}>
-                <h2 className="label-caps text-stone/80">{kontaktai.emailLabel}</h2>
-                <p className="mt-3 text-base text-ink">
-                  <a className="hover:text-sage" href={`mailto:${contact.email}`}>
-                    {contact.email}
-                  </a>
-                </p>
-              </Reveal>
-            ) : null}
-          </div>
-        ) : null}
-
-        <Reveal delay={80} className="mt-16">
-          <div className="mx-auto max-w-7xl">
+          <div style={{ marginTop: "56px" }}>
             <ContactForm />
           </div>
-        </Reveal>
-      </PageSection>
+        </div>
+      </section>
     </>
   );
 }
