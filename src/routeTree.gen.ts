@@ -37,6 +37,7 @@ import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
 import { Route as EnPaslaugosIndexRouteImport } from './routes/en/paslaugos.index'
+import { Route as EnPaslaugosSlugRouteImport } from './routes/en/paslaugos.$slug'
 import { Route as AuthenticatedAdminWebsiteAboutRouteImport } from './routes/_authenticated/admin.website.about'
 import { Route as AuthenticatedAdminWebsiteContactRouteImport } from './routes/_authenticated/admin.website.contact'
 import { Route as AuthenticatedAdminWebsiteHomeRouteImport } from './routes/_authenticated/admin.website.home'
@@ -186,6 +187,11 @@ const EnPaslaugosIndexRoute = EnPaslaugosIndexRouteImport.update({
   path: '/',
   getParentRoute: () => EnPaslaugosRoute,
 } as any)
+const EnPaslaugosSlugRoute = EnPaslaugosSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => EnPaslaugosRoute,
+} as any)
 const AuthenticatedAdminWebsiteAboutRoute =
   AuthenticatedAdminWebsiteAboutRouteImport.update({
     id: '/website/about',
@@ -246,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
   '/en/paslaugos/': typeof EnPaslaugosIndexRoute
@@ -275,6 +282,7 @@ export interface FileRoutesByTo {
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/en/apie': typeof EnApieIndexRoute
   '/en/paslaugos': typeof EnPaslaugosIndexRoute
@@ -312,6 +320,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
   '/en/paslaugos/': typeof EnPaslaugosIndexRoute
@@ -349,6 +358,7 @@ export interface FileRouteTypes {
     | '/admin/inquiries'
     | '/admin/settings'
     | '/admin/users'
+    | '/en/paslaugos/$slug'
     | '/admin/'
     | '/en/apie/'
     | '/en/paslaugos/'
@@ -378,6 +388,7 @@ export interface FileRouteTypes {
     | '/admin/inquiries'
     | '/admin/settings'
     | '/admin/users'
+    | '/en/paslaugos/$slug'
     | '/admin'
     | '/en/apie'
     | '/en/paslaugos'
@@ -414,6 +425,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/inquiries'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
+    | '/en/paslaugos/$slug'
     | '/_authenticated/admin/'
     | '/en/apie/'
     | '/en/paslaugos/'
@@ -639,6 +651,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnPaslaugosIndexRouteImport
       parentRoute: typeof EnPaslaugosRoute
     }
+    '/en/paslaugos/$slug': {
+      id: '/en/paslaugos/$slug'
+      path: '/$slug'
+      fullPath: '/en/paslaugos/$slug'
+      preLoaderRoute: typeof EnPaslaugosSlugRouteImport
+      parentRoute: typeof EnPaslaugosRoute
+    }
     '/_authenticated/admin/website/about': {
       id: '/_authenticated/admin/website/about'
       path: '/website/about'
@@ -735,10 +754,12 @@ const EnApieRouteWithChildren =
   EnApieRoute._addFileChildren(EnApieRouteChildren)
 
 interface EnPaslaugosRouteChildren {
+  EnPaslaugosSlugRoute: typeof EnPaslaugosSlugRoute
   EnPaslaugosIndexRoute: typeof EnPaslaugosIndexRoute
 }
 
 const EnPaslaugosRouteChildren: EnPaslaugosRouteChildren = {
+  EnPaslaugosSlugRoute: EnPaslaugosSlugRoute,
   EnPaslaugosIndexRoute: EnPaslaugosIndexRoute,
 }
 
