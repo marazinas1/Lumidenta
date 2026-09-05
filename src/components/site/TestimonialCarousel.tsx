@@ -10,7 +10,7 @@ const PER_VIEW = 3;
  * so the arrows never dead-end. Rendered from the SSR-primed list, so the
  * first page is in the HTML the crawler reads.
  */
-export function TestimonialCarousel({ items }: { items: Testimonial[] }) {
+export function TestimonialCarousel({ items }: { items: TestimonialRow[] }) {
   const [start, setStart] = useState(0);
 
   if (items.length === 0) return null;
