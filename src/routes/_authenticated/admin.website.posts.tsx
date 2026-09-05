@@ -152,7 +152,7 @@ function PostsEditor() {
             return (
               <div key={id} className="rounded-xl border border-border/70">
                 <div className="flex flex-wrap items-center gap-3 p-4">
-                  <div className="min-w-0 flex-1">
+                  <div className="w-full min-w-0 sm:w-auto sm:flex-1">
                     <p className="truncate text-sm font-medium">{String(record['title'] ?? "")}</p>
                     <p className="truncate text-xs text-muted-foreground">
                       /straipsniai/{String(record['slug'] ?? "")} ·{" "}

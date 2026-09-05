@@ -138,15 +138,16 @@ export function PageImageSlot({
 
   return (
     <div className="space-y-3 rounded-xl border border-border/70 p-4">
-      <div className="flex items-start justify-between gap-3">
-        <div>
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+        <div className="min-w-0">
           <Label className="text-sm">{label}</Label>
           {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}
         </div>
-        <span className="whitespace-nowrap text-[11px] uppercase tracking-wide text-muted-foreground">
+        <span className="whitespace-nowrap text-[11px] uppercase tracking-wide text-muted-foreground sm:order-2">
           {layer}
         </span>
       </div>
+
 
       <div
         className="relative w-full max-w-[240px] overflow-hidden rounded-lg bg-muted"

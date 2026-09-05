@@ -121,7 +121,7 @@ function TestimonialsEditor() {
             return (
               <div key={id} className="rounded-xl border border-border/70">
                 <div className="flex flex-wrap items-center gap-3 p-4">
-                  <div className="min-w-0 flex-1">
+                  <div className="w-full min-w-0 sm:w-auto sm:flex-1">
                     <p className="truncate text-sm">{String(row['quote'] ?? "")}</p>
                     <p className="truncate text-xs text-muted-foreground">
                       {String(row['author_name'] ?? "")} · eilė {String(row['sort_order'] ?? 0)}
