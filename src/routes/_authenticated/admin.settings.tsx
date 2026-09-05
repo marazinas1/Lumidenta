@@ -2,7 +2,8 @@ import { ReadOnlyNotice, useCanEdit } from "@/components/admin/ReadOnlyNotice";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Upload, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CATALOG_KEY, catalogQuery } from "@/lib/catalog";
 import { saveSiteSettings } from "@/lib/catalog-admin.functions";
+import { uploadFaviconToStorage } from "@/lib/image-optimize";
 
 export const Route = createFileRoute("/_authenticated/admin/settings")({
   component: SettingsPage,
@@ -26,6 +28,7 @@ type Form = {
   aspi_licence: string;
   facebook_url: string;
   map_url: string;
+  favicon_path: string;
 };
 
 const FIELDS: { key: keyof Form; label: string; hint?: string }[] = [
@@ -52,6 +55,7 @@ const EMPTY: Form = {
   aspi_licence: "",
   facebook_url: "",
   map_url: "",
+  favicon_path: "",
 };
 
 function SettingsPage() {
@@ -75,8 +79,48 @@ function SettingsPage() {
       aspi_licence: s.aspiLicence,
       facebook_url: s.facebookUrl,
       map_url: s.mapUrl,
+      favicon_path: s.faviconPath,
     });
   }, [data]);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const faviconUrl = form.favicon_path
+    ? (data?.settings.faviconUrl ?? null) && form.favicon_path === data?.settings.faviconPath
+      ? data.settings.faviconUrl
+      : null
+    : null;
+
+  async function onFaviconFile(file: File) {
+    setUploading(true);
+    try {
+      const uploaded = await uploadFaviconToStorage(file);
+      await save({ data: { ...form, favicon_path: uploaded.path } });
+      setForm((f) => ({ ...f, favicon_path: uploaded.path }));
+      await queryClient.invalidateQueries({ queryKey: CATALOG_KEY });
+      toast.success("Ikona įkelta. Naršyklė ją atnaujins po kelių minučių.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Nepavyko įkelti ikonos");
+    } finally {
+      setUploading(false);
+      if (inputRef.current) inputRef.current.value = "";
+    }
+  }
+
+  async function resetFavicon() {
+    setUploading(true);
+    try {
+      await save({ data: { ...form, favicon_path: "" } });
+      setForm((f) => ({ ...f, favicon_path: "" }));
+      await queryClient.invalidateQueries({ queryKey: CATALOG_KEY });
+      toast.success("Atstatyta numatytoji „L“ ikona.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Nepavyko atstatyti");
+    } finally {
+      setUploading(false);
+    }
+  }
 
   const mutation = useMutation({
     mutationFn: () => save({ data: form }),
@@ -119,6 +163,51 @@ function SettingsPage() {
           <Button onClick={() => mutation.mutate()} disabled={mutation.isPending}>
             {mutation.isPending ? "Saugoma…" : "Išsaugoti"}
           </Button>
+        </section>
+      )}
+
+      {isLoading ? null : (
+        <section className="space-y-4 rounded-xl border border-border/70 p-5">
+          <div>
+            <Label>Svetainės ikona (favicon)</Label>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Maža ikona naršyklės kortelėje ir telefono ekrane. Geriausiai tinka kvadratinis PNG
+              paveikslėlis. Kol nieko neįkelta, rodoma numatytoji „L“ ikona.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl border border-border/70 bg-muted">
+              <img
+                src={faviconUrl ?? "/api/public/favicon"}
+                alt="Svetainės ikona"
+                className="h-12 w-12 object-contain"
+              />
+            </div>
+            <input
+              ref={inputRef}
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/svg+xml"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) void onFaviconFile(file);
+              }}
+            />
+            <Button type="button" size="sm" disabled={uploading} onClick={() => inputRef.current?.click()}>
+              {uploading ? (
+                <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Upload className="mr-1 h-3.5 w-3.5" />
+              )}
+              Įkelti ikoną
+            </Button>
+            {form.favicon_path ? (
+              <Button type="button" size="sm" variant="ghost" disabled={uploading} onClick={() => void resetFavicon()}>
+                Atstatyti „L“ ikoną
+              </Button>
+            ) : null}
+          </div>
         </section>
       )}
     </fieldset>
