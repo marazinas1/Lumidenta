@@ -1,7 +1,7 @@
 import { notFound, useParams } from "@tanstack/react-router";
 
 import { LocaleLink } from "@/components/site/LocaleLink";
-import { Reveal, RevealItems } from "@/components/site/Reveal";
+import { RevealItems } from "@/components/site/Reveal";
 import { getContent } from "@/content";
 import { ensureCatalog, useCatalog } from "@/lib/catalog";
 import type { PostRow } from "@/lib/catalog.functions";

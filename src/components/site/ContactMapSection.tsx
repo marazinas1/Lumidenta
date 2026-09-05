@@ -20,7 +20,7 @@ export function ContactMapSection({ address }: { address: string }) {
           io.disconnect();
         }
       },
-      { rootMargin: "300px" },
+      { rootMargin: "200px" },
     );
     io.observe(node);
     return () => io.disconnect();
