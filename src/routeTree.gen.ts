@@ -17,6 +17,7 @@ import { Route as EnRouteRouteImport } from './routes/en/route'
 import { Route as KontaktaiRouteImport } from './routes/kontaktai'
 import { Route as PaslaugosRouteImport } from './routes/paslaugos'
 import { Route as PrivatumoPolitikaRouteImport } from './routes/privatumo-politika'
+import { Route as RegistracijaRouteImport } from './routes/registracija'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StraipsniaiRouteImport } from './routes/straipsniai'
@@ -36,7 +37,9 @@ import { Route as StraipsniaiIndexRouteImport } from './routes/straipsniai.index
 import { Route as StraipsniaiSlugRouteImport } from './routes/straipsniai.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
+import { Route as AuthenticatedAdminCalendarRouteImport } from './routes/_authenticated/admin.calendar'
 import { Route as AuthenticatedAdminInquiriesRouteImport } from './routes/_authenticated/admin.inquiries'
+import { Route as AuthenticatedAdminScheduleRouteImport } from './routes/_authenticated/admin.schedule'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as ApiPublicFaviconRouteImport } from './routes/api/public/favicon'
@@ -91,6 +94,11 @@ const PaslaugosRoute = PaslaugosRouteImport.update({
 const PrivatumoPolitikaRoute = PrivatumoPolitikaRouteImport.update({
   id: '/privatumo-politika',
   path: '/privatumo-politika',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegistracijaRoute = RegistracijaRouteImport.update({
+  id: '/registracija',
+  path: '/registracija',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -189,10 +197,22 @@ const AuthenticatedAdminAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminCalendarRoute =
+  AuthenticatedAdminCalendarRouteImport.update({
+    id: '/calendar',
+    path: '/calendar',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminInquiriesRoute =
   AuthenticatedAdminInquiriesRouteImport.update({
     id: '/inquiries',
     path: '/inquiries',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminScheduleRoute =
+  AuthenticatedAdminScheduleRouteImport.update({
+    id: '/schedule',
+    path: '/schedule',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminSettingsRoute =
@@ -291,6 +311,7 @@ export interface FileRoutesByFullPath {
   '/kontaktai': typeof KontaktaiRoute
   '/paslaugos': typeof PaslaugosRouteWithChildren
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
+  '/registracija': typeof RegistracijaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/straipsniai': typeof StraipsniaiRouteWithChildren
@@ -309,7 +330,9 @@ export interface FileRoutesByFullPath {
   '/paslaugos/': typeof PaslaugosIndexRoute
   '/straipsniai/': typeof StraipsniaiIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/calendar': typeof AuthenticatedAdminCalendarRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
+  '/admin/schedule': typeof AuthenticatedAdminScheduleRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/api/public/favicon': typeof ApiPublicFaviconRoute
@@ -333,6 +356,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/kontaktai': typeof KontaktaiRoute
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
+  '/registracija': typeof RegistracijaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/taisykles': typeof TaisyklesRoute
@@ -346,7 +370,9 @@ export interface FileRoutesByTo {
   '/paslaugos': typeof PaslaugosIndexRoute
   '/straipsniai': typeof StraipsniaiIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/calendar': typeof AuthenticatedAdminCalendarRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
+  '/admin/schedule': typeof AuthenticatedAdminScheduleRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/api/public/favicon': typeof ApiPublicFaviconRoute
@@ -375,6 +401,7 @@ export interface FileRoutesById {
   '/kontaktai': typeof KontaktaiRoute
   '/paslaugos': typeof PaslaugosRouteWithChildren
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
+  '/registracija': typeof RegistracijaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/straipsniai': typeof StraipsniaiRouteWithChildren
@@ -393,7 +420,9 @@ export interface FileRoutesById {
   '/paslaugos/': typeof PaslaugosIndexRoute
   '/straipsniai/': typeof StraipsniaiIndexRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/_authenticated/admin/calendar': typeof AuthenticatedAdminCalendarRoute
   '/_authenticated/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
+  '/_authenticated/admin/schedule': typeof AuthenticatedAdminScheduleRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/api/public/favicon': typeof ApiPublicFaviconRoute
@@ -422,6 +451,7 @@ export interface FileRouteTypes {
     | '/kontaktai'
     | '/paslaugos'
     | '/privatumo-politika'
+    | '/registracija'
     | '/reset-password'
     | '/sitemap.xml'
     | '/straipsniai'
@@ -440,7 +470,9 @@ export interface FileRouteTypes {
     | '/paslaugos/'
     | '/straipsniai/'
     | '/admin/analytics'
+    | '/admin/calendar'
     | '/admin/inquiries'
+    | '/admin/schedule'
     | '/admin/settings'
     | '/admin/users'
     | '/api/public/favicon'
@@ -464,6 +496,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/kontaktai'
     | '/privatumo-politika'
+    | '/registracija'
     | '/reset-password'
     | '/sitemap.xml'
     | '/taisykles'
@@ -477,7 +510,9 @@ export interface FileRouteTypes {
     | '/paslaugos'
     | '/straipsniai'
     | '/admin/analytics'
+    | '/admin/calendar'
     | '/admin/inquiries'
+    | '/admin/schedule'
     | '/admin/settings'
     | '/admin/users'
     | '/api/public/favicon'
@@ -505,6 +540,7 @@ export interface FileRouteTypes {
     | '/kontaktai'
     | '/paslaugos'
     | '/privatumo-politika'
+    | '/registracija'
     | '/reset-password'
     | '/sitemap.xml'
     | '/straipsniai'
@@ -523,7 +559,9 @@ export interface FileRouteTypes {
     | '/paslaugos/'
     | '/straipsniai/'
     | '/_authenticated/admin/analytics'
+    | '/_authenticated/admin/calendar'
     | '/_authenticated/admin/inquiries'
+    | '/_authenticated/admin/schedule'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
     | '/api/public/favicon'
@@ -552,6 +590,7 @@ export interface RootRouteChildren {
   KontaktaiRoute: typeof KontaktaiRoute
   PaslaugosRoute: typeof PaslaugosRouteWithChildren
   PrivatumoPolitikaRoute: typeof PrivatumoPolitikaRoute
+  RegistracijaRoute: typeof RegistracijaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StraipsniaiRoute: typeof StraipsniaiRouteWithChildren
@@ -617,6 +656,13 @@ declare module '@tanstack/react-router' {
       path: '/privatumo-politika'
       fullPath: '/privatumo-politika'
       preLoaderRoute: typeof PrivatumoPolitikaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/registracija': {
+      id: '/registracija'
+      path: '/registracija'
+      fullPath: '/registracija'
+      preLoaderRoute: typeof RegistracijaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -752,11 +798,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/calendar': {
+      id: '/_authenticated/admin/calendar'
+      path: '/calendar'
+      fullPath: '/admin/calendar'
+      preLoaderRoute: typeof AuthenticatedAdminCalendarRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/inquiries': {
       id: '/_authenticated/admin/inquiries'
       path: '/inquiries'
       fullPath: '/admin/inquiries'
       preLoaderRoute: typeof AuthenticatedAdminInquiriesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/schedule': {
+      id: '/_authenticated/admin/schedule'
+      path: '/schedule'
+      fullPath: '/admin/schedule'
+      preLoaderRoute: typeof AuthenticatedAdminScheduleRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/settings': {
@@ -876,7 +936,9 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminCalendarRoute: typeof AuthenticatedAdminCalendarRoute
   AuthenticatedAdminInquiriesRoute: typeof AuthenticatedAdminInquiriesRoute
+  AuthenticatedAdminScheduleRoute: typeof AuthenticatedAdminScheduleRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
@@ -890,7 +952,9 @@ interface AuthenticatedAdminRouteChildren {
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+  AuthenticatedAdminCalendarRoute: AuthenticatedAdminCalendarRoute,
   AuthenticatedAdminInquiriesRoute: AuthenticatedAdminInquiriesRoute,
+  AuthenticatedAdminScheduleRoute: AuthenticatedAdminScheduleRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
@@ -1027,6 +1091,7 @@ const rootRouteChildren: RootRouteChildren = {
   KontaktaiRoute: KontaktaiRoute,
   PaslaugosRoute: PaslaugosRouteWithChildren,
   PrivatumoPolitikaRoute: PrivatumoPolitikaRoute,
+  RegistracijaRoute: RegistracijaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StraipsniaiRoute: StraipsniaiRouteWithChildren,
