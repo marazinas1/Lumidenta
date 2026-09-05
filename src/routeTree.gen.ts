@@ -15,6 +15,7 @@ import { Route as ApieRouteImport } from './routes/apie'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as EnRouteRouteImport } from './routes/en/route'
 import { Route as KontaktaiRouteImport } from './routes/kontaktai'
+import { Route as PaslaugosRouteImport } from './routes/paslaugos'
 import { Route as PrivatumoPolitikaRouteImport } from './routes/privatumo-politika'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -66,6 +67,11 @@ const EnRouteRoute = EnRouteRouteImport.update({
 const KontaktaiRoute = KontaktaiRouteImport.update({
   id: '/kontaktai',
   path: '/kontaktai',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaslaugosRoute = PaslaugosRouteImport.update({
+  id: '/paslaugos',
+  path: '/paslaugos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivatumoPolitikaRoute = PrivatumoPolitikaRouteImport.update({
@@ -197,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/apie': typeof ApieRouteWithChildren
   '/auth': typeof AuthRoute
   '/kontaktai': typeof KontaktaiRoute
+  '/paslaugos': typeof PaslaugosRoute
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -225,6 +232,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/kontaktai': typeof KontaktaiRoute
+  '/paslaugos': typeof PaslaugosRoute
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -255,6 +263,7 @@ export interface FileRoutesById {
   '/apie': typeof ApieRouteWithChildren
   '/auth': typeof AuthRoute
   '/kontaktai': typeof KontaktaiRoute
+  '/paslaugos': typeof PaslaugosRoute
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -287,6 +296,7 @@ export interface FileRouteTypes {
     | '/apie'
     | '/auth'
     | '/kontaktai'
+    | '/paslaugos'
     | '/privatumo-politika'
     | '/reset-password'
     | '/sitemap.xml'
@@ -315,6 +325,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/kontaktai'
+    | '/paslaugos'
     | '/privatumo-politika'
     | '/reset-password'
     | '/sitemap.xml'
@@ -344,6 +355,7 @@ export interface FileRouteTypes {
     | '/apie'
     | '/auth'
     | '/kontaktai'
+    | '/paslaugos'
     | '/privatumo-politika'
     | '/reset-password'
     | '/sitemap.xml'
@@ -376,6 +388,7 @@ export interface RootRouteChildren {
   ApieRoute: typeof ApieRouteWithChildren
   AuthRoute: typeof AuthRoute
   KontaktaiRoute: typeof KontaktaiRoute
+  PaslaugosRoute: typeof PaslaugosRoute
   PrivatumoPolitikaRoute: typeof PrivatumoPolitikaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -426,6 +439,13 @@ declare module '@tanstack/react-router' {
       path: '/kontaktai'
       fullPath: '/kontaktai'
       preLoaderRoute: typeof KontaktaiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paslaugos': {
+      id: '/paslaugos'
+      path: '/paslaugos'
+      fullPath: '/paslaugos'
+      preLoaderRoute: typeof PaslaugosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privatumo-politika': {
@@ -678,6 +698,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApieRoute: ApieRouteWithChildren,
   AuthRoute: AuthRoute,
   KontaktaiRoute: KontaktaiRoute,
+  PaslaugosRoute: PaslaugosRoute,
   PrivatumoPolitikaRoute: PrivatumoPolitikaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
