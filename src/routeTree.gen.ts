@@ -42,6 +42,7 @@ import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authentic
 import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
 import { Route as EnPaslaugosIndexRouteImport } from './routes/en/paslaugos.index'
 import { Route as EnPaslaugosSlugRouteImport } from './routes/en/paslaugos.$slug'
+import { Route as EnStraipsniaiIndexRouteImport } from './routes/en/straipsniai.index'
 import { Route as AuthenticatedAdminWebsiteAboutRouteImport } from './routes/_authenticated/admin.website.about'
 import { Route as AuthenticatedAdminWebsiteContactRouteImport } from './routes/_authenticated/admin.website.contact'
 import { Route as AuthenticatedAdminWebsiteHomeRouteImport } from './routes/_authenticated/admin.website.home'
@@ -217,6 +218,11 @@ const EnPaslaugosSlugRoute = EnPaslaugosSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => EnPaslaugosRoute,
 } as any)
+const EnStraipsniaiIndexRoute = EnStraipsniaiIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EnStraipsniaiRoute,
+} as any)
 const AuthenticatedAdminWebsiteAboutRoute =
   AuthenticatedAdminWebsiteAboutRouteImport.update({
     id: '/website/about',
@@ -275,7 +281,7 @@ export interface FileRoutesByFullPath {
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/paslaugos': typeof EnPaslaugosRouteWithChildren
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
-  '/en/straipsniai': typeof EnStraipsniaiRoute
+  '/en/straipsniai': typeof EnStraipsniaiRouteWithChildren
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
   '/straipsniai/$slug': typeof StraipsniaiSlugRoute
@@ -291,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
   '/en/paslaugos/': typeof EnPaslaugosIndexRoute
+  '/en/straipsniai/': typeof EnStraipsniaiIndexRoute
   '/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
@@ -309,7 +316,6 @@ export interface FileRoutesByTo {
   '/taisykles': typeof TaisyklesRoute
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
-  '/en/straipsniai': typeof EnStraipsniaiRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
   '/straipsniai/$slug': typeof StraipsniaiSlugRoute
@@ -325,6 +331,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/en/apie': typeof EnApieIndexRoute
   '/en/paslaugos': typeof EnPaslaugosIndexRoute
+  '/en/straipsniai': typeof EnStraipsniaiIndexRoute
   '/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
@@ -352,7 +359,7 @@ export interface FileRoutesById {
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/paslaugos': typeof EnPaslaugosRouteWithChildren
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
-  '/en/straipsniai': typeof EnStraipsniaiRoute
+  '/en/straipsniai': typeof EnStraipsniaiRouteWithChildren
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
   '/straipsniai/$slug': typeof StraipsniaiSlugRoute
@@ -368,6 +375,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/en/apie/': typeof EnApieIndexRoute
   '/en/paslaugos/': typeof EnPaslaugosIndexRoute
+  '/en/straipsniai/': typeof EnStraipsniaiIndexRoute
   '/_authenticated/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/_authenticated/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/_authenticated/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
@@ -411,6 +419,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/en/apie/'
     | '/en/paslaugos/'
+    | '/en/straipsniai/'
     | '/admin/website/about'
     | '/admin/website/contact'
     | '/admin/website/home'
@@ -429,7 +438,6 @@ export interface FileRouteTypes {
     | '/taisykles'
     | '/en/kontaktai'
     | '/en/privatumo-politika'
-    | '/en/straipsniai'
     | '/en/taisykles'
     | '/paslaugos/$slug'
     | '/straipsniai/$slug'
@@ -445,6 +453,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/en/apie'
     | '/en/paslaugos'
+    | '/en/straipsniai'
     | '/admin/website/about'
     | '/admin/website/contact'
     | '/admin/website/home'
@@ -487,6 +496,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/'
     | '/en/apie/'
     | '/en/paslaugos/'
+    | '/en/straipsniai/'
     | '/_authenticated/admin/website/about'
     | '/_authenticated/admin/website/contact'
     | '/_authenticated/admin/website/home'
@@ -746,6 +756,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnPaslaugosSlugRouteImport
       parentRoute: typeof EnPaslaugosRoute
     }
+    '/en/straipsniai/': {
+      id: '/en/straipsniai/'
+      path: '/'
+      fullPath: '/en/straipsniai/'
+      preLoaderRoute: typeof EnStraipsniaiIndexRouteImport
+      parentRoute: typeof EnStraipsniaiRoute
+    }
     '/_authenticated/admin/website/about': {
       id: '/_authenticated/admin/website/about'
       path: '/website/about'
@@ -865,12 +882,24 @@ const EnPaslaugosRouteWithChildren = EnPaslaugosRoute._addFileChildren(
   EnPaslaugosRouteChildren,
 )
 
+interface EnStraipsniaiRouteChildren {
+  EnStraipsniaiIndexRoute: typeof EnStraipsniaiIndexRoute
+}
+
+const EnStraipsniaiRouteChildren: EnStraipsniaiRouteChildren = {
+  EnStraipsniaiIndexRoute: EnStraipsniaiIndexRoute,
+}
+
+const EnStraipsniaiRouteWithChildren = EnStraipsniaiRoute._addFileChildren(
+  EnStraipsniaiRouteChildren,
+)
+
 interface EnRouteRouteChildren {
   EnApieRoute: typeof EnApieRouteWithChildren
   EnKontaktaiRoute: typeof EnKontaktaiRoute
   EnPaslaugosRoute: typeof EnPaslaugosRouteWithChildren
   EnPrivatumoPolitikaRoute: typeof EnPrivatumoPolitikaRoute
-  EnStraipsniaiRoute: typeof EnStraipsniaiRoute
+  EnStraipsniaiRoute: typeof EnStraipsniaiRouteWithChildren
   EnTaisyklesRoute: typeof EnTaisyklesRoute
   EnIndexRoute: typeof EnIndexRoute
 }
@@ -880,7 +909,7 @@ const EnRouteRouteChildren: EnRouteRouteChildren = {
   EnKontaktaiRoute: EnKontaktaiRoute,
   EnPaslaugosRoute: EnPaslaugosRouteWithChildren,
   EnPrivatumoPolitikaRoute: EnPrivatumoPolitikaRoute,
-  EnStraipsniaiRoute: EnStraipsniaiRoute,
+  EnStraipsniaiRoute: EnStraipsniaiRouteWithChildren,
   EnTaisyklesRoute: EnTaisyklesRoute,
   EnIndexRoute: EnIndexRoute,
 }
