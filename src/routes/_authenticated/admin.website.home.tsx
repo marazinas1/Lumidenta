@@ -86,6 +86,7 @@ const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
           "Nuo kasdienės profilaktikos iki sudėtingesnio atstatymo — sprendimas visada aptariamas kartu.",
         multiline: true,
       },
+      { slot: "services_all_button", label: "Mygtukas", fallback: "Visos paslaugos →" },
     ],
   },
   {
@@ -120,6 +121,18 @@ const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
         fallback: "Rami aplinka nerimaujantiems pacientams",
       },
       { slot: "touch_cta", label: "Mygtukas", fallback: "Apie mane →" },
+    ],
+  },
+  {
+    title: "Atsiliepimų sekcija",
+    note: "Patys atsiliepimai tvarkomi skyriuje „Atsiliepimai“.",
+    fields: [
+      { slot: "testimonials_heading", label: "Antraštė", fallback: "Ką sako" },
+      {
+        slot: "testimonials_heading_soft",
+        label: "Antraštės tęsinys (šviesus)",
+        fallback: "pacientai.",
+      },
     ],
   },
   {
