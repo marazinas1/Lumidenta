@@ -61,6 +61,8 @@ function AdminLayout() {
       label: "Darbo sritis",
       links: [
         { to: "/admin", label: "Apžvalga", icon: LayoutDashboard },
+        { to: "/admin/calendar", label: "Kalendorius", icon: CalendarDays },
+        { to: "/admin/schedule", label: "Darbo laikas", icon: Clock },
         { to: "/admin/inquiries", label: "Užklausos", icon: Inbox, badge: unread },
         { to: "/admin/analytics", label: "Analitika", icon: BarChart3 },
         ...(me.isOwner ? [{ to: "/admin/users", label: "Vartotojai", icon: Users }] : []),
