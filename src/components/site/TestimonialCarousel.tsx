@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import type { Testimonial } from "@/lib/catalog.functions";
+import type { TestimonialRow } from "@/lib/catalog.functions";
 
 const TONES = ["t1", "t2", "t3", "t4"] as const;
 const PER_VIEW = 3;
