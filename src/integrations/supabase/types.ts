@@ -176,6 +176,63 @@ export type Database = {
         }
         Relationships: []
       }
+      posts: {
+        Row: {
+          author: string
+          body: string
+          created_at: string
+          excerpt: string
+          id: string
+          image_alt: string
+          image_bucket: string
+          image_path: string | null
+          published: boolean
+          published_at: string
+          seo_description: string
+          seo_title: string
+          show_on_home: boolean
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author?: string
+          body?: string
+          created_at?: string
+          excerpt?: string
+          id?: string
+          image_alt?: string
+          image_bucket?: string
+          image_path?: string | null
+          published?: boolean
+          published_at?: string
+          seo_description?: string
+          seo_title?: string
+          show_on_home?: boolean
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          body?: string
+          created_at?: string
+          excerpt?: string
+          id?: string
+          image_alt?: string
+          image_bucket?: string
+          image_path?: string | null
+          published?: boolean
+          published_at?: string
+          seo_description?: string
+          seo_title?: string
+          show_on_home?: boolean
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           body: string
