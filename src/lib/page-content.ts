@@ -1,4 +1,4 @@
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery, type QueryClient } from "@tanstack/react-query";
 
 import type { Locale } from "@/lib/locale";
 import {
@@ -53,4 +53,9 @@ export function usePageContent(page: string, locale: Locale) {
     copy: (slot: string, fallback: string) => resolveCopy(content, page, slot, locale, fallback),
     image: (slot: string) => resolveImage(content, page, slot),
   };
+}
+
+/** Route-loader helper: warms the cache on the server so the copy is in the HTML. */
+export function ensurePageContent(context: { queryClient: QueryClient }) {
+  return context.queryClient.ensureQueryData(pageContentQuery);
 }
