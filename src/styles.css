@@ -478,7 +478,7 @@
 .luma .btn-line{background:transparent;color:var(--ink);border-color:var(--line);}
 .luma .btn-line:hover{background:transparent;}
 .luma .nav-toggle{display:none;border:1px solid var(--line);border-radius:var(--pill);padding:10px 14px;font-size:0.85rem;font-weight:600;}
-.luma .mobile-nav{display:none;flex-direction:column;gap:14px;padding:0 0 22px;border-bottom:1px solid var(--line);}
+.luma .mobile-nav{display:none;flex-direction:column;gap:14px;padding-bottom:22px;border-bottom:1px solid var(--line);}
 .luma .mobile-nav a{font-size:0.95rem;color:var(--ink-soft);font-weight:500;}
 @media (max-width:900px){
   .luma nav.primary{display:none;}
