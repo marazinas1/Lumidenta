@@ -25,6 +25,7 @@ import { Route as ApieIndexRouteImport } from './routes/apie.index'
 import { Route as EnIndexRouteImport } from './routes/en/index'
 import { Route as EnApieRouteImport } from './routes/en/apie'
 import { Route as EnKontaktaiRouteImport } from './routes/en/kontaktai'
+import { Route as EnPaslaugosRouteImport } from './routes/en/paslaugos'
 import { Route as EnPrivatumoPolitikaRouteImport } from './routes/en/privatumo-politika'
 import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
 import { Route as PaslaugosIndexRouteImport } from './routes/paslaugos.index'
@@ -119,6 +120,11 @@ const EnApieRoute = EnApieRouteImport.update({
 const EnKontaktaiRoute = EnKontaktaiRouteImport.update({
   id: '/kontaktai',
   path: '/kontaktai',
+  getParentRoute: () => EnRouteRoute,
+} as any)
+const EnPaslaugosRoute = EnPaslaugosRouteImport.update({
+  id: '/paslaugos',
+  path: '/paslaugos',
   getParentRoute: () => EnRouteRoute,
 } as any)
 const EnPrivatumoPolitikaRoute = EnPrivatumoPolitikaRouteImport.update({
@@ -223,6 +229,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
   '/en/kontaktai': typeof EnKontaktaiRoute
+  '/en/paslaugos': typeof EnPaslaugosRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
@@ -251,6 +258,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/taisykles': typeof TaisyklesRoute
   '/en/kontaktai': typeof EnKontaktaiRoute
+  '/en/paslaugos': typeof EnPaslaugosRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
@@ -286,6 +294,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
   '/en/kontaktai': typeof EnKontaktaiRoute
+  '/en/paslaugos': typeof EnPaslaugosRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
   '/en/taisykles': typeof EnTaisyklesRoute
   '/paslaugos/$slug': typeof PaslaugosSlugRoute
@@ -321,6 +330,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/en/apie'
     | '/en/kontaktai'
+    | '/en/paslaugos'
     | '/en/privatumo-politika'
     | '/en/taisykles'
     | '/paslaugos/$slug'
@@ -349,6 +359,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/taisykles'
     | '/en/kontaktai'
+    | '/en/paslaugos'
     | '/en/privatumo-politika'
     | '/en/taisykles'
     | '/paslaugos/$slug'
@@ -383,6 +394,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/en/apie'
     | '/en/kontaktai'
+    | '/en/paslaugos'
     | '/en/privatumo-politika'
     | '/en/taisykles'
     | '/paslaugos/$slug'
@@ -531,6 +543,13 @@ declare module '@tanstack/react-router' {
       path: '/kontaktai'
       fullPath: '/en/kontaktai'
       preLoaderRoute: typeof EnKontaktaiRouteImport
+      parentRoute: typeof EnRouteRoute
+    }
+    '/en/paslaugos': {
+      id: '/en/paslaugos'
+      path: '/paslaugos'
+      fullPath: '/en/paslaugos'
+      preLoaderRoute: typeof EnPaslaugosRouteImport
       parentRoute: typeof EnRouteRoute
     }
     '/en/privatumo-politika': {
@@ -701,6 +720,7 @@ const EnApieRouteWithChildren =
 interface EnRouteRouteChildren {
   EnApieRoute: typeof EnApieRouteWithChildren
   EnKontaktaiRoute: typeof EnKontaktaiRoute
+  EnPaslaugosRoute: typeof EnPaslaugosRoute
   EnPrivatumoPolitikaRoute: typeof EnPrivatumoPolitikaRoute
   EnTaisyklesRoute: typeof EnTaisyklesRoute
   EnIndexRoute: typeof EnIndexRoute
@@ -709,6 +729,7 @@ interface EnRouteRouteChildren {
 const EnRouteRouteChildren: EnRouteRouteChildren = {
   EnApieRoute: EnApieRouteWithChildren,
   EnKontaktaiRoute: EnKontaktaiRoute,
+  EnPaslaugosRoute: EnPaslaugosRoute,
   EnPrivatumoPolitikaRoute: EnPrivatumoPolitikaRoute,
   EnTaisyklesRoute: EnTaisyklesRoute,
   EnIndexRoute: EnIndexRoute,
