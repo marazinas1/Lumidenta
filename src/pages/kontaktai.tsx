@@ -84,7 +84,7 @@ function ContactsPage({ locale }: { locale: Locale }) {
               >
                 Atidaryti žemėlapyje →
               </a>
-            </p>
+            </address>
           ) : null}
 
 
