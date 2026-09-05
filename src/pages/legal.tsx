@@ -2,6 +2,7 @@ import { LegalDocumentPage, type LegalDocumentData } from "@/components/site/Leg
 import { getContent, useContent } from "@/content";
 import type { Locale } from "@/lib/locale";
 import { useLooseLoaderData } from "@/lib/route-data";
+import { ensurePageContent, type ContentLoaderArgs } from "@/lib/page-content";
 import { pageHead } from "@/lib/seo";
 
 type LegalLoaderData = { doc: LegalDocumentData | null };
@@ -12,7 +13,10 @@ export function legalRoute(locale: Locale, kind: Kind) {
   const c = getContent(locale);
   const doc = c.legal[kind];
   return {
-    loader: async (): Promise<LegalLoaderData> => ({ doc: null }),
+    loader: async ({ context }: ContentLoaderArgs): Promise<LegalLoaderData> => {
+      await ensurePageContent(context);
+      return { doc: null };
+    },
     head: () => ({
       ...pageHead({
         path: doc.path,

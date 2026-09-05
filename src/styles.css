@@ -498,6 +498,7 @@
 .luma .hero-photo{position:relative;aspect-ratio:3/3.7;border-radius:var(--lradius);overflow:hidden;
   background:linear-gradient(155deg,#DCE7CE 0%,#C7D9B4 55%,#B7CDA0 100%);
   display:flex;align-items:center;justify-content:center;}
+.luma .hero-photo img,.luma .touch-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
 .luma .hero-photo-label{font-size:0.82rem;color:var(--sage-deep);text-align:center;padding:0 24px;}
 .luma .float-card{
   position:absolute;background:var(--card);border-radius:14px;padding:13px 16px;

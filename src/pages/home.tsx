@@ -1,11 +1,20 @@
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { getContent } from "@/content";
 import type { Locale } from "@/lib/locale";
+import { ensurePageContent, usePageContent, type ContentLoaderArgs } from "@/lib/page-content";
 import { pageHead } from "@/lib/seo";
+
+const PAGE = "home";
 
 export function homeRoute(locale: Locale) {
   const c = getContent(locale);
   return {
+    // Fetched on the server before the HTML is sent, so the copy and photographs
+    // are in the markup the crawler parses rather than requested after hydration.
+    loader: async ({ context }: ContentLoaderArgs) => {
+      await ensurePageContent(context);
+      return null;
+    },
     head: () => ({
       ...pageHead({
         path: "/",
@@ -14,7 +23,7 @@ export function homeRoute(locale: Locale) {
         locale,
       }),
     }),
-    component: Index,
+    component: () => <Index locale={locale} />,
   };
 }
 
@@ -49,51 +58,64 @@ const services = [
   },
 ];
 
-function Index() {
+function Index({ locale }: { locale: Locale }) {
+  const { copy, image } = usePageContent(PAGE, locale);
+  const heroPortrait = image("hero_portrait");
+  const touchPhoto = image("touch_photo");
+
   return (
     <>
       <section className="hero">
         <div className="wrap hero-grid">
           <div>
-            <div className="eyebrow">Individuali odontologijos praktika Vilniuje</div>
+            <div className="eyebrow">
+              {copy("hero_eyebrow", "Individuali odontologijos praktika Vilniuje")}
+            </div>
             <h1>
-              Dantų priežiūra, paremta <span className="mark">kantrybe</span>.
+              {copy("hero_heading", "Dantų priežiūra, paremta")}{" "}
+              <span className="mark">{copy("hero_heading_mark", "kantrybe")}</span>.
             </h1>
             <p className="lead">
-              Tausojantis gydymas, aiškiai paaiškintas planas ir sprendimai, parinkti pagal Jūsų
-              situaciją — ne pagal šabloną.
+              {copy(
+                "hero_lead",
+                "Tausojantis gydymas, aiškiai paaiškintas planas ir sprendimai, parinkti pagal Jūsų situaciją — ne pagal šabloną.",
+              )}
             </p>
             <div className="hero-actions">
               <LocaleLink to="/kontaktai" className="btn">
-                Registruotis vizitui →
+                {copy("hero_cta_primary", "Registruotis vizitui →")}
               </LocaleLink>
               <LocaleLink to="/apie" className="btn btn-ghost">
-                Apie mano praktiką
+                {copy("hero_cta_secondary", "Apie mano praktiką")}
               </LocaleLink>
             </div>
             <div className="hero-note">
-              Gyd. odontologė Erika · priimu Braškių g. 2B-1, Vilnius
+              {copy("hero_note", "Gyd. odontologė Erika · priimu Braškių g. 2B-1, Vilnius")}
             </div>
           </div>
 
           <div className="hero-photo">
-            <div className="hero-photo-label">
-              Erikos portretas kabinete
-              <br />
-              (vietos rezervuota)
-            </div>
+            {heroPortrait ? (
+              <img src={heroPortrait.url} alt={heroPortrait.alt || "Gyd. odontologė Erika"} loading="eager" />
+            ) : (
+              <div className="hero-photo-label">
+                Erikos portretas kabinete
+                <br />
+                (vietos rezervuota)
+              </div>
+            )}
             <div className="float-card fc1">
               <div className="ic">📍</div>
               <div>
-                <strong>Priėmimo vieta</strong>
-                <span>Braškių g. 2B-1, Vilnius</span>
+                <strong>{copy("hero_card1_title", "Priėmimo vieta")}</strong>
+                <span>{copy("hero_card1_text", "Braškių g. 2B-1, Vilnius")}</span>
               </div>
             </div>
             <div className="float-card fc2">
               <div className="ic">✓</div>
               <div>
-                <strong>Individualus dėmesys</strong>
-                <span>kiekvienam vizitui</span>
+                <strong>{copy("hero_card2_title", "Individualus dėmesys")}</strong>
+                <span>{copy("hero_card2_text", "kiekvienam vizitui")}</span>
               </div>
             </div>
           </div>
@@ -102,21 +124,21 @@ function Index() {
         <div className="statbar">
           <div className="wrap">
             <div className="stat">
-              <strong>10+</strong>
-              <span>metų klinikinės patirties</span>
+              <strong>{copy("stat1_value", "10+")}</strong>
+              <span>{copy("stat1_label", "metų klinikinės patirties")}</span>
             </div>
             <div className="stat">
-              <strong>Optika</strong>
-              <span>naudojama kiekvienam vizitui</span>
+              <strong>{copy("stat2_value", "Optika")}</strong>
+              <span>{copy("stat2_label", "naudojama kiekvienam vizitui")}</span>
             </div>
             <div className="stat">
-              <strong>Koferdamas</strong>
-              <span>gydymo ilgaamžiškumui</span>
+              <strong>{copy("stat3_value", "Koferdamas")}</strong>
+              <span>{copy("stat3_label", "gydymo ilgaamžiškumui")}</span>
             </div>
             <div className="stat-cta">
-              <span>Turite klausimą?</span>
+              <span>{copy("stat_cta_text", "Turite klausimą?")}</span>
               <LocaleLink to="/kontaktai" className="btn btn-line" style={{ padding: "8px 16px" }}>
-                Parašykite →
+                {copy("stat_cta_button", "Parašykite →")}
               </LocaleLink>
             </div>
           </div>
@@ -127,12 +149,16 @@ function Index() {
         <div className="wrap">
           <div className="section-head">
             <h2>
-              Viskas, ko reikia dantų sveikatai,{" "}
-              <span className="soft">vienoje ramioje vietoje.</span>
+              {copy("services_heading", "Viskas, ko reikia dantų sveikatai,")}{" "}
+              <span className="soft">
+                {copy("services_heading_soft", "vienoje ramioje vietoje.")}
+              </span>
             </h2>
             <p>
-              Nuo kasdienės profilaktikos iki sudėtingesnio atstatymo — sprendimas visada aptariamas
-              kartu.
+              {copy(
+                "services_lead",
+                "Nuo kasdienės profilaktikos iki sudėtingesnio atstatymo — sprendimas visada aptariamas kartu.",
+              )}
             </p>
           </div>
           <div className="svc-grid">
@@ -152,37 +178,48 @@ function Index() {
       <section className="touch" id="apie">
         <div className="wrap touch-grid">
           <div className="touch-photo">
-            <div className="touch-photo-label">
-              Erikos nuotrauka kabinete
-              <br />
-              (vietos rezervuota)
-            </div>
+            {touchPhoto ? (
+              <img src={touchPhoto.url} alt={touchPhoto.alt || "Kabinetas"} loading="lazy" />
+            ) : (
+              <div className="touch-photo-label">
+                Erikos nuotrauka kabinete
+                <br />
+                (vietos rezervuota)
+              </div>
+            )}
             <div className="quote-card">
-              „Gydymas turi būti aiškus, ramus ir niekada skubotas.“
+              {copy("touch_quote", "„Gydymas turi būti aiškus, ramus ir niekada skubotas.“")}
             </div>
           </div>
           <div>
-            <div className="eyebrow">Kitoks vizito jausmas</div>
+            <div className="eyebrow">{copy("touch_eyebrow", "Kitoks vizito jausmas")}</div>
             <h2>
-              Klinikinė kompetencija su <span className="mark">žmogišku</span> požiūriu.
+              {copy("touch_heading", "Klinikinė kompetencija su")}{" "}
+              <span className="mark">{copy("touch_heading_mark", "žmogišku")}</span>{" "}
+              {copy("touch_heading_end", "požiūriu.")}
             </h2>
             <p className="lede">
-              Prieš pradedant gydymą, aptariama, kas bus daroma ir kodėl. Sprendimai renkami taip,
-              kad būtų išsaugota kuo daugiau savo danties audinių.
+              {copy(
+                "touch_lede",
+                "Prieš pradedant gydymą, aptariama, kas bus daroma ir kodėl. Sprendimai renkami taip, kad būtų išsaugota kuo daugiau savo danties audinių.",
+              )}
             </p>
             <div className="checklist">
               <div className="check">
-                <div className="dot">✓</div>Aiškiai paaiškintas planas ir kaina
+                <div className="dot">✓</div>
+                {copy("touch_point1", "Aiškiai paaiškintas planas ir kaina")}
               </div>
               <div className="check">
-                <div className="dot">✓</div>Minimaliai invazyvūs sprendimai
+                <div className="dot">✓</div>
+                {copy("touch_point2", "Minimaliai invazyvūs sprendimai")}
               </div>
               <div className="check">
-                <div className="dot">✓</div>Rami aplinka nerimaujantiems pacientams
+                <div className="dot">✓</div>
+                {copy("touch_point3", "Rami aplinka nerimaujantiems pacientams")}
               </div>
             </div>
             <LocaleLink to="/apie" className="btn btn-line">
-              Apie mane →
+              {copy("touch_cta", "Apie mane →")}
             </LocaleLink>
           </div>
         </div>
@@ -191,13 +228,16 @@ function Index() {
       <div className="cta-band">
         <div className="cta-panel">
           <div>
-            <h2>Sveikos šypsenos link — vienu vizitu.</h2>
+            <h2>{copy("cta_heading", "Sveikos šypsenos link — vienu vizitu.")}</h2>
             <p>
-              Vizito laiką suderinkite telefonu arba žinute. Priėmimas — Braškių g. 2B-1, Vilnius.
+              {copy(
+                "cta_text",
+                "Vizito laiką suderinkite telefonu arba žinute. Priėmimas — Braškių g. 2B-1, Vilnius.",
+              )}
             </p>
           </div>
           <LocaleLink to="/kontaktai" className="btn">
-            Registruotis vizitui →
+            {copy("cta_button", "Registruotis vizitui →")}
           </LocaleLink>
         </div>
       </div>
