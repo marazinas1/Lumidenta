@@ -1,28 +1,30 @@
-# Kodėl HA projekte pakvietimai ateina, o čia – ne
+# El. laiškų domenas: DNS jau tvarkoje, liko patvirtinimas
 
 ## Situacija
 
-Halliday Architects projekte pakvietimai siunčiami **numatytaisiais Lovable laiškais** (siuntėjas – Lovable serveriai). Todėl ten nereikia jokių DNS įrašų ir viskas veikia iš karto.
+Patikrinau viešuosius DNS įrašus — po perkėlimo į Cloudflare viskas matoma teisingai:
 
-Šiame projekte anksčiau įjungėme **savo firminius laiškus** iš `notify.lumidenta.deerva.com`. Nuo to momento visi prisijungimo ir pakvietimo laiškai bandomi siųsti iš šio adreso, o jis dar nepatvirtintas (trūksta NS įrašų, kurių Hostinger neleidžia sukurti). Rezultatas – laiškas neišsiunčiamas visai, todėl ir negauni pakvietimo.
+- `deerva.com` nameserveriai jau rodo į Cloudflare
+- `notify.lumidenta.deerva.com` NS įrašai rodo į `ns5.lovable.cloud` ir `ns6.lovable.cloud`
+- patvirtinimo TXT įrašas matomas su teisinga reikšme
 
-## Sprendimas
+Vadinasi, iš Tavo pusės viskas padaryta. Lovable pusėje domeno būsena kol kas dar „tikrinama" — tikrinimas paleidžiamas periodiškai, todėl reikia truputį palaukti.
 
-Laikinai grąžinti numatytuosius Lovable laiškus, kad pakvietimai vėl veiktų iš karto – lygiai kaip HA projekte:
+Būtent dėl to iki šiol neatėjo pakvietimas: kol siuntėjo domenas nepatvirtintas, laiškai neišsiunčiami. HA projekte laiškai eina numatytuoju Lovable siuntėju, todėl ten viskas veikia iš karto.
 
-1. Išjungti firminį laiškų siuntimą projekte (pakvietimai vėl eis per Lovable siuntėją).
-2. Palikti paruoštus lietuviškus laiškų šablonus projekte – jie niekur nedingsta.
-3. Pakartotinai išsiųsti pakvietimą į `marius@deerva.com` ir patikrinti, ar ateina.
+## Ką darome
 
-Vėliau, kai bus sutvarkytas DNS (perkėlus deerva.com DNS į Cloudflare arba perkėlus domeną į Lovable), firminius laiškus vėl įjungsime ir laiškai eis iš Lumidenta vardo su paruoštu dizainu.
+1. Palaukti kelias minutes ir patikrinti domeno būseną iš naujo. Jei nepasikeičia — paspausti „Verify domain" skiltyje Cloud → Emails.
+2. Kai būsena tampa aktyvi, iš naujo išsiųsti pakvietimą į `marius@deerva.com`.
+3. Patikrinti siuntimo įrašus, ar laiškas tikrai išėjo, ir patvirtinti, kad atėjo į paštą.
+4. Jei per ~1 val. patvirtinimas vis tiek neįvyktų, laikinai išjungti firminį siuntimą, kad pakvietimai eitų numatytaisiais Lovable laiškais, ir įjungti atgal po patvirtinimo.
 
-## Ką pastebėsi
+## Ko iš Tavęs reikia
 
-- Pakvietimai ir slaptažodžio atkūrimo laiškai ateis, bet kol kas be Lumidenta firminio stiliaus ir iš Lovable adreso.
-- Jokių pakeitimų svetainėje ar admin panelėje.
+Nieko — DNS dalis baigta. Tik pranešk, jei nori, kad pakvietimą Erikai išsiųsčiau iš karto po patvirtinimo.
 
 ## Techninė dalis
 
-- `email_domain--toggle_project_emails` su `enabled: false` – auth laiškai grįžta į numatytuosius Lovable šablonus.
-- Šablonai `src/lib/email-templates/` ir auth webhook maršrutas paliekami vietoje, nekeičiami.
-- Po DNS patvirtinimo – `enabled: true`, jokio kodo perrašymo nereikės.
+- Šablonai `src/lib/email-templates/` ir auth webhook `src/routes/lovable/email/auth/webhook.ts` jau paruošti, kodo keisti nereikia.
+- Po patvirtinimo laiškai eis iš `Lumidenta <noreply@notify.lumidenta.deerva.com>`.
+- Atsarginis variantas — `toggle_project_emails` su `enabled: false`, grąžinantis numatytuosius Lovable šablonus.
