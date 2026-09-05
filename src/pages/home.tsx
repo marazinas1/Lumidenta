@@ -1,4 +1,5 @@
 import { LocaleLink } from "@/components/site/LocaleLink";
+import { TestimonialCarousel } from "@/components/site/TestimonialCarousel";
 import { getContent } from "@/content";
 import { ensureCatalog, useCatalog } from "@/lib/catalog";
 import type { Locale } from "@/lib/locale";
