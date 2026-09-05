@@ -9,6 +9,7 @@ import {
   Home,
   Inbox,
   LayoutDashboard,
+  Newspaper,
   LogOut,
   Menu,
   Phone,
