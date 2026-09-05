@@ -13,7 +13,7 @@ function buildFormSchema(kontaktaiForm: ReturnType<typeof useContent>["kontaktai
     message: z
       .string()
       .trim()
-      .min(10, kontaktaiForm.messageError)
+      .min(1, kontaktaiForm.messageError)
       .max(2000, kontaktaiForm.messageError),
   });
 }
