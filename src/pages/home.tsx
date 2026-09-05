@@ -236,30 +236,28 @@ function Index({ locale }: { locale: Locale }) {
       {homePosts.length > 0 ? (
         <section className="posts-teaser" id="straipsniai">
           <div className="wrap">
-            <div className="section-head">
+            <Reveal className="section-head">
               <h2>
                 {copy("posts_heading", "Naudinga")}{" "}
                 <span className="soft">{copy("posts_heading_soft", "skaityti.")}</span>
               </h2>
-            </div>
-            <div className="post-grid">
+            </Reveal>
+            <RevealItems className="post-grid">
               {homePosts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
-            </div>
-            <div className="section-foot">
+            </RevealItems>
+            <Reveal className="section-foot">
               <LocaleLink to="/straipsniai" className="btn btn-line">
                 {copy("posts_all_button", "Visi straipsniai →")}
               </LocaleLink>
-            </div>
+            </Reveal>
           </div>
         </section>
       ) : null}
 
-
-
       <div className="cta-band">
-        <div className="cta-panel">
+        <RevealItems className="cta-panel">
           <div>
             <h2>{copy("cta_heading", "Sveikos šypsenos link — vienu vizitu.")}</h2>
             <p>
@@ -272,8 +270,9 @@ function Index({ locale }: { locale: Locale }) {
           <LocaleLink to="/kontaktai" className="btn">
             {copy("cta_button", "Registruotis vizitui →")}
           </LocaleLink>
-        </div>
+        </RevealItems>
       </div>
+
     </>
   );
 }
