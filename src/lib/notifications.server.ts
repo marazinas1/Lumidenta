@@ -1,39 +1,50 @@
-import { resolveFromAddress } from "@/lib/email-from";
+import { sendLovableEmail } from "@lovable.dev/email-js";
+
+const SENDER_DOMAIN = "notify.lumidenta.deerva.com";
 
 /**
- * Minimal transactional e-mail sender (Resend through the Lovable connector
- * gateway). Used by account invites and password recovery.
+ * Transactional e-mail sender for account invites and password recovery.
  */
 export async function sendEmail({
   to,
   subject,
   html,
+  text,
+  idempotencyKey,
 }: {
   to: string;
   subject: string;
   html: string;
+  text?: string;
+  idempotencyKey: string;
 }): Promise<{ ok: boolean; detail?: string }> {
-  const apiKey = process.env["RESEND_API_KEY"];
   const lovableKey = process.env["LOVABLE_API_KEY"];
-  if (!apiKey || !lovableKey) {
+  if (!lovableKey) {
     console.warn("[sendEmail] missing e-mail credentials");
     return { ok: false, detail: "missing-credentials" };
   }
 
-  const res = await fetch("https://connector-gateway.lovable.dev/resend/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${lovableKey}`,
-      "X-Connection-Api-Key": apiKey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ from: resolveFromAddress(), to: [to], subject, html }),
-  });
-
-  const text = await res.text();
-  if (!res.ok) {
-    console.error("[sendEmail]", res.status, text.slice(0, 500));
-    return { ok: false, detail: text.slice(0, 500) };
+  try {
+    const result = await sendLovableEmail(
+      {
+        to,
+        from: `Lumidenta <noreply@${SENDER_DOMAIN}>`,
+        sender_domain: SENDER_DOMAIN,
+        subject,
+        html,
+        text: text ?? subject,
+        purpose: "transactional",
+        idempotency_key: idempotencyKey,
+      },
+      { apiKey: lovableKey },
+    );
+    if (result.sent === false) {
+      return { ok: false, detail: result.reason };
+    }
+    return { ok: true };
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : "email-send-failed";
+    console.error("[sendEmail]", detail);
+    return { ok: false, detail };
   }
-  return { ok: true };
 }
