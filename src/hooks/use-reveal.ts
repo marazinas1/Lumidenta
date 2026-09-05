@@ -15,7 +15,9 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
+          // Also reveal elements the user has already scrolled past (fast
+          // jumps, anchor links) so nothing stays invisible.
+          if (entry.isIntersecting || entry.boundingClientRect.bottom < 0) {
             setVisible(true);
             observer.disconnect();
           }
@@ -24,8 +26,24 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
       { rootMargin: "-10% 0px -10% 0px" },
     );
     observer.observe(node);
-    return () => observer.disconnect();
+
+    // Fallback for very fast scroll jumps, where the observer can skip an
+    // element entirely: reveal anything that ends up above the viewport.
+    const onScroll = () => {
+      if (node.getBoundingClientRect().bottom < 0) {
+        setVisible(true);
+        observer.disconnect();
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
+
 
   return { ref, visible };
 }

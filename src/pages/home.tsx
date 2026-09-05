@@ -1,5 +1,7 @@
 import { LocaleLink } from "@/components/site/LocaleLink";
+import { Reveal, RevealItems } from "@/components/site/Reveal";
 import { TestimonialCarousel } from "@/components/site/TestimonialCarousel";
+
 import { PostCard } from "@/pages/straipsniai";
 import { getContent } from "@/content";
 import { ensureCatalog, useCatalog } from "@/lib/catalog";
@@ -102,7 +104,7 @@ function Index({ locale }: { locale: Locale }) {
         </div>
 
         <div className="statbar">
-          <div className="wrap">
+          <RevealItems className="wrap">
             <div className="stat">
               <strong>{copy("stat1_value", "10+")}</strong>
               <span>{copy("stat1_label", "metų klinikinės patirties")}</span>
@@ -121,13 +123,13 @@ function Index({ locale }: { locale: Locale }) {
                 {copy("stat_cta_button", "Parašykite →")}
               </LocaleLink>
             </div>
-          </div>
+          </RevealItems>
         </div>
       </section>
 
       <section className="services" id="paslaugos">
         <div className="wrap">
-          <div className="section-head">
+          <Reveal className="section-head">
             <h2>
               {copy("services_heading", "Viskas, ko reikia dantų sveikatai,")}{" "}
               <span className="soft">
@@ -140,8 +142,8 @@ function Index({ locale }: { locale: Locale }) {
                 "Nuo kasdienės profilaktikos iki sudėtingesnio atstatymo — sprendimas visada aptariamas kartu.",
               )}
             </p>
-          </div>
-          <div className="svc-grid">
+          </Reveal>
+          <RevealItems className="svc-grid">
             {homeServices.map((service, index) => (
               <LocaleLink
                 key={service.id}
@@ -156,17 +158,18 @@ function Index({ locale }: { locale: Locale }) {
                 <span className="lm">Sužinoti daugiau →</span>
               </LocaleLink>
             ))}
-          </div>
-          <div className="svc-more">
+          </RevealItems>
+          <Reveal className="svc-more">
             <LocaleLink to="/paslaugos" className="btn btn-line">
               {copy("services_all_button", "Visos paslaugos →")}
             </LocaleLink>
-          </div>
+          </Reveal>
         </div>
       </section>
 
+
       <section className="touch" id="apie">
-        <div className="wrap touch-grid">
+        <RevealItems className="wrap touch-grid">
           <div className="touch-photo">
             {touchPhoto ? (
               <img src={touchPhoto.url} alt={touchPhoto.alt || "Kabinetas"} loading="lazy" />
@@ -212,49 +215,49 @@ function Index({ locale }: { locale: Locale }) {
               {copy("touch_cta", "Apie mane →")}
             </LocaleLink>
           </div>
-        </div>
+        </RevealItems>
       </section>
 
       <section className="tstm" id="atsiliepimai">
         <div className="wrap">
-          <div className="section-head">
+          <Reveal className="section-head">
             <h2>
               {copy("testimonials_heading", "Ką sako")}{" "}
               <span className="soft">{copy("testimonials_heading_soft", "pacientai.")}</span>
             </h2>
-          </div>
-          <TestimonialCarousel items={testimonials} />
-
+          </Reveal>
+          <Reveal>
+            <TestimonialCarousel items={testimonials} />
+          </Reveal>
         </div>
       </section>
+
 
       {homePosts.length > 0 ? (
         <section className="posts-teaser" id="straipsniai">
           <div className="wrap">
-            <div className="section-head">
+            <Reveal className="section-head">
               <h2>
                 {copy("posts_heading", "Naudinga")}{" "}
                 <span className="soft">{copy("posts_heading_soft", "skaityti.")}</span>
               </h2>
-            </div>
-            <div className="post-grid">
+            </Reveal>
+            <RevealItems className="post-grid">
               {homePosts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
-            </div>
-            <div className="section-foot">
+            </RevealItems>
+            <Reveal className="section-foot">
               <LocaleLink to="/straipsniai" className="btn btn-line">
                 {copy("posts_all_button", "Visi straipsniai →")}
               </LocaleLink>
-            </div>
+            </Reveal>
           </div>
         </section>
       ) : null}
 
-
-
       <div className="cta-band">
-        <div className="cta-panel">
+        <RevealItems className="cta-panel">
           <div>
             <h2>{copy("cta_heading", "Sveikos šypsenos link — vienu vizitu.")}</h2>
             <p>
@@ -267,8 +270,9 @@ function Index({ locale }: { locale: Locale }) {
           <LocaleLink to="/kontaktai" className="btn">
             {copy("cta_button", "Registruotis vizitui →")}
           </LocaleLink>
-        </div>
+        </RevealItems>
       </div>
+
     </>
   );
 }

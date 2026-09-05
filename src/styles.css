@@ -296,6 +296,37 @@
   }
 }
 
+/* Staggered reveal: children of the marked container ease in one by one. */
+.reveal-items > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-items[data-visible="true"] > * {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-items > *:nth-child(2) {
+  transition-delay: 90ms;
+}
+.reveal-items > *:nth-child(3) {
+  transition-delay: 180ms;
+}
+.reveal-items > *:nth-child(4) {
+  transition-delay: 270ms;
+}
+.reveal-items > *:nth-child(5) {
+  transition-delay: 360ms;
+}
+.reveal-items > *:nth-child(n + 6) {
+  transition-delay: 450ms;
+}
+
+
 /* Hero: slow Ken Burns drift on the background image. */
 @keyframes hero-kenburns {
   from {
@@ -368,10 +399,12 @@
     transition-duration: 0.01ms !important;
   }
 
-  .reveal {
+  .reveal,
+  .reveal-items > * {
     opacity: 1;
     transform: none;
   }
+
 
   .hero-kenburns,
   .photo-zoom,

@@ -1,5 +1,6 @@
 import { ContactForm } from "@/components/site/ContactForm";
 import { ContactMapSection } from "@/components/site/ContactMapSection";
+import { Reveal, RevealItems } from "@/components/site/Reveal";
 import { getContent } from "@/content";
 import { ensureCatalog, useCatalog } from "@/lib/catalog";
 import type { Locale } from "@/lib/locale";
@@ -51,7 +52,7 @@ function ContactsPage({ locale }: { locale: Locale }) {
       <section className="page-body">
         <div className="wrap">
           {settings.phone || settings.email ? (
-            <div className="info-grid">
+            <RevealItems className="info-grid">
               {settings.phone ? (
                 <div className="info-card">
                   <h2>{c.kontaktai.phonesLabel}</h2>
@@ -64,12 +65,12 @@ function ContactsPage({ locale }: { locale: Locale }) {
                   <a href={`mailto:${settings.email}`}>{settings.email}</a>
                 </div>
               ) : null}
-            </div>
+            </RevealItems>
           ) : null}
 
-          <div style={{ marginTop: "56px" }}>
+          <Reveal style={{ marginTop: "56px" }}>
             <ContactForm />
-          </div>
+          </Reveal>
 
           <ContactMapSection address={address} />
 
