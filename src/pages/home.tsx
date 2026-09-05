@@ -1,5 +1,6 @@
 import { LocaleLink } from "@/components/site/LocaleLink";
 import { TestimonialCarousel } from "@/components/site/TestimonialCarousel";
+import { PostCard } from "@/pages/straipsniai";
 import { getContent } from "@/content";
 import { ensureCatalog, useCatalog } from "@/lib/catalog";
 import type { Locale } from "@/lib/locale";
@@ -32,10 +33,11 @@ export function homeRoute(locale: Locale) {
 
 function Index({ locale }: { locale: Locale }) {
   const { copy, image } = usePageContent(PAGE, locale);
-  const { services, testimonials } = useCatalog();
+  const { services, testimonials, posts } = useCatalog();
   const heroPortrait = image("hero_portrait");
   const touchPhoto = image("touch_photo");
   const homeServices = services.filter((s) => s.showOnHome).slice(0, 4);
+  const homePosts = posts.filter((p) => p.showOnHome).slice(0, 3);
 
   return (
     <>
