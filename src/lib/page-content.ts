@@ -67,7 +67,7 @@ export function usePageContent(page: string, locale: Locale) {
 
 /** Route-loader helper: warms the cache on the server so the copy is in the HTML. */
 export function ensurePageContent(context: { queryClient: QueryClient }) {
-  return context.queryClient.ensureQueryData(pageContentQuery);
+  return context.queryClient.ensureQueryData(pageContentQuery).catch(() => emptyPageContent);
 }
 
 /** Loader argument shape for the shared page factories (locale-agnostic). */
