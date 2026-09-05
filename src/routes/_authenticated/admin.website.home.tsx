@@ -1,3 +1,4 @@
+import { ReadOnlyNotice, useCanEdit } from "@/components/admin/ReadOnlyNotice";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -152,6 +153,7 @@ const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
 ];
 
 function HomeEditor() {
+  const { canEdit } = useCanEdit();
   const { data, isLoading } = useQuery(pageContentQuery);
   const content = data ?? emptyPageContent;
 
@@ -162,7 +164,8 @@ function HomeEditor() {
   const valueOf = (slot: string) => content.text[`${PAGE}:${slot}:lt`] ?? "";
 
   return (
-    <div className="space-y-8">
+    <fieldset disabled={!canEdit} className="block space-y-8">
+      <ReadOnlyNotice canEdit={canEdit} />
       <div>
         <h1 className="text-2xl font-semibold">Pradžios puslapis</h1>
         <p className="mt-2 max-w-prose text-sm text-muted-foreground">
@@ -226,6 +229,6 @@ function HomeEditor() {
           ))}
         </>
       )}
-    </div>
+    </fieldset>
   );
 }

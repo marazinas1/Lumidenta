@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { assertDeveloper, assertStaff } from "./users.server";
+import { assertDeveloper, assertOwner } from "./users.server";
 
 const slotKey = z.object({
   page: z.string().trim().min(1).max(64),
@@ -30,7 +30,7 @@ export const saveText = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
-    await assertStaff(context);
+    await assertOwner(context);
     const { page, slot, locale, value } = data;
 
     if (!value.trim()) {
@@ -53,7 +53,7 @@ export const saveMedia = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => mediaInput.parse(d))
   .handler(async ({ data, context }) => {
-    await assertStaff(context);
+    await assertOwner(context);
     const { error } = await context.supabase
       .from("page_media")
       .upsert(data, { onConflict: "page,slot" });
@@ -66,7 +66,7 @@ export const clearMedia = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => slotKey.parse(d))
   .handler(async ({ data, context }) => {
-    await assertStaff(context);
+    await assertOwner(context);
     const { error } = await context.supabase.from("page_media").delete().match(data);
     if (error) throw new Error(error.message);
     return { ok: true };

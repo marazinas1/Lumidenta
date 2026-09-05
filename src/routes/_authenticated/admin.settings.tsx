@@ -1,3 +1,4 @@
+import { ReadOnlyNotice, useCanEdit } from "@/components/admin/ReadOnlyNotice";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -54,6 +55,7 @@ const EMPTY: Form = {
 };
 
 function SettingsPage() {
+  const { canEdit } = useCanEdit();
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery(catalogQuery);
   const save = useServerFn(saveSiteSettings);
@@ -86,7 +88,8 @@ function SettingsPage() {
   });
 
   return (
-    <div className="space-y-8">
+    <fieldset disabled={!canEdit} className="block space-y-8">
+      <ReadOnlyNotice canEdit={canEdit} />
       <div>
         <h1 className="text-2xl font-semibold">Nustatymai</h1>
         <p className="mt-2 max-w-prose text-sm text-muted-foreground">
@@ -118,6 +121,6 @@ function SettingsPage() {
           </Button>
         </section>
       )}
-    </div>
+    </fieldset>
   );
 }

@@ -1,3 +1,4 @@
+import { ReadOnlyNotice, useCanEdit } from "@/components/admin/ReadOnlyNotice";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -39,6 +40,7 @@ const emptyDraft = (sortOrder: number): Draft => ({
 });
 
 function TestimonialsEditor() {
+  const { canEdit } = useCanEdit();
   const queryClient = useQueryClient();
   const fetchAll = useServerFn(listAllTestimonials);
   const save = useServerFn(saveTestimonial);
@@ -79,7 +81,8 @@ function TestimonialsEditor() {
   });
 
   return (
-    <div className="space-y-8">
+    <fieldset disabled={!canEdit} className="block space-y-8">
+      <ReadOnlyNotice canEdit={canEdit} />
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold">Atsiliepimai</h1>
@@ -192,7 +195,7 @@ function TestimonialsEditor() {
           })}
         </div>
       )}
-    </div>
+    </fieldset>
   );
 }
 
