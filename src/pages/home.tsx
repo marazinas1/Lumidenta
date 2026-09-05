@@ -220,17 +220,8 @@ function Index({ locale }: { locale: Locale }) {
               <span className="soft">{copy("testimonials_heading_soft", "pacientai.")}</span>
             </h2>
           </div>
-          <div className="tstm-grid">
-            {testimonials.map((t, index) => (
-              <figure key={t.id} className={`tstm-card ${TONES[index % TONES.length]}`}>
-                <blockquote>{t.quote}</blockquote>
-                <figcaption>
-                  <strong>{t.authorName}</strong>
-                  {t.authorDetail ? <span>{t.authorDetail}</span> : null}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
+          <TestimonialCarousel items={testimonials} />
+
         </div>
       </section>
 
