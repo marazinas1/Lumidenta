@@ -162,9 +162,9 @@ function UsersPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <Label>Teisės</Label>
+              <Label htmlFor="invite-role">Teisės</Label>
               <Select value={role} onValueChange={(v) => setRole(v as "owner" | "editor")}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger id="invite-role" className="h-9 w-[180px]">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

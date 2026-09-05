@@ -18,6 +18,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { useRememberedLocaleRedirect } from "@/components/site/LanguageSwitcher";
 import { useLocale } from "@/content";
 import { htmlLang } from "@/lib/locale";
+import { usePageViewTracking } from "@/lib/page-view-tracking";
 
 /** Core (administravimo / personalo) maršrutai neturi svetainės antraštės ir poraštės. */
 const CORE_PREFIXES = ["/admin", "/staff", "/auth", "/reset-password", "/api"];
@@ -126,6 +127,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   useRememberedLocaleRedirect();
+  usePageViewTracking(pathname, !isCorePath(pathname));
 
   if (isCorePath(pathname)) {
     return (

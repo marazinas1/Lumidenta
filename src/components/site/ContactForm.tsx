@@ -2,6 +2,7 @@ import { useState } from "react";
 import { z } from "zod";
 
 import { useContent } from "@/content";
+import { supabase } from "@/integrations/supabase/client";
 import { contact } from "@/data/contact";
 
 function buildFormSchema(kontaktaiForm: ReturnType<typeof useContent>["kontaktaiForm"]) {
@@ -102,8 +103,16 @@ export function ContactForm() {
     setStatus("sending");
 
     try {
-      // Backend delivery is wired up in a later step (leads table).
-      setStatus("failed");
+      const { error } = await (supabase as any).from("leads").insert({
+        name: parsed.data.name,
+        email: parsed.data.email,
+        phone: parsed.data.phone || null,
+        message: parsed.data.message,
+        source: "kontaktai",
+      });
+      if (error) throw error;
+      setValues({ name: "", email: "", phone: "", message: "" });
+      setStatus("sent");
     } catch {
       setStatus("failed");
     }
