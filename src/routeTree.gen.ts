@@ -31,6 +31,7 @@ import { Route as EnPrivatumoPolitikaRouteImport } from './routes/en/privatumo-p
 import { Route as EnTaisyklesRouteImport } from './routes/en/taisykles'
 import { Route as PaslaugosIndexRouteImport } from './routes/paslaugos.index'
 import { Route as PaslaugosSlugRouteImport } from './routes/paslaugos.$slug'
+import { Route as StraipsniaiIndexRouteImport } from './routes/straipsniai.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminInquiriesRouteImport } from './routes/_authenticated/admin.inquiries'
@@ -156,6 +157,11 @@ const PaslaugosSlugRoute = PaslaugosSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => PaslaugosRoute,
 } as any)
+const StraipsniaiIndexRoute = StraipsniaiIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StraipsniaiRoute,
+} as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -250,7 +256,7 @@ export interface FileRoutesByFullPath {
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/straipsniai': typeof StraipsniaiRoute
+  '/straipsniai': typeof StraipsniaiRouteWithChildren
   '/taisykles': typeof TaisyklesRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
@@ -262,6 +268,7 @@ export interface FileRoutesByFullPath {
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
   '/paslaugos/': typeof PaslaugosIndexRoute
+  '/straipsniai/': typeof StraipsniaiIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
@@ -285,7 +292,6 @@ export interface FileRoutesByTo {
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/straipsniai': typeof StraipsniaiRoute
   '/taisykles': typeof TaisyklesRoute
   '/en/kontaktai': typeof EnKontaktaiRoute
   '/en/privatumo-politika': typeof EnPrivatumoPolitikaRoute
@@ -294,6 +300,7 @@ export interface FileRoutesByTo {
   '/apie': typeof ApieIndexRoute
   '/en': typeof EnIndexRoute
   '/paslaugos': typeof PaslaugosIndexRoute
+  '/straipsniai': typeof StraipsniaiIndexRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
@@ -322,7 +329,7 @@ export interface FileRoutesById {
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/straipsniai': typeof StraipsniaiRoute
+  '/straipsniai': typeof StraipsniaiRouteWithChildren
   '/taisykles': typeof TaisyklesRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/en/apie': typeof EnApieRouteWithChildren
@@ -334,6 +341,7 @@ export interface FileRoutesById {
   '/apie/': typeof ApieIndexRoute
   '/en/': typeof EnIndexRoute
   '/paslaugos/': typeof PaslaugosIndexRoute
+  '/straipsniai/': typeof StraipsniaiIndexRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
@@ -374,6 +382,7 @@ export interface FileRouteTypes {
     | '/apie/'
     | '/en/'
     | '/paslaugos/'
+    | '/straipsniai/'
     | '/admin/analytics'
     | '/admin/inquiries'
     | '/admin/settings'
@@ -397,7 +406,6 @@ export interface FileRouteTypes {
     | '/privatumo-politika'
     | '/reset-password'
     | '/sitemap.xml'
-    | '/straipsniai'
     | '/taisykles'
     | '/en/kontaktai'
     | '/en/privatumo-politika'
@@ -406,6 +414,7 @@ export interface FileRouteTypes {
     | '/apie'
     | '/en'
     | '/paslaugos'
+    | '/straipsniai'
     | '/admin/analytics'
     | '/admin/inquiries'
     | '/admin/settings'
@@ -445,6 +454,7 @@ export interface FileRouteTypes {
     | '/apie/'
     | '/en/'
     | '/paslaugos/'
+    | '/straipsniai/'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/inquiries'
     | '/_authenticated/admin/settings'
@@ -473,7 +483,7 @@ export interface RootRouteChildren {
   PrivatumoPolitikaRoute: typeof PrivatumoPolitikaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  StraipsniaiRoute: typeof StraipsniaiRoute
+  StraipsniaiRoute: typeof StraipsniaiRouteWithChildren
   TaisyklesRoute: typeof TaisyklesRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
@@ -634,6 +644,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/paslaugos/$slug'
       preLoaderRoute: typeof PaslaugosSlugRouteImport
       parentRoute: typeof PaslaugosRoute
+    }
+    '/straipsniai/': {
+      id: '/straipsniai/'
+      path: '/'
+      fullPath: '/straipsniai/'
+      preLoaderRoute: typeof StraipsniaiIndexRouteImport
+      parentRoute: typeof StraipsniaiRoute
     }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
@@ -855,6 +872,18 @@ const PaslaugosRouteWithChildren = PaslaugosRoute._addFileChildren(
   PaslaugosRouteChildren,
 )
 
+interface StraipsniaiRouteChildren {
+  StraipsniaiIndexRoute: typeof StraipsniaiIndexRoute
+}
+
+const StraipsniaiRouteChildren: StraipsniaiRouteChildren = {
+  StraipsniaiIndexRoute: StraipsniaiIndexRoute,
+}
+
+const StraipsniaiRouteWithChildren = StraipsniaiRoute._addFileChildren(
+  StraipsniaiRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -866,7 +895,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivatumoPolitikaRoute: PrivatumoPolitikaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  StraipsniaiRoute: StraipsniaiRoute,
+  StraipsniaiRoute: StraipsniaiRouteWithChildren,
   TaisyklesRoute: TaisyklesRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
