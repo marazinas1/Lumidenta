@@ -116,6 +116,11 @@ function RootShell({ children }: { children: React.ReactNode }) {
     <html lang={htmlLang[locale]}>
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var k="__lumidenta_hydration_retry";function retry(e){var m=e&&e.message||e&&e.reason&&e.reason.message||"";if(m.indexOf("Expected to find a dehydrated data")<0)return;try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1");}catch(_){}location.reload();}addEventListener("error",retry);addEventListener("unhandledrejection",retry);addEventListener("load",function(){setTimeout(function(){try{sessionStorage.removeItem(k)}catch(_){}},10000)});})();`,
+          }}
+        />
       </head>
 
       <body>
