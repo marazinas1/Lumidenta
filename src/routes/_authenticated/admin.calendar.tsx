@@ -486,31 +486,38 @@ function CalendarPage() {
 
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="flex flex-col gap-1.5">
-                  <Label>Data</Label>
+                  <Label htmlFor="appt-day">Data</Label>
                   <Input
+                    id="appt-day"
                     type="date"
                     value={draft.day}
                     onChange={(e) => setDraft({ ...draft, day: e.target.value })}
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <Label>Pradžia</Label>
+                  <Label htmlFor="appt-start">Pradžia</Label>
                   <TimeInput
+                    id="appt-start"
                     value={draft.start}
                     onChange={(v) => setDraft({ ...draft, start: v })}
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <Label>Pabaiga</Label>
-                  <TimeInput value={draft.end} onChange={(v) => setDraft({ ...draft, end: v })} />
+                  <Label htmlFor="appt-end">Pabaiga</Label>
+                  <TimeInput
+                    id="appt-end"
+                    value={draft.end}
+                    onChange={(v) => setDraft({ ...draft, end: v })}
+                  />
                 </div>
               </div>
 
               {draft.kind === "appointment" ? (
                 <>
                   <div className="flex flex-col gap-1.5">
-                    <Label>Paslauga</Label>
+                    <Label htmlFor="appt-service">Paslauga</Label>
                     <select
+                      id="appt-service"
                       className="h-10 rounded-md border border-input bg-background px-3 text-sm"
                       value={draft.service_id ?? ""}
                       onChange={(e) => {
@@ -533,15 +540,17 @@ function CalendarPage() {
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="flex flex-col gap-1.5">
-                      <Label>Paciento vardas</Label>
+                      <Label htmlFor="appt-name">Paciento vardas</Label>
                       <Input
+                        id="appt-name"
                         value={draft.patient_name}
                         onChange={(e) => setDraft({ ...draft, patient_name: e.target.value })}
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <Label>Telefonas</Label>
+                      <Label htmlFor="appt-phone">Telefonas</Label>
                       <Input
+                        id="appt-phone"
                         value={draft.patient_phone}
                         onChange={(e) => setDraft({ ...draft, patient_phone: e.target.value })}
                       />
@@ -549,16 +558,18 @@ function CalendarPage() {
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <Label>El. paštas (nebūtina)</Label>
+                    <Label htmlFor="appt-email">El. paštas (nebūtina)</Label>
                     <Input
+                      id="appt-email"
                       value={draft.patient_email}
                       onChange={(e) => setDraft({ ...draft, patient_email: e.target.value })}
                     />
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <Label>Būsena</Label>
+                    <Label htmlFor="appt-status">Būsena</Label>
                     <select
+                      id="appt-status"
                       className="h-10 rounded-md border border-input bg-background px-3 text-sm"
                       value={draft.status}
                       onChange={(e) =>
@@ -576,13 +587,15 @@ function CalendarPage() {
               ) : null}
 
               <div className="flex flex-col gap-1.5">
-                <Label>Pastaba</Label>
+                <Label htmlFor="appt-note">Pastaba</Label>
                 <Textarea
+                  id="appt-note"
                   rows={3}
                   value={draft.note}
                   onChange={(e) => setDraft({ ...draft, note: e.target.value })}
                 />
               </div>
+
             </div>
           ) : null}
 
