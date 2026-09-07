@@ -22,7 +22,23 @@ async function getServerEntry(): Promise<ServerEntry> {
 function brandedErrorResponse(): Response {
   return new Response(renderErrorPage(), {
     status: 500,
-    headers: { "content-type": "text/html; charset=utf-8" },
+    headers: {
+      "cache-control": "no-store",
+      "content-type": "text/html; charset=utf-8",
+    },
+  });
+}
+
+function preventStaleDocumentCache(response: Response): Response {
+  const contentType = response.headers.get("content-type") ?? "";
+  if (!contentType.includes("text/html")) return response;
+
+  const headers = new Headers(response.headers);
+  headers.set("cache-control", "no-store");
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
   });
 }
 
@@ -73,7 +89,8 @@ export default {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      const normalized = await normalizeCatastrophicSsrResponse(response);
+      return preventStaleDocumentCache(normalized);
     } catch (error) {
       console.error(error);
       return brandedErrorResponse();
