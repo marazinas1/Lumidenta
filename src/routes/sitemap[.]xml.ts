@@ -4,7 +4,7 @@ import type {} from "@tanstack/react-start";
 import { SITE_URL } from "@/data/nav";
 import { LOCALES, localizePath } from "@/lib/locale";
 
-const STATIC_PATHS = ["/", "/apie", "/kontaktai", "/taisykles", "/privatumo-politika"];
+const STATIC_PATHS = ["/", "/paslaugos", "/kainos", "/apie", "/kontaktai", "/taisykles", "/privatumo-politika"];
 
 function urlEntry(path: string): string {
   const alternates = LOCALES.map(

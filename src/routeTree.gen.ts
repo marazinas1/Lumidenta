@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as ApieRouteImport } from './routes/apie'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as EnRouteRouteImport } from './routes/en/route'
+import { Route as KainosRouteImport } from './routes/kainos'
 import { Route as KontaktaiRouteImport } from './routes/kontaktai'
 import { Route as PaslaugosRouteImport } from './routes/paslaugos'
 import { Route as PrivatumoPolitikaRouteImport } from './routes/privatumo-politika'
@@ -52,6 +53,7 @@ import { Route as AuthenticatedAdminWebsiteAboutRouteImport } from './routes/_au
 import { Route as AuthenticatedAdminWebsiteContactRouteImport } from './routes/_authenticated/admin.website.contact'
 import { Route as AuthenticatedAdminWebsiteHomeRouteImport } from './routes/_authenticated/admin.website.home'
 import { Route as AuthenticatedAdminWebsitePostsRouteImport } from './routes/_authenticated/admin.website.posts'
+import { Route as AuthenticatedAdminWebsitePricesRouteImport } from './routes/_authenticated/admin.website.prices'
 import { Route as AuthenticatedAdminWebsiteServicesRouteImport } from './routes/_authenticated/admin.website.services'
 import { Route as AuthenticatedAdminWebsiteTestimonialsRouteImport } from './routes/_authenticated/admin.website.testimonials'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
@@ -79,6 +81,11 @@ const AuthRoute = AuthRouteImport.update({
 const EnRouteRoute = EnRouteRouteImport.update({
   id: '/en',
   path: '/en',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KainosRoute = KainosRouteImport.update({
+  id: '/kainos',
+  path: '/kainos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KontaktaiRoute = KontaktaiRouteImport.update({
@@ -280,6 +287,12 @@ const AuthenticatedAdminWebsitePostsRoute =
     path: '/website/posts',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminWebsitePricesRoute =
+  AuthenticatedAdminWebsitePricesRouteImport.update({
+    id: '/website/prices',
+    path: '/website/prices',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminWebsiteServicesRoute =
   AuthenticatedAdminWebsiteServicesRouteImport.update({
     id: '/website/services',
@@ -308,6 +321,7 @@ export interface FileRoutesByFullPath {
   '/en': typeof EnRouteRouteWithChildren
   '/apie': typeof ApieRouteWithChildren
   '/auth': typeof AuthRoute
+  '/kainos': typeof KainosRoute
   '/kontaktai': typeof KontaktaiRoute
   '/paslaugos': typeof PaslaugosRouteWithChildren
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
@@ -346,6 +360,7 @@ export interface FileRoutesByFullPath {
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
   '/admin/website/posts': typeof AuthenticatedAdminWebsitePostsRoute
+  '/admin/website/prices': typeof AuthenticatedAdminWebsitePricesRoute
   '/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
   '/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -354,6 +369,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/kainos': typeof KainosRoute
   '/kontaktai': typeof KontaktaiRoute
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/registracija': typeof RegistracijaRoute
@@ -386,6 +402,7 @@ export interface FileRoutesByTo {
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
   '/admin/website/posts': typeof AuthenticatedAdminWebsitePostsRoute
+  '/admin/website/prices': typeof AuthenticatedAdminWebsitePricesRoute
   '/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
   '/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -398,6 +415,7 @@ export interface FileRoutesById {
   '/en': typeof EnRouteRouteWithChildren
   '/apie': typeof ApieRouteWithChildren
   '/auth': typeof AuthRoute
+  '/kainos': typeof KainosRoute
   '/kontaktai': typeof KontaktaiRoute
   '/paslaugos': typeof PaslaugosRouteWithChildren
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
@@ -436,6 +454,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/_authenticated/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
   '/_authenticated/admin/website/posts': typeof AuthenticatedAdminWebsitePostsRoute
+  '/_authenticated/admin/website/prices': typeof AuthenticatedAdminWebsitePricesRoute
   '/_authenticated/admin/website/services': typeof AuthenticatedAdminWebsiteServicesRoute
   '/_authenticated/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -448,6 +467,7 @@ export interface FileRouteTypes {
     | '/en'
     | '/apie'
     | '/auth'
+    | '/kainos'
     | '/kontaktai'
     | '/paslaugos'
     | '/privatumo-politika'
@@ -486,6 +506,7 @@ export interface FileRouteTypes {
     | '/admin/website/contact'
     | '/admin/website/home'
     | '/admin/website/posts'
+    | '/admin/website/prices'
     | '/admin/website/services'
     | '/admin/website/testimonials'
     | '/lovable/email/auth/preview'
@@ -494,6 +515,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/kainos'
     | '/kontaktai'
     | '/privatumo-politika'
     | '/registracija'
@@ -526,6 +548,7 @@ export interface FileRouteTypes {
     | '/admin/website/contact'
     | '/admin/website/home'
     | '/admin/website/posts'
+    | '/admin/website/prices'
     | '/admin/website/services'
     | '/admin/website/testimonials'
     | '/lovable/email/auth/preview'
@@ -537,6 +560,7 @@ export interface FileRouteTypes {
     | '/en'
     | '/apie'
     | '/auth'
+    | '/kainos'
     | '/kontaktai'
     | '/paslaugos'
     | '/privatumo-politika'
@@ -575,6 +599,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/website/contact'
     | '/_authenticated/admin/website/home'
     | '/_authenticated/admin/website/posts'
+    | '/_authenticated/admin/website/prices'
     | '/_authenticated/admin/website/services'
     | '/_authenticated/admin/website/testimonials'
     | '/lovable/email/auth/preview'
@@ -587,6 +612,7 @@ export interface RootRouteChildren {
   EnRouteRoute: typeof EnRouteRouteWithChildren
   ApieRoute: typeof ApieRouteWithChildren
   AuthRoute: typeof AuthRoute
+  KainosRoute: typeof KainosRoute
   KontaktaiRoute: typeof KontaktaiRoute
   PaslaugosRoute: typeof PaslaugosRouteWithChildren
   PrivatumoPolitikaRoute: typeof PrivatumoPolitikaRoute
@@ -635,6 +661,13 @@ declare module '@tanstack/react-router' {
       path: '/en'
       fullPath: '/en'
       preLoaderRoute: typeof EnRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kainos': {
+      id: '/kainos'
+      path: '/kainos'
+      fullPath: '/kainos'
+      preLoaderRoute: typeof KainosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kontaktai': {
@@ -903,6 +936,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminWebsitePostsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/website/prices': {
+      id: '/_authenticated/admin/website/prices'
+      path: '/website/prices'
+      fullPath: '/admin/website/prices'
+      preLoaderRoute: typeof AuthenticatedAdminWebsitePricesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/website/services': {
       id: '/_authenticated/admin/website/services'
       path: '/website/services'
@@ -946,6 +986,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminWebsiteContactRoute: typeof AuthenticatedAdminWebsiteContactRoute
   AuthenticatedAdminWebsiteHomeRoute: typeof AuthenticatedAdminWebsiteHomeRoute
   AuthenticatedAdminWebsitePostsRoute: typeof AuthenticatedAdminWebsitePostsRoute
+  AuthenticatedAdminWebsitePricesRoute: typeof AuthenticatedAdminWebsitePricesRoute
   AuthenticatedAdminWebsiteServicesRoute: typeof AuthenticatedAdminWebsiteServicesRoute
   AuthenticatedAdminWebsiteTestimonialsRoute: typeof AuthenticatedAdminWebsiteTestimonialsRoute
 }
@@ -962,6 +1003,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminWebsiteContactRoute: AuthenticatedAdminWebsiteContactRoute,
   AuthenticatedAdminWebsiteHomeRoute: AuthenticatedAdminWebsiteHomeRoute,
   AuthenticatedAdminWebsitePostsRoute: AuthenticatedAdminWebsitePostsRoute,
+  AuthenticatedAdminWebsitePricesRoute: AuthenticatedAdminWebsitePricesRoute,
   AuthenticatedAdminWebsiteServicesRoute:
     AuthenticatedAdminWebsiteServicesRoute,
   AuthenticatedAdminWebsiteTestimonialsRoute:
@@ -1088,6 +1130,7 @@ const rootRouteChildren: RootRouteChildren = {
   EnRouteRoute: EnRouteRouteWithChildren,
   ApieRoute: ApieRouteWithChildren,
   AuthRoute: AuthRoute,
+  KainosRoute: KainosRoute,
   KontaktaiRoute: KontaktaiRoute,
   PaslaugosRoute: PaslaugosRouteWithChildren,
   PrivatumoPolitikaRoute: PrivatumoPolitikaRoute,

@@ -13,6 +13,7 @@ export const common = {
   nav: {
     home: "Pagrindinis",
     services: "Paslaugos",
+    prices: "Kainos",
     about: "Apie",
     contacts: "Kontaktai",
     site: "Svetainė",

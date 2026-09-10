@@ -38,6 +38,8 @@ type ServiceDraft = {
   icon: string;
   tone: "t1" | "t2" | "t3" | "t4";
   includes: string[];
+  price_text: string;
+  price_note: string;
   sort_order: number;
   published: boolean;
   show_on_home: boolean;
@@ -58,6 +60,8 @@ const emptyDraft = (sortOrder: number): ServiceDraft => ({
   icon: "",
   tone: "t1",
   includes: [],
+  price_text: "",
+  price_note: "",
   sort_order: sortOrder,
   published: true,
   show_on_home: false,
@@ -114,6 +118,8 @@ function ServicesEditor() {
       icon: String(row['icon'] ?? ""),
       tone: (row['tone'] as ServiceDraft["tone"]) ?? "t1",
       includes: Array.isArray(row['includes']) ? (row['includes'] as string[]) : [],
+      price_text: String(row['price_text'] ?? ""),
+      price_note: String(row['price_note'] ?? ""),
       sort_order: Number(row['sort_order'] ?? 0),
       published: Boolean(row['published']),
       show_on_home: Boolean(row['show_on_home']),
@@ -309,6 +315,29 @@ function ServiceForm({
             )
           }
         />
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-2">
+          <Label>Kaina</Label>
+          <Input
+            value={draft.price_text}
+            onChange={(e) => set("price_text", e.target.value)}
+            placeholder="nuo 40 €"
+          />
+          <p className="text-xs text-muted-foreground">
+            Laisvas tekstas: „45 €“, „nuo 40 €“, „40–80 €“ ar „pagal konsultaciją“. Palikus tuščią,
+            kaina nerodoma.
+          </p>
+        </div>
+        <div className="space-y-2">
+          <Label>Kainos pastaba</Label>
+          <Input
+            value={draft.price_note}
+            onChange={(e) => set("price_note", e.target.value)}
+            placeholder="vienam dančiui"
+          />
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">

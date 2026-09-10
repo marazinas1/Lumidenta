@@ -17,6 +17,7 @@ export function mainNav(locale: Locale): NavEntry[] {
   const { nav } = getContent(locale).common;
   return [
     { label: nav.services, to: "/paslaugos" },
+    { label: nav.prices, to: "/kainos" },
     { label: nav.about, to: "/apie" },
     { label: nav.contacts, to: "/kontaktai" },
   ];
@@ -26,6 +27,7 @@ export function footerNav(locale: Locale): NavLink[] {
   const { nav } = getContent(locale).common;
   return [
     { label: nav.services, to: "/paslaugos" },
+    { label: nav.prices, to: "/kainos" },
     { label: nav.about, to: "/apie" },
     { label: nav.contacts, to: "/kontaktai" },
   ];

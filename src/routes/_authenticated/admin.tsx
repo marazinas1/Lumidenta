@@ -19,6 +19,7 @@ import {
   Settings,
 
   Stethoscope,
+  Tag,
   Users,
 } from "lucide-react";
 import { getMyRole } from "@/lib/roles.functions";
@@ -75,6 +76,7 @@ function AdminLayout() {
       links: [
         { to: "/admin/website/home", label: "Pradžia", icon: Home },
         { to: "/admin/website/services", label: "Paslaugos", icon: Stethoscope },
+        { to: "/admin/website/prices", label: "Kainos", icon: Tag },
         { to: "/admin/website/testimonials", label: "Atsiliepimai", icon: Quote },
         { to: "/admin/website/posts", label: "Straipsniai", icon: Newspaper },
         { to: "/admin/website/about", label: "Apie", icon: FileText },
