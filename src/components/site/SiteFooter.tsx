@@ -32,9 +32,8 @@ export function SiteFooter() {
             ) : null}
           </div>
           <nav className="foot-links" aria-label="Poraštė">
-            <LocaleLink to="/" hash="paslaugos">
-              Paslaugos
-            </LocaleLink>
+            <LocaleLink to="/paslaugos">Paslaugos</LocaleLink>
+            <LocaleLink to="/kainos">Kainos</LocaleLink>
             <LocaleLink to="/straipsniai">Straipsniai</LocaleLink>
             <LocaleLink to="/apie">Apie mane</LocaleLink>
             <LocaleLink to="/kontaktai">Kontaktai</LocaleLink>
