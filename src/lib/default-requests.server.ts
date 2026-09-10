@@ -1,7 +1,7 @@
 // Server-only: tells the developer that the owner asked for wording to become
 // the default. Sending is best effort — the request is stored either way.
 import { sendEmail } from "./notifications.server";
-import { appUrl } from "./app-url.server";
+import { appLink } from "./app-url.server";
 
 type Payload = {
   page: string;
@@ -32,7 +32,7 @@ export async function notifyDevelopersOfDefaultRequest(payload: Payload): Promis
 
     const who = payload.requesterEmail ?? "Svetainės savininkė";
     const where = `${payload.page} → ${payload.slot} (${payload.locale.toUpperCase()})`;
-    const link = `${appUrl()}/admin`;
+    const link = appLink("/admin");
     const text = [
       `${who} prašo šį tekstą padaryti numatytuoju.`,
       "",
