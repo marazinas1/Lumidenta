@@ -319,11 +319,16 @@ function UsersPage() {
                       <>
                         <Select
                           value={u.role}
-
+                          disabled={roleM.isPending && roleM.variables?.userId === u.userId}
                           onValueChange={(v) =>
-                            roleM.mutate({ userId: u.userId, role: v as "owner" | "editor" })
+                            roleM.mutate({
+                              userId: u.userId,
+                              role: v as "owner" | "editor",
+                              email: u.email,
+                            })
                           }
                         >
+
                           <SelectTrigger className="w-[160px]">
                             <SelectValue />
                           </SelectTrigger>
