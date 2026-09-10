@@ -132,7 +132,15 @@ function BookingPage() {
           <RevealItems className="sched-grid">
             {days.map((day) => {
               const open = openIntervalsFor(day, schedule.hours, schedule.exceptions);
-              const free = freeSlotsFor(day, schedule.hours, schedule.exceptions, schedule.busy);
+              const free = freeSlotsFor(
+                day,
+                schedule.hours,
+                schedule.exceptions,
+                schedule.busy,
+                30,
+                now,
+              );
+
               return (
                 <div key={ymd(day)} className="sched-day">
                   <h2>{formatDayLabel(day)}</h2>
