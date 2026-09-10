@@ -144,6 +144,12 @@ function ServiceDetailView({ service, tone }: { service: ServiceRow; tone: strin
           </div>
           <h1>{service.title}</h1>
           <p className="lead">{service.excerpt}</p>
+          {service.priceText ? (
+            <div className="svc-price">
+              {service.priceText}
+              {service.priceNote ? <span>{service.priceNote}</span> : null}
+            </div>
+          ) : null}
         </div>
       </section>
 
