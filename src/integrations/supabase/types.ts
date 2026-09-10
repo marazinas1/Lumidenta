@@ -73,6 +73,51 @@ export type Database = {
           },
         ]
       }
+      default_text_requests: {
+        Row: {
+          created_at: string
+          id: string
+          locale: string
+          page: string
+          requested_by: string
+          requested_text: string
+          resolved_at: string | null
+          resolved_by: string | null
+          seen_by_requester: boolean
+          slot: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          locale?: string
+          page: string
+          requested_by: string
+          requested_text?: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          seen_by_requester?: boolean
+          slot: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          locale?: string
+          page?: string
+          requested_by?: string
+          requested_text?: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          seen_by_requester?: boolean
+          slot?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           archived_at: string | null
@@ -176,6 +221,36 @@ export type Database = {
         Relationships: []
       }
       page_text: {
+        Row: {
+          created_at: string
+          id: string
+          locale: string
+          page: string
+          slot: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          locale?: string
+          page: string
+          slot: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          locale?: string
+          page?: string
+          slot?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
+      page_text_defaults: {
         Row: {
           created_at: string
           id: string
