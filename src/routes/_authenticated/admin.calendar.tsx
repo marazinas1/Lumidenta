@@ -484,15 +484,35 @@ function CalendarPage() {
 
           <div className="min-w-0 flex-1">
             <div className="flex border-b border-border/70">
-              {visibleDays.map((d) => (
-                <div key={ymd(d)} className="flex-1 px-2 py-2 text-center text-xs">
-                  <span className="text-muted-foreground">
-                    {WEEKDAYS_SHORT[(d.getDay() === 0 ? 7 : d.getDay()) - 1]}
-                  </span>{" "}
-                  <span className="font-medium">{d.getDate()}</span>
-                </div>
-              ))}
+              {visibleDays.map((d) => {
+                const dToday = isSameDay(d, today);
+                const showMonth =
+                  visibleDays.length > 1 && (d.getDate() === 1 || d === visibleDays[0]);
+                return (
+                  <div
+                    key={ymd(d)}
+                    className={`flex-1 px-2 py-2 text-center text-xs ${dToday ? "bg-primary/5" : ""}`}
+                  >
+                    <span className="text-muted-foreground">
+                      {WEEKDAYS_SHORT[(d.getDay() === 0 ? 7 : d.getDay()) - 1]}
+                    </span>{" "}
+                    <span
+                      className={
+                        dToday
+                          ? "ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 font-semibold text-primary-foreground"
+                          : "font-medium"
+                      }
+                    >
+                      {d.getDate()}
+                    </span>
+                    {showMonth ? (
+                      <span className="ml-1 text-muted-foreground">{MONTHS_SHORT[d.getMonth()]}</span>
+                    ) : null}
+                  </div>
+                );
+              })}
             </div>
+
 
             <div
               ref={gridRef}
