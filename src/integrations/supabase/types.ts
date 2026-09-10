@@ -552,6 +552,7 @@ export type Database = {
           favicon_path: string | null
           id: string
           logo_path: string | null
+          logo_size: number
           map_url: string
           opl_licence: string
           phone: string
@@ -570,6 +571,7 @@ export type Database = {
           favicon_path?: string | null
           id?: string
           logo_path?: string | null
+          logo_size?: number
           map_url?: string
           opl_licence?: string
           phone?: string
@@ -588,6 +590,7 @@ export type Database = {
           favicon_path?: string | null
           id?: string
           logo_path?: string | null
+          logo_size?: number
           map_url?: string
           opl_licence?: string
           phone?: string

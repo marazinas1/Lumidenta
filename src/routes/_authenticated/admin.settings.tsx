@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import { CATALOG_KEY, catalogQuery } from "@/lib/catalog";
 import { saveSiteSettings } from "@/lib/catalog-admin.functions";
 import { uploadFaviconToStorage, uploadLogoToStorage } from "@/lib/image-optimize";
@@ -30,6 +31,7 @@ type Form = {
   map_url: string;
   favicon_path: string;
   logo_path: string;
+  logo_size: number;
 };
 
 const FIELDS: { key: keyof Form; label: string; hint?: string }[] = [
@@ -68,6 +70,7 @@ const EMPTY: Form = {
   map_url: "",
   favicon_path: "",
   logo_path: "",
+  logo_size: 48,
 };
 
 function SettingsPage() {
@@ -93,6 +96,7 @@ function SettingsPage() {
       map_url: s.mapUrl,
       favicon_path: s.faviconPath,
       logo_path: s.logoPath,
+      logo_size: s.logoSize,
     });
   }, [data]);
 
@@ -243,9 +247,14 @@ function SettingsPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <div className="flex h-16 min-w-[160px] items-center justify-center overflow-hidden rounded-xl border border-border/70 bg-muted px-4">
+            <div className="flex h-20 min-w-[240px] items-center justify-center overflow-hidden rounded-xl border border-border/70 bg-muted px-4">
               {logoUrl ? (
-                <img src={logoUrl} alt="Logotipas" className="max-h-10 w-auto object-contain" />
+                <img
+                  src={logoUrl}
+                  alt="Logotipas"
+                  className="w-auto max-w-[260px] object-contain"
+                  style={{ height: form.logo_size }}
+                />
               ) : (
                 <span className="text-sm font-extrabold">Lumidenta</span>
               )}
@@ -284,6 +293,40 @@ function SettingsPage() {
                 Grąžinti numatytąjį
               </Button>
             ) : null}
+          </div>
+
+          <div className="max-w-md space-y-3 rounded-lg border border-border/70 p-4">
+            <div className="flex items-center justify-between gap-4">
+              <Label htmlFor="logo-size">Logotipo dydis</Label>
+              <span className="text-sm font-semibold tabular-nums">{form.logo_size} px</span>
+            </div>
+            <Slider
+              id="logo-size"
+              min={32}
+              max={80}
+              step={2}
+              value={[form.logo_size]}
+              onValueChange={([value]) => {
+                if (value !== undefined) setForm((current) => ({ ...current, logo_size: value }));
+              }}
+              onValueCommit={([value]) => {
+                if (value === undefined) return;
+                const next = { ...form, logo_size: value };
+                setForm(next);
+                void save({ data: next })
+                  .then(async () => {
+                    await queryClient.invalidateQueries({ queryKey: CATALOG_KEY });
+                    toast.success("Logotipo dydis išsaugotas.");
+                  })
+                  .catch((error: unknown) => {
+                    toast.error(error instanceof Error ? error.message : "Nepavyko išsaugoti dydžio");
+                  });
+              }}
+              aria-label="Logotipo dydis"
+            />
+            <p className="text-xs text-muted-foreground">
+              Dydis bus vienodas svetainės viršuje, poraštėje, prisijungime ir administravime.
+            </p>
           </div>
 
           <div>

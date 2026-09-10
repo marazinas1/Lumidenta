@@ -75,6 +75,7 @@ export type SiteSettings = {
   faviconUrl: string | null;
   logoPath: string;
   logoUrl: string | null;
+  logoSize: number;
 };
 
 export type CatalogPayload = {
@@ -100,6 +101,7 @@ export const emptySettings: SiteSettings = {
   faviconUrl: null,
   logoPath: "",
   logoUrl: null,
+  logoSize: 48,
 };
 
 export const emptyCatalog: CatalogPayload = {
@@ -236,8 +238,9 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
             : null,
           logoPath: s['logo_path'] || "",
           logoUrl: s['logo_path']
-            ? `${url}/storage/v1/object/public/site-images/${s['logo_path']}`
+            ? `${url}/storage/v1/object/public/site-images/${s['logo_path']}?v=${encodeURIComponent(s['updated_at'] || s['logo_path'])}`
             : null,
+          logoSize: Math.min(80, Math.max(32, Number(s['logo_size']) || 48)),
         }
       : emptySettings;
 
