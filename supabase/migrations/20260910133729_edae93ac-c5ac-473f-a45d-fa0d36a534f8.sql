@@ -1,0 +1,3 @@
+ALTER TABLE public.services
+  ADD COLUMN IF NOT EXISTS price_text text NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS price_note text NOT NULL DEFAULT '';
