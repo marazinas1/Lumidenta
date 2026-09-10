@@ -293,19 +293,23 @@ export function busyIntervalsFor(day: Date, busy: BusyInterval[]): Interval[] {
   return mergeIntervals(out);
 }
 
-/** Free slots of `step` minutes inside the open intervals, skipping busy time. */
+/**
+ * Free slots of `step` minutes inside the open intervals, skipping busy time.
+ * `now` is passed in explicitly: during SSR it must be null so the server and
+ * the first client render agree (hydration), and the client fills it after mount.
+ */
 export function freeSlotsFor(
   day: Date,
   hours: WorkingHour[],
   exceptions: ScheduleException[],
   busy: BusyInterval[],
   step = 30,
+  now: Date | null = null,
 ): Interval[] {
   const open = openIntervalsFor(day, hours, exceptions);
   const taken = busyIntervalsFor(day, busy);
-  const now = new Date();
-  const isToday = ymd(day) === ymd(now);
-  const nowMin = minutesOfDay(now);
+  const isToday = now ? ymd(day) === ymd(now) : false;
+  const nowMin = now ? minutesOfDay(now) : 0;
 
   const slots: Interval[] = [];
   for (const interval of open) {
@@ -318,3 +322,4 @@ export function freeSlotsFor(
   }
   return slots;
 }
+
