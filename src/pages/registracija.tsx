@@ -1,5 +1,6 @@
 import { queryOptions, useQuery, type QueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 
 import { Reveal, RevealItems } from "@/components/site/Reveal";
 import { getContent } from "@/content";
@@ -81,9 +82,13 @@ function BookingPage() {
   const { data } = useQuery(scheduleQuery());
   const schedule = data ?? emptySchedule;
   const [weekOffset, setWeekOffset] = useState(0);
+  // Past slots are hidden only after mount, so SSR and hydration agree.
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => setNow(new Date()), []);
 
   const weekStart = addDays(startOfWeek(new Date()), weekOffset * 7);
   const days = weekDays(weekStart);
+
 
   return (
     <>
@@ -127,7 +132,15 @@ function BookingPage() {
           <RevealItems className="sched-grid">
             {days.map((day) => {
               const open = openIntervalsFor(day, schedule.hours, schedule.exceptions);
-              const free = freeSlotsFor(day, schedule.hours, schedule.exceptions, schedule.busy);
+              const free = freeSlotsFor(
+                day,
+                schedule.hours,
+                schedule.exceptions,
+                schedule.busy,
+                30,
+                now,
+              );
+
               return (
                 <div key={ymd(day)} className="sched-day">
                   <h2>{formatDayLabel(day)}</h2>

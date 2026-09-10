@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react";
 
@@ -24,21 +24,30 @@ import {
 } from "@/lib/schedule-admin.functions";
 import {
   addDays,
+  addMonths,
   dayTime,
   formatDayLabel,
+  formatRangeLabel,
   formatTime,
+  isSameDay,
   minToHHMM,
   minutesOfDay,
+  monthGridDays,
+  MONTHS_SHORT,
   openIntervalsFor,
+  startOfMonth,
   startOfWeek,
   STATUS_LABEL,
   WEEKDAYS_SHORT,
   weekDays,
   ymd,
   type Appointment,
+  type CalendarView,
   type ScheduleException,
   type WorkingHour,
 } from "@/lib/schedule";
+import { MonthGrid } from "@/components/admin/calendar/MonthGrid";
+
 
 export const Route = createFileRoute("/_authenticated/admin/calendar")({
   component: CalendarPage,
@@ -80,15 +89,38 @@ function CalendarPage() {
   const queryClient = useQueryClient();
   const { services } = useCatalog();
 
-  const [weekStart, setWeekStart] = useState(() => startOfWeek(new Date()));
+  const [view, setView] = useState<CalendarView>("week");
+  const [anchor, setAnchor] = useState(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  });
   const [mobileDay, setMobileDay] = useState(() => ymd(new Date()));
   const [draft, setDraft] = useState<Draft | null>(null);
   const [drag, setDrag] = useState<DragState | null>(null);
+  const [now, setNow] = useState<Date | null>(null);
   const gridRef = useRef<HTMLDivElement | null>(null);
 
-  const days = weekDays(weekStart);
+  // Remember the last used view; read after mount so SSR markup stays stable.
+  useEffect(() => {
+    const stored = window.localStorage.getItem("lumidenta-calendar-view");
+    if (stored === "day" || stored === "week" || stored === "month") setView(stored);
+    else if (window.matchMedia("(max-width: 767px)").matches) setView("day");
+    setNow(new Date());
+    const timer = window.setInterval(() => setNow(new Date()), 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  function changeView(next: CalendarView) {
+    setView(next);
+    window.localStorage.setItem("lumidenta-calendar-view", next);
+  }
+
+  const weekStart = startOfWeek(anchor);
+  const days = view === "month" ? monthGridDays(anchor) : weekDays(weekStart);
   const from = ymd(days[0] as Date);
-  const to = ymd(days[6] as Date);
+  const to = ymd(days[days.length - 1] as Date);
+
 
   const fetchAppointments = useServerFn(listAppointments);
   const fetchHours = useServerFn(listWorkingHours);
@@ -181,8 +213,18 @@ function CalendarPage() {
   }, [hours, appointments]);
 
   const totalMin = dayEnd - dayStart;
-  const visibleDays = isMobile ? days.filter((d) => ymd(d) === mobileDay) : days;
-  if (isMobile && visibleDays.length === 0) visibleDays.push(days[0] as Date);
+
+  // Which day columns the time grid shows.
+  let visibleDays: Date[];
+  if (view === "day") {
+    visibleDays = [anchor];
+  } else if (isMobile) {
+    const picked = days.filter((d) => ymd(d) === mobileDay);
+    visibleDays = picked.length > 0 ? picked : [days[0] as Date];
+  } else {
+    visibleDays = days;
+  }
+
 
   function positionOf(appt: Appointment) {
     const start = new Date(appt.starts_at);
@@ -273,35 +315,138 @@ function CalendarPage() {
     });
   }
 
+  function editAppointment(appt: Appointment) {
+    const start = new Date(appt.starts_at);
+    const end = new Date(appt.ends_at);
+    setDraft({
+      id: appt.id,
+      day: ymd(start),
+      start: formatTime(start),
+      end: formatTime(end),
+      service_id: appt.service_id,
+      service_title: appt.service_title,
+      patient_name: appt.patient_name,
+      patient_phone: appt.patient_phone,
+      patient_email: appt.patient_email,
+      note: appt.note,
+      status: appt.status,
+      kind: appt.kind,
+    });
+  }
+
+  function step(direction: 1 | -1) {
+    if (view === "day") setAnchor(addDays(anchor, direction));
+    else if (view === "week") setAnchor(addDays(startOfWeek(anchor), direction * 7));
+    else setAnchor(addMonths(startOfMonth(anchor), direction));
+  }
+
+  function goToday() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    setAnchor(today);
+    setMobileDay(ymd(today));
+  }
+
+  const today = now ?? new Date();
+  const isCurrentPeriod =
+    view === "day"
+      ? isSameDay(anchor, today)
+      : view === "week"
+        ? ymd(startOfWeek(anchor)) === ymd(startOfWeek(today))
+        : anchor.getFullYear() === today.getFullYear() && anchor.getMonth() === today.getMonth();
+
+  const views: { id: CalendarView; label: string }[] = [
+    { id: "day", label: "Diena" },
+    { id: "week", label: "Savaitė" },
+    { id: "month", label: "Mėnuo" },
+  ];
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <ReadOnlyNotice canEdit={canEdit} />
 
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold">Kalendorius</h1>
-          <p className="mt-2 max-w-prose text-sm text-muted-foreground">
-            Vizitai ir užblokuotas laikas. Spustelėkite tuščią vietą, kad įrašytumėte naują vizitą;
-            įrašą galima tempti į kitą laiką, o už apatinio krašto — keisti trukmę.
-          </p>
+      <div>
+        <h1 className="text-2xl font-semibold">Kalendorius</h1>
+        <p className="mt-2 max-w-prose text-sm text-muted-foreground">
+          Vizitai ir užblokuotas laikas. Spustelėkite tuščią vietą, kad įrašytumėte naują vizitą;
+          įrašą galima tempti į kitą laiką, o už apatinio krašto — keisti trukmę.
+        </p>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="text-lg font-semibold">{formatRangeLabel(view, anchor)}</div>
+          <div className="flex items-center gap-1">
+            <Button variant="outline" size="sm" aria-label="Ankstesnis" onClick={() => step(-1)}>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" size="sm" disabled={isCurrentPeriod} onClick={goToday}>
+              Šiandien
+            </Button>
+            <Button variant="outline" size="sm" aria-label="Kitas" onClick={() => step(1)}>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => setWeekStart(addDays(weekStart, -7))}>
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => setWeekStart(startOfWeek(new Date()))}>
-            Ši savaitė
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => setWeekStart(addDays(weekStart, 7))}>
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-          <Button size="sm" disabled={!canEdit} onClick={() => newAt(days[0] as Date, 9 * 60)}>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="inline-flex rounded-lg border border-border/70 p-0.5">
+            {views.map((v) => (
+              <button
+                key={v.id}
+                type="button"
+                onClick={() => changeView(v.id)}
+                className={`rounded-md px-3 py-1.5 text-sm transition-colors ${
+                  view === v.id
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {v.label}
+              </button>
+            ))}
+          </div>
+          <Button
+            size="sm"
+            disabled={!canEdit}
+            onClick={() => newAt(view === "week" ? (days[0] as Date) : anchor, 9 * 60)}
+          >
             <Plus className="mr-2 h-4 w-4" /> Naujas vizitas
           </Button>
         </div>
       </div>
 
-      {isMobile ? (
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-sm bg-primary/25" /> Patvirtintas
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-sm bg-primary/15" /> Laukia patvirtinimo
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-sm bg-muted" /> Užblokuotas laikas
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-sm border border-border bg-background" /> Atšauktas
+        </span>
+      </div>
+
+      {view === "month" ? (
+        <MonthGrid
+          anchor={anchor}
+          appointments={appointments}
+          hours={hours}
+          exceptions={exceptions}
+          onOpenDay={(day) => {
+            setAnchor(day);
+            setMobileDay(ymd(day));
+            changeView("day");
+          }}
+          onOpenAppointment={editAppointment}
+        />
+      ) : (
+        <>
+      {isMobile && view === "week" ? (
         <div className="flex gap-2 overflow-x-auto pb-1">
           {days.map((d, i) => {
             const key = ymd(d);
@@ -322,6 +467,7 @@ function CalendarPage() {
         </div>
       ) : null}
 
+
       <div className="rounded-xl border border-border/70">
         <div className="flex">
           <div className="w-14 shrink-0 border-r border-border/70 pt-9">
@@ -338,15 +484,35 @@ function CalendarPage() {
 
           <div className="min-w-0 flex-1">
             <div className="flex border-b border-border/70">
-              {visibleDays.map((d) => (
-                <div key={ymd(d)} className="flex-1 px-2 py-2 text-center text-xs">
-                  <span className="text-muted-foreground">
-                    {WEEKDAYS_SHORT[(d.getDay() === 0 ? 7 : d.getDay()) - 1]}
-                  </span>{" "}
-                  <span className="font-medium">{d.getDate()}</span>
-                </div>
-              ))}
+              {visibleDays.map((d) => {
+                const dToday = isSameDay(d, today);
+                const showMonth =
+                  visibleDays.length > 1 && (d.getDate() === 1 || d === visibleDays[0]);
+                return (
+                  <div
+                    key={ymd(d)}
+                    className={`flex-1 px-2 py-2 text-center text-xs ${dToday ? "bg-primary/5" : ""}`}
+                  >
+                    <span className="text-muted-foreground">
+                      {WEEKDAYS_SHORT[(d.getDay() === 0 ? 7 : d.getDay()) - 1]}
+                    </span>{" "}
+                    <span
+                      className={
+                        dToday
+                          ? "ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 font-semibold text-primary-foreground"
+                          : "font-medium"
+                      }
+                    >
+                      {d.getDate()}
+                    </span>
+                    {showMonth ? (
+                      <span className="ml-1 text-muted-foreground">{MONTHS_SHORT[d.getMonth()]}</span>
+                    ) : null}
+                  </div>
+                );
+              })}
             </div>
+
 
             <div
               ref={gridRef}
@@ -356,6 +522,15 @@ function CalendarPage() {
               onPointerUp={onPointerUp}
               onPointerCancel={onPointerUp}
             >
+              {now && visibleDays.some((d) => isSameDay(d, now)) ? (
+                <div
+                  className="pointer-events-none absolute inset-x-0 z-10 border-t border-destructive"
+                  style={{ top: (minutesOfDay(now) - dayStart) * PX_PER_MIN }}
+                >
+                  <span className="absolute -left-1 -top-1 h-2 w-2 rounded-full bg-destructive" />
+                </div>
+              ) : null}
+
               {visibleDays.map((day) => {
                 const open = openIntervalsFor(day, hours, exceptions);
                 const dayKey = ymd(day);
@@ -415,23 +590,9 @@ function CalendarPage() {
                             onClick={(e) => {
                               e.stopPropagation();
                               if (drag) return;
-                              const start = new Date(appt.starts_at);
-                              const end = new Date(appt.ends_at);
-                              setDraft({
-                                id: appt.id,
-                                day: ymd(start),
-                                start: formatTime(start),
-                                end: formatTime(end),
-                                service_id: appt.service_id,
-                                service_title: appt.service_title,
-                                patient_name: appt.patient_name,
-                                patient_phone: appt.patient_phone,
-                                patient_email: appt.patient_email,
-                                note: appt.note,
-                                status: appt.status,
-                                kind: appt.kind,
-                              });
+                              editAppointment(appt);
                             }}
+
                           >
                             <div className="font-medium">
                               {formatTime(appt.starts_at)}
@@ -458,6 +619,9 @@ function CalendarPage() {
           </div>
         </div>
       </div>
+        </>
+      )}
+
 
       <Dialog open={draft !== null} onOpenChange={(open) => (open ? null : setDraft(null))}>
         <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">

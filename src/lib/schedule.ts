@@ -118,24 +118,103 @@ export function formatTime(value: string | Date) {
   return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
 
+/** Genitive month names ("rugsėjo 9 d."). */
+export const MONTHS_GENITIVE = [
+  "sausio",
+  "vasario",
+  "kovo",
+  "balandžio",
+  "gegužės",
+  "birželio",
+  "liepos",
+  "rugpjūčio",
+  "rugsėjo",
+  "spalio",
+  "lapkričio",
+  "gruodžio",
+] as const;
+
+/** Nominative month names ("rugsėjis"). */
+export const MONTHS_NOMINATIVE = [
+  "sausis",
+  "vasaris",
+  "kovas",
+  "balandis",
+  "gegužė",
+  "birželis",
+  "liepa",
+  "rugpjūtis",
+  "rugsėjis",
+  "spalis",
+  "lapkritis",
+  "gruodis",
+] as const;
+
+export const MONTHS_SHORT = [
+  "sau.",
+  "vas.",
+  "kov.",
+  "bal.",
+  "geg.",
+  "birž.",
+  "liep.",
+  "rugp.",
+  "rugs.",
+  "spal.",
+  "lapkr.",
+  "gruod.",
+] as const;
+
 export function formatDayLabel(date: Date) {
-  return `${WEEKDAYS[isoWeekday(date) - 1]}, ${date.getDate()} ${
-    [
-      "sausio",
-      "vasario",
-      "kovo",
-      "balandžio",
-      "gegužės",
-      "birželio",
-      "liepos",
-      "rugpjūčio",
-      "rugsėjo",
-      "spalio",
-      "lapkričio",
-      "gruodžio",
-    ][date.getMonth()]
-  }`;
+  return `${WEEKDAYS[isoWeekday(date) - 1]}, ${date.getDate()} ${MONTHS_GENITIVE[date.getMonth()]}`;
 }
+
+export function isSameDay(a: Date, b: Date) {
+  return ymd(a) === ymd(b);
+}
+
+export function startOfMonth(date: Date) {
+  const d = new Date(date.getFullYear(), date.getMonth(), 1);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+export function addMonths(date: Date, months: number) {
+  return new Date(date.getFullYear(), date.getMonth() + months, 1);
+}
+
+/** Full Monday-first grid covering the month (always whole weeks). */
+export function monthGridDays(anchor: Date): Date[] {
+  const first = startOfWeek(startOfMonth(anchor));
+  const lastOfMonth = new Date(anchor.getFullYear(), anchor.getMonth() + 1, 0);
+  const total = Math.ceil((lastOfMonth.getTime() - first.getTime()) / 86400000 + 1);
+  const weeks = Math.ceil(total / 7);
+  return Array.from({ length: weeks * 7 }, (_, i) => addDays(first, i));
+}
+
+export type CalendarView = "day" | "week" | "month";
+
+/** Human range label for the calendar toolbar. */
+export function formatRangeLabel(view: CalendarView, anchor: Date): string {
+  const year = anchor.getFullYear();
+  if (view === "day") {
+    return `${WEEKDAYS[isoWeekday(anchor) - 1]}, ${year} m. ${
+      MONTHS_GENITIVE[anchor.getMonth()]
+    } ${anchor.getDate()} d.`;
+  }
+  if (view === "month") {
+    return `${year} m. ${MONTHS_NOMINATIVE[anchor.getMonth()]}`;
+  }
+  const start = startOfWeek(anchor);
+  const end = addDays(start, 6);
+  if (start.getMonth() === end.getMonth()) {
+    return `${start.getFullYear()} m. ${MONTHS_GENITIVE[start.getMonth()]} ${start.getDate()}–${end.getDate()} d.`;
+  }
+  const startPart = `${MONTHS_GENITIVE[start.getMonth()]} ${start.getDate()}`;
+  const endPart = `${MONTHS_GENITIVE[end.getMonth()]} ${end.getDate()} d.`;
+  return `${end.getFullYear()} m. ${startPart} – ${endPart}`;
+}
+
 
 function mergeIntervals(list: Interval[]): Interval[] {
   const sorted = [...list].sort((a, b) => a.start - b.start);
@@ -214,19 +293,23 @@ export function busyIntervalsFor(day: Date, busy: BusyInterval[]): Interval[] {
   return mergeIntervals(out);
 }
 
-/** Free slots of `step` minutes inside the open intervals, skipping busy time. */
+/**
+ * Free slots of `step` minutes inside the open intervals, skipping busy time.
+ * `now` is passed in explicitly: during SSR it must be null so the server and
+ * the first client render agree (hydration), and the client fills it after mount.
+ */
 export function freeSlotsFor(
   day: Date,
   hours: WorkingHour[],
   exceptions: ScheduleException[],
   busy: BusyInterval[],
   step = 30,
+  now: Date | null = null,
 ): Interval[] {
   const open = openIntervalsFor(day, hours, exceptions);
   const taken = busyIntervalsFor(day, busy);
-  const now = new Date();
-  const isToday = ymd(day) === ymd(now);
-  const nowMin = minutesOfDay(now);
+  const isToday = now ? ymd(day) === ymd(now) : false;
+  const nowMin = now ? minutesOfDay(now) : 0;
 
   const slots: Interval[] = [];
   for (const interval of open) {
@@ -239,3 +322,4 @@ export function freeSlotsFor(
   }
   return slots;
 }
+
