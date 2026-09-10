@@ -161,3 +161,56 @@ export async function uploadFaviconToStorage(
   const { data } = supabase.storage.from("site-images").getPublicUrl(path);
   return { url: data.publicUrl, path };
 }
+
+/** Upload a site logo: scaled to max 600px wide, transparent PNG preserved. */
+export async function uploadLogoToStorage(
+  source: Blob | File,
+): Promise<{ url: string; path: string }> {
+  const isSvg = source.type === "image/svg+xml";
+  const uuid =
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+  let blob: Blob = source;
+  let contentType = "image/svg+xml";
+  let ext = "svg";
+
+  if (!isSvg) {
+    const objectUrl = URL.createObjectURL(source);
+    try {
+      const img = await loadImage(objectUrl);
+      const maxW = 600;
+      const scale = Math.min(1, maxW / img.naturalWidth);
+      const w = Math.max(1, Math.round(img.naturalWidth * scale));
+      const h = Math.max(1, Math.round(img.naturalHeight * scale));
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("Canvas kontekstas nepasiekiamas");
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(img, 0, 0, w, h);
+      blob = await new Promise<Blob>((resolve, reject) =>
+        canvas.toBlob(
+          (b) => (b ? resolve(b) : reject(new Error("Nepavyko paruošti logotipo"))),
+          "image/png",
+        ),
+      );
+    } finally {
+      URL.revokeObjectURL(objectUrl);
+    }
+    contentType = "image/png";
+    ext = "png";
+  }
+
+  const path = `logo/${uuid}.${ext}`;
+  const { error } = await supabase.storage.from("site-images").upload(path, blob, {
+    contentType,
+    cacheControl: "3600",
+    upsert: false,
+  });
+  if (error) throw new Error(error.message);
+  const { data } = supabase.storage.from("site-images").getPublicUrl(path);
+  return { url: data.publicUrl, path };
+}
