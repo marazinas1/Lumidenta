@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink, Eye, Inbox, Mail, Settings, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { DefaultRequestQueue } from "@/components/admin/DefaultRequestQueue";
 import { useAnalytics } from "@/hooks/admin/useAnalytics";
 import { useRecentInquiries, useUnreadInquiryCount } from "@/hooks/admin/useInquiries";
 import { useBrandedTitle } from "@/hooks/useBrandedTitle";
@@ -48,6 +49,8 @@ function AdminDashboard() {
           Kas laukia dėmesio ir kaip svetainė lankoma per pastarąsias 7 dienas.
         </p>
       </header>
+
+      <DefaultRequestQueue />
 
       <section>
         <h2 className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
