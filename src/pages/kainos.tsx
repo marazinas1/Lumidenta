@@ -20,7 +20,7 @@ export function pricesRoute(locale: Locale) {
         path: "/kainos",
         title: `Kainos — ${c.common.brand}`,
         description:
-          "Odontologijos paslaugų kainos Vilniuje: plomba, burnos higiena, kanalų gydymas, protezavimas. Galutinė kaina patvirtinama po apžiūros.",
+          "Odontologijos paslaugų kainoraštis Vilniuje: konsultacija, burnos higiena, plombavimas, kanalų gydymas, protezavimas. Galutinė kaina patvirtinama po apžiūros.",
         locale,
       }),
     }),
@@ -30,19 +30,19 @@ export function pricesRoute(locale: Locale) {
 
 function PricesPage({ locale }: { locale: Locale }) {
   const { copy } = usePageContent(PAGE, locale);
-  const { services } = useCatalog();
-  const priced = services.filter((s) => s.priceText.trim());
+  const { priceGroups } = useCatalog();
+  const groups = priceGroups.filter((group) => group.items.length > 0);
 
   return (
     <>
       <section className="page-head">
         <div className="wrap">
-          <div className="eyebrow">{copy("hero_eyebrow", "Kainos")}</div>
-          <h1>{copy("hero_heading", "Aiškios bazinės kainos.")}</h1>
+          <div className="eyebrow">{copy("hero_eyebrow", "Kainoraštis")}</div>
+          <h1>{copy("hero_heading", "Aiškios kainos, be netikėtumų.")}</h1>
           <p className="lead">
             {copy(
               "hero_lead",
-              "Žemiau — dažniausių paslaugų bazinės kainos. Tikslų planą ir galutinę kainą aptariame vizito metu, prieš pradedant gydymą.",
+              "Žemiau — dažniausių procedūrų kainos. Tikslų planą ir galutinę kainą aptariame vizito metu, prieš pradedant gydymą.",
             )}
           </p>
         </div>
@@ -50,28 +50,30 @@ function PricesPage({ locale }: { locale: Locale }) {
 
       <section className="page-body">
         <div className="wrap">
-          {priced.length > 0 ? (
-            <RevealItems className="price-list">
-              {priced.map((service) => (
-                <LocaleLink
-                  key={service.id}
-                  to="/paslaugos/$slug"
-                  params={{ slug: service.slug }}
-                  className="price-row"
-                >
-                  <span className="price-name">
-                    <strong>{service.title}</strong>
-                    {service.excerpt ? <span>{service.excerpt}</span> : null}
-                  </span>
-                  <span className="price-value">
-                    <strong>{service.priceText}</strong>
-                    {service.priceNote ? <span>{service.priceNote}</span> : null}
-                  </span>
-                </LocaleLink>
+          {groups.length > 0 ? (
+            <RevealItems className="price-groups">
+              {groups.map((group) => (
+                <div className="price-group" key={group.id}>
+                  <div className="price-group-head">
+                    <h2>{group.title}</h2>
+                    {group.note ? <p>{group.note}</p> : null}
+                  </div>
+                  <ul className="price-lines">
+                    {group.items.map((item) => (
+                      <li key={item.id}>
+                        <span className="price-name">
+                          <strong>{item.title}</strong>
+                          {item.note ? <span>{item.note}</span> : null}
+                        </span>
+                        <span className="price-value">{item.priceText || "pagal konsultaciją"}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
             </RevealItems>
           ) : (
-            <p className="lead">Kainoraštis netrukus bus atnaujintas.</p>
+            <p className="lead">Kainoraštis netrukus bus paskelbtas.</p>
           )}
 
           <Reveal className="price-note">
