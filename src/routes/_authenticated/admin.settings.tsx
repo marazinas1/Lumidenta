@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CATALOG_KEY, catalogQuery } from "@/lib/catalog";
 import { saveSiteSettings } from "@/lib/catalog-admin.functions";
-import { uploadFaviconToStorage } from "@/lib/image-optimize";
+import { uploadFaviconToStorage, uploadLogoToStorage } from "@/lib/image-optimize";
 
 export const Route = createFileRoute("/_authenticated/admin/settings")({
   component: SettingsPage,
@@ -29,6 +29,7 @@ type Form = {
   facebook_url: string;
   map_url: string;
   favicon_path: string;
+  logo_path: string;
 };
 
 const FIELDS: { key: keyof Form; label: string; hint?: string }[] = [
@@ -56,6 +57,7 @@ const EMPTY: Form = {
   facebook_url: "",
   map_url: "",
   favicon_path: "",
+  logo_path: "",
 };
 
 function SettingsPage() {
@@ -80,6 +82,7 @@ function SettingsPage() {
       facebook_url: s.facebookUrl,
       map_url: s.mapUrl,
       favicon_path: s.faviconPath,
+      logo_path: s.logoPath,
     });
   }, [data]);
 
@@ -91,6 +94,44 @@ function SettingsPage() {
       ? data.settings.faviconUrl
       : null
     : null;
+
+  const logoInputRef = useRef<HTMLInputElement>(null);
+  const [logoUploading, setLogoUploading] = useState(false);
+
+  const logoUrl =
+    form.logo_path && form.logo_path === data?.settings.logoPath
+      ? (data?.settings.logoUrl ?? null)
+      : null;
+
+  async function onLogoFile(file: File) {
+    setLogoUploading(true);
+    try {
+      const uploaded = await uploadLogoToStorage(file);
+      await save({ data: { ...form, logo_path: uploaded.path } });
+      setForm((f) => ({ ...f, logo_path: uploaded.path }));
+      await queryClient.invalidateQueries({ queryKey: CATALOG_KEY });
+      toast.success("Logotipas įkeltas.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Nepavyko įkelti logotipo");
+    } finally {
+      setLogoUploading(false);
+      if (logoInputRef.current) logoInputRef.current.value = "";
+    }
+  }
+
+  async function resetLogo() {
+    setLogoUploading(true);
+    try {
+      await save({ data: { ...form, logo_path: "" } });
+      setForm((f) => ({ ...f, logo_path: "" }));
+      await queryClient.invalidateQueries({ queryKey: CATALOG_KEY });
+      toast.success("Grąžintas numatytasis logotipas.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Nepavyko atstatyti");
+    } finally {
+      setLogoUploading(false);
+    }
+  }
 
   async function onFaviconFile(file: File) {
     setUploading(true);
@@ -163,6 +204,63 @@ function SettingsPage() {
           <Button onClick={() => mutation.mutate()} disabled={mutation.isPending}>
             {mutation.isPending ? "Saugoma…" : "Išsaugoti"}
           </Button>
+        </section>
+      )}
+
+      {isLoading ? null : (
+        <section className="space-y-4 rounded-xl border border-border/70 p-5">
+          <div>
+            <Label>Logotipas</Label>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Rodomas svetainės viršuje, poraštėje, prisijungimo lange ir admin panelėje. Geriausiai
+              tinka PNG su permatomu fonu arba SVG. Kol nieko neįkelta, rodomas numatytasis
+              „Lumidenta“ užrašas su ženkleliu.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex h-16 min-w-[160px] items-center justify-center overflow-hidden rounded-xl border border-border/70 bg-muted px-4">
+              {logoUrl ? (
+                <img src={logoUrl} alt="Logotipas" className="max-h-10 w-auto object-contain" />
+              ) : (
+                <span className="text-sm font-extrabold">Lumidenta</span>
+              )}
+            </div>
+            <input
+              ref={logoInputRef}
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/svg+xml"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) void onLogoFile(file);
+              }}
+            />
+            <Button
+              type="button"
+              size="sm"
+              disabled={logoUploading}
+              onClick={() => logoInputRef.current?.click()}
+            >
+              {logoUploading ? (
+                <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Upload className="mr-1 h-3.5 w-3.5" />
+              )}
+              Įkelti logotipą
+            </Button>
+            {form.logo_path ? (
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                disabled={logoUploading}
+                onClick={() => void resetLogo()}
+              >
+                Grąžinti numatytąjį
+              </Button>
+            ) : null}
+          </div>
         </section>
       )}
 

@@ -445,6 +445,9 @@
 .luma .nav-row{display:flex;align-items:center;justify-content:space-between;height:92px;gap:16px;}
 .luma .logo{display:flex;align-items:center;gap:9px;font-size:1.18rem;font-weight:800;}
 .luma .logo-mark{width:22px;height:22px;flex-shrink:0;}
+.luma .logo-image{height:30px;width:auto;max-width:220px;object-fit:contain;display:block;}
+.luma .foot-row .logo-image{height:26px;}
+.luma .auth-brand-logo .logo-image{height:38px;max-width:260px;}
 .luma nav.primary{display:flex;gap:32px;}
 .luma nav.primary a{font-size:0.92rem;color:var(--ink-soft);font-weight:500;}
 .luma nav.primary a:hover,.luma nav.primary a.active{color:var(--ink);}

@@ -73,6 +73,8 @@ export type SiteSettings = {
   mapUrl: string;
   faviconPath: string;
   faviconUrl: string | null;
+  logoPath: string;
+  logoUrl: string | null;
 };
 
 export type CatalogPayload = {
@@ -96,6 +98,8 @@ export const emptySettings: SiteSettings = {
   mapUrl: "",
   faviconPath: "",
   faviconUrl: null,
+  logoPath: "",
+  logoUrl: null,
 };
 
 export const emptyCatalog: CatalogPayload = {
@@ -229,6 +233,10 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
           faviconPath: s['favicon_path'] || "",
           faviconUrl: s['favicon_path']
             ? `${url}/storage/v1/object/public/site-images/${s['favicon_path']}`
+            : null,
+          logoPath: s['logo_path'] || "",
+          logoUrl: s['logo_path']
+            ? `${url}/storage/v1/object/public/site-images/${s['logo_path']}`
             : null,
         }
       : emptySettings;
