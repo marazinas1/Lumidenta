@@ -46,6 +46,20 @@ export type PostRow = {
 };
 
 
+export type PriceItem = {
+  id: string;
+  title: string;
+  note: string;
+  priceText: string;
+};
+
+export type PriceGroup = {
+  id: string;
+  title: string;
+  note: string;
+  items: PriceItem[];
+};
+
 export type SiteSettings = {
   practiceName: string;
   dentistName: string;
@@ -65,6 +79,7 @@ export type CatalogPayload = {
   services: ServiceRow[];
   testimonials: TestimonialRow[];
   posts: PostRow[];
+  priceGroups: PriceGroup[];
   settings: SiteSettings;
 };
 
@@ -87,6 +102,7 @@ export const emptyCatalog: CatalogPayload = {
   services: [],
   testimonials: [],
   posts: [],
+  priceGroups: [],
   settings: emptySettings,
 };
 
@@ -106,7 +122,8 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
       auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
     });
 
-    const [servicesRes, testimonialsRes, postsRes, settingsRes] = await Promise.all([
+    const [servicesRes, testimonialsRes, postsRes, settingsRes, groupsRes, itemsRes] =
+      await Promise.all([
       supabase
         .from("services")
         .select(
@@ -127,7 +144,31 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
         .eq("published", true)
         .order("published_at", { ascending: false }),
       supabase.from("site_settings").select("*").limit(1).maybeSingle(),
+      supabase
+        .from("price_groups")
+        .select("id, title, note, sort_order")
+        .eq("published", true)
+        .order("sort_order", { ascending: true }),
+      supabase
+        .from("price_items")
+        .select("id, group_id, title, note, price_text, sort_order")
+        .eq("published", true)
+        .order("sort_order", { ascending: true }),
     ]);
+
+    const priceGroups: PriceGroup[] = (groupsRes.data ?? []).map((group) => ({
+      id: group.id,
+      title: group.title,
+      note: group.note ?? "",
+      items: (itemsRes.data ?? [])
+        .filter((item) => item.group_id === group.id)
+        .map((item) => ({
+          id: item.id,
+          title: item.title,
+          note: item.note ?? "",
+          priceText: item.price_text ?? "",
+        })),
+    }));
 
     const services: ServiceRow[] = (servicesRes.data ?? []).map((row) => ({
       id: row.id,
@@ -192,6 +233,6 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
         }
       : emptySettings;
 
-    return { services, testimonials, posts, settings };
+    return { services, testimonials, posts, priceGroups, settings };
   },
 );

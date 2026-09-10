@@ -148,6 +148,7 @@ function ServiceDetailView({ service, tone }: { service: ServiceRow; tone: strin
             <div className="svc-price">
               {service.priceText}
               {service.priceNote ? <span>{service.priceNote}</span> : null}
+              <LocaleLink to="/kainos">Visas kainoraštis →</LocaleLink>
             </div>
           ) : null}
         </div>

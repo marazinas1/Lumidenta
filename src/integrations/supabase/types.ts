@@ -292,6 +292,80 @@ export type Database = {
         }
         Relationships: []
       }
+      price_groups: {
+        Row: {
+          created_at: string
+          id: string
+          note: string
+          published: boolean
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string
+          published?: boolean
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string
+          published?: boolean
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      price_items: {
+        Row: {
+          created_at: string
+          group_id: string
+          id: string
+          note: string
+          price_text: string
+          published: boolean
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          group_id: string
+          id?: string
+          note?: string
+          price_text?: string
+          published?: boolean
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          group_id?: string
+          id?: string
+          note?: string
+          price_text?: string
+          published?: boolean
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_items_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "price_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       schedule_exceptions: {
         Row: {
           created_at: string
