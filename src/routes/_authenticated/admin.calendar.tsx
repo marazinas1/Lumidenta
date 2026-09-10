@@ -561,23 +561,9 @@ function CalendarPage() {
                             onClick={(e) => {
                               e.stopPropagation();
                               if (drag) return;
-                              const start = new Date(appt.starts_at);
-                              const end = new Date(appt.ends_at);
-                              setDraft({
-                                id: appt.id,
-                                day: ymd(start),
-                                start: formatTime(start),
-                                end: formatTime(end),
-                                service_id: appt.service_id,
-                                service_title: appt.service_title,
-                                patient_name: appt.patient_name,
-                                patient_phone: appt.patient_phone,
-                                patient_email: appt.patient_email,
-                                note: appt.note,
-                                status: appt.status,
-                                kind: appt.kind,
-                              });
+                              editAppointment(appt);
                             }}
+
                           >
                             <div className="font-medium">
                               {formatTime(appt.starts_at)}
