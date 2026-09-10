@@ -213,8 +213,18 @@ function CalendarPage() {
   }, [hours, appointments]);
 
   const totalMin = dayEnd - dayStart;
-  const visibleDays = isMobile ? days.filter((d) => ymd(d) === mobileDay) : days;
-  if (isMobile && visibleDays.length === 0) visibleDays.push(days[0] as Date);
+
+  // Which day columns the time grid shows.
+  let visibleDays: Date[];
+  if (view === "day") {
+    visibleDays = [anchor];
+  } else if (isMobile) {
+    const picked = days.filter((d) => ymd(d) === mobileDay);
+    visibleDays = picked.length > 0 ? picked : [days[0] as Date];
+  } else {
+    visibleDays = days;
+  }
+
 
   function positionOf(appt: Appointment) {
     const start = new Date(appt.starts_at);
