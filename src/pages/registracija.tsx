@@ -1,5 +1,6 @@
 import { queryOptions, useQuery, type QueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 
 import { Reveal, RevealItems } from "@/components/site/Reveal";
 import { getContent } from "@/content";
