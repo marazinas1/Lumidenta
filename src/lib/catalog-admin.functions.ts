@@ -199,3 +199,82 @@ export const deletePost = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+/* ------------------------------------------------------------------ price list */
+
+export const listPriceList = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertStaff(context);
+    const [groups, items] = await Promise.all([
+      context.supabase.from("price_groups").select("*").order("sort_order", { ascending: true }),
+      context.supabase.from("price_items").select("*").order("sort_order", { ascending: true }),
+    ]);
+    if (groups.error) throw new Error(groups.error.message);
+    if (items.error) throw new Error(items.error.message);
+    return { groups: groups.data ?? [], items: items.data ?? [] };
+  });
+
+const priceGroupFields = z.object({
+  title: z.string().trim().min(1).max(160),
+  note: z.string().trim().max(300).default(""),
+  sort_order: z.number().int().min(0).max(999).default(0),
+  published: z.boolean().default(true),
+});
+
+export const savePriceGroup = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => priceGroupFields.extend({ id: z.string().uuid().optional() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertOwner(context);
+    const { id, ...fields } = data;
+    const query = id
+      ? context.supabase.from("price_groups").update(fields).eq("id", id)
+      : context.supabase.from("price_groups").insert(fields);
+    const { error } = await query;
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deletePriceGroup = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => idInput.parse(d))
+  .handler(async ({ data, context }) => {
+    await assertOwner(context);
+    const { error } = await context.supabase.from("price_groups").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+const priceItemFields = z.object({
+  group_id: z.string().uuid(),
+  title: z.string().trim().min(1).max(200),
+  note: z.string().trim().max(300).default(""),
+  price_text: z.string().trim().max(120).default(""),
+  sort_order: z.number().int().min(0).max(999).default(0),
+  published: z.boolean().default(true),
+});
+
+export const savePriceItem = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => priceItemFields.extend({ id: z.string().uuid().optional() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertOwner(context);
+    const { id, ...fields } = data;
+    const query = id
+      ? context.supabase.from("price_items").update(fields).eq("id", id)
+      : context.supabase.from("price_items").insert(fields);
+    const { error } = await query;
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deletePriceItem = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => idInput.parse(d))
+  .handler(async ({ data, context }) => {
+    await assertOwner(context);
+    const { error } = await context.supabase.from("price_items").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
