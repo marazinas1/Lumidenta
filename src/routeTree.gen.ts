@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as ApieRouteImport } from './routes/apie'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as EnRouteRouteImport } from './routes/en/route'
+import { Route as KainosRouteImport } from './routes/kainos'
 import { Route as KontaktaiRouteImport } from './routes/kontaktai'
 import { Route as PaslaugosRouteImport } from './routes/paslaugos'
 import { Route as PrivatumoPolitikaRouteImport } from './routes/privatumo-politika'
@@ -79,6 +80,11 @@ const AuthRoute = AuthRouteImport.update({
 const EnRouteRoute = EnRouteRouteImport.update({
   id: '/en',
   path: '/en',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KainosRoute = KainosRouteImport.update({
+  id: '/kainos',
+  path: '/kainos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KontaktaiRoute = KontaktaiRouteImport.update({
@@ -308,6 +314,7 @@ export interface FileRoutesByFullPath {
   '/en': typeof EnRouteRouteWithChildren
   '/apie': typeof ApieRouteWithChildren
   '/auth': typeof AuthRoute
+  '/kainos': typeof KainosRoute
   '/kontaktai': typeof KontaktaiRoute
   '/paslaugos': typeof PaslaugosRouteWithChildren
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
@@ -354,6 +361,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/kainos': typeof KainosRoute
   '/kontaktai': typeof KontaktaiRoute
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
   '/registracija': typeof RegistracijaRoute
@@ -398,6 +406,7 @@ export interface FileRoutesById {
   '/en': typeof EnRouteRouteWithChildren
   '/apie': typeof ApieRouteWithChildren
   '/auth': typeof AuthRoute
+  '/kainos': typeof KainosRoute
   '/kontaktai': typeof KontaktaiRoute
   '/paslaugos': typeof PaslaugosRouteWithChildren
   '/privatumo-politika': typeof PrivatumoPolitikaRoute
@@ -448,6 +457,7 @@ export interface FileRouteTypes {
     | '/en'
     | '/apie'
     | '/auth'
+    | '/kainos'
     | '/kontaktai'
     | '/paslaugos'
     | '/privatumo-politika'
@@ -494,6 +504,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/kainos'
     | '/kontaktai'
     | '/privatumo-politika'
     | '/registracija'
@@ -537,6 +548,7 @@ export interface FileRouteTypes {
     | '/en'
     | '/apie'
     | '/auth'
+    | '/kainos'
     | '/kontaktai'
     | '/paslaugos'
     | '/privatumo-politika'
@@ -587,6 +599,7 @@ export interface RootRouteChildren {
   EnRouteRoute: typeof EnRouteRouteWithChildren
   ApieRoute: typeof ApieRouteWithChildren
   AuthRoute: typeof AuthRoute
+  KainosRoute: typeof KainosRoute
   KontaktaiRoute: typeof KontaktaiRoute
   PaslaugosRoute: typeof PaslaugosRouteWithChildren
   PrivatumoPolitikaRoute: typeof PrivatumoPolitikaRoute
@@ -635,6 +648,13 @@ declare module '@tanstack/react-router' {
       path: '/en'
       fullPath: '/en'
       preLoaderRoute: typeof EnRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kainos': {
+      id: '/kainos'
+      path: '/kainos'
+      fullPath: '/kainos'
+      preLoaderRoute: typeof KainosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kontaktai': {
@@ -1088,6 +1108,7 @@ const rootRouteChildren: RootRouteChildren = {
   EnRouteRoute: EnRouteRouteWithChildren,
   ApieRoute: ApieRouteWithChildren,
   AuthRoute: AuthRoute,
+  KainosRoute: KainosRoute,
   KontaktaiRoute: KontaktaiRoute,
   PaslaugosRoute: PaslaugosRouteWithChildren,
   PrivatumoPolitikaRoute: PrivatumoPolitikaRoute,
