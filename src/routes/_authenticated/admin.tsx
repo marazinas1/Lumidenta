@@ -19,6 +19,7 @@ import {
   Settings,
 
   Stethoscope,
+  Tag,
   Users,
 } from "lucide-react";
 import { getMyRole } from "@/lib/roles.functions";
