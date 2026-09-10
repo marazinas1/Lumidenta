@@ -110,7 +110,7 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
       supabase
         .from("services")
         .select(
-          "id, slug, title, excerpt, body, icon, tone, image_bucket, image_path, includes, sort_order, show_on_home",
+          "id, slug, title, excerpt, body, icon, tone, image_bucket, image_path, includes, price_text, price_note, sort_order, show_on_home",
         )
         .eq("published", true)
         .order("sort_order", { ascending: true }),
@@ -141,6 +141,8 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
         ? `${url}/storage/v1/object/public/${row.image_bucket}/${row.image_path}`
         : null,
       includes: toStringList(row.includes),
+      priceText: row.price_text ?? "",
+      priceNote: row.price_note ?? "",
       sortOrder: row.sort_order ?? 0,
       showOnHome: Boolean(row.show_on_home),
     }));

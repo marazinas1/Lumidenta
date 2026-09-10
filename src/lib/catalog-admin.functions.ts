@@ -49,6 +49,8 @@ const serviceFields = z.object({
   icon: z.string().trim().max(8).default(""),
   tone: z.enum(["t1", "t2", "t3", "t4"]).default("t1"),
   includes: z.array(z.string().trim().max(300)).max(20).default([]),
+  price_text: z.string().trim().max(120).default(""),
+  price_note: z.string().trim().max(200).default(""),
   sort_order: z.number().int().min(0).max(999).default(0),
   published: z.boolean().default(true),
   show_on_home: z.boolean().default(false),
