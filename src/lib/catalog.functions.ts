@@ -16,6 +16,8 @@ export type ServiceRow = {
   tone: string;
   imageUrl: string | null;
   includes: string[];
+  priceText: string;
+  priceNote: string;
   sortOrder: number;
   showOnHome: boolean;
 };
