@@ -82,9 +82,13 @@ function BookingPage() {
   const { data } = useQuery(scheduleQuery());
   const schedule = data ?? emptySchedule;
   const [weekOffset, setWeekOffset] = useState(0);
+  // Past slots are hidden only after mount, so SSR and hydration agree.
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => setNow(new Date()), []);
 
   const weekStart = addDays(startOfWeek(new Date()), weekOffset * 7);
   const days = weekDays(weekStart);
+
 
   return (
     <>
