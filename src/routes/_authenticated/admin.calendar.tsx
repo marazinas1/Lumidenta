@@ -24,21 +24,30 @@ import {
 } from "@/lib/schedule-admin.functions";
 import {
   addDays,
+  addMonths,
   dayTime,
   formatDayLabel,
+  formatRangeLabel,
   formatTime,
+  isSameDay,
   minToHHMM,
   minutesOfDay,
+  monthGridDays,
+  MONTHS_SHORT,
   openIntervalsFor,
+  startOfMonth,
   startOfWeek,
   STATUS_LABEL,
   WEEKDAYS_SHORT,
   weekDays,
   ymd,
   type Appointment,
+  type CalendarView,
   type ScheduleException,
   type WorkingHour,
 } from "@/lib/schedule";
+import { MonthGrid } from "@/components/admin/calendar/MonthGrid";
+
 
 export const Route = createFileRoute("/_authenticated/admin/calendar")({
   component: CalendarPage,
