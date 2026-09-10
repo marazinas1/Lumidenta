@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import type { CSSProperties } from "react";
 
 import { catalogQuery } from "@/lib/catalog";
 
@@ -10,9 +11,17 @@ export function LumaLogo() {
   const { data } = useQuery({ ...catalogQuery, staleTime: 60_000 });
   const logoUrl = data?.settings.logoUrl ?? null;
   const name = data?.settings.practiceName || "Lumidenta";
+  const logoSize = data?.settings.logoSize ?? 48;
 
   if (logoUrl) {
-    return <img src={logoUrl} alt={name} className="logo-image" />;
+    return (
+      <img
+        src={logoUrl}
+        alt={name}
+        className="logo-image"
+        style={{ "--logo-size": `${logoSize}px` } as CSSProperties}
+      />
+    );
   }
 
   return (
