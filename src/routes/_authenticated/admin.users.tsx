@@ -136,13 +136,18 @@ function UsersPage() {
 
 
   const roleM = useMutation({
-    mutationFn: (vars: { userId: string; role: "owner" | "editor" }) => changeRole({ data: vars }),
-    onSuccess: () => {
-      toast.success("Teisės atnaujintos.");
-      refresh();
+    mutationFn: (vars: {
+      userId: string;
+      role: "owner" | "editor";
+      email: string;
+    }) => changeRole({ data: { userId: vars.userId, role: vars.role } }),
+    onSuccess: async (_res, vars) => {
+      await qc.invalidateQueries({ queryKey: ["users-with-roles"] });
+      toast.success(`Teisės atnaujintos: ${vars.email} → ${ROLE_LABEL[vars.role]}`);
     },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Nepavyko atnaujinti."),
   });
+
 
   const deleteM = useMutation({
     mutationFn: (userId: string) => removeUser({ data: { userId } }),
