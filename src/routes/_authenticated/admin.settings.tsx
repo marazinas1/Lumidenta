@@ -45,6 +45,16 @@ const FIELDS: { key: keyof Form; label: string; hint?: string }[] = [
   { key: "map_url", label: "Žemėlapio nuoroda" },
 ];
 
+const LOGO_OPTIONS: { path: string; label: string }[] = [
+  { path: "logo/option-1.png", label: "1 – žvaigždutė" },
+  { path: "logo/option-2.png", label: "2 – danties siluetas" },
+  { path: "logo/option-3.png", label: "3 – tipografinis" },
+  { path: "logo/option-4.png", label: "4 – „L“ ženklas" },
+];
+
+const publicUrl = (path: string) =>
+  `${import.meta.env['VITE_SUPABASE_URL']}/storage/v1/object/public/site-images/${path}`;
+
 const EMPTY: Form = {
   practice_name: "",
   dentist_name: "",
@@ -116,6 +126,20 @@ function SettingsPage() {
     } finally {
       setLogoUploading(false);
       if (logoInputRef.current) logoInputRef.current.value = "";
+    }
+  }
+
+  async function chooseLogo(path: string) {
+    setLogoUploading(true);
+    try {
+      await save({ data: { ...form, logo_path: path } });
+      setForm((f) => ({ ...f, logo_path: path }));
+      await queryClient.invalidateQueries({ queryKey: CATALOG_KEY });
+      toast.success("Logotipas pakeistas.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Nepavyko pakeisti logotipo");
+    } finally {
+      setLogoUploading(false);
     }
   }
 
@@ -260,6 +284,41 @@ function SettingsPage() {
                 Grąžinti numatytąjį
               </Button>
             ) : null}
+          </div>
+
+          <div>
+            <p className="mb-3 text-xs text-muted-foreground">
+              Paruošti variantai — paspauskite, kad pasirinktumėte:
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {LOGO_OPTIONS.map((option) => {
+                const active = form.logo_path === option.path;
+                return (
+                  <button
+                    key={option.path}
+                    type="button"
+                    disabled={logoUploading}
+                    onClick={() => void chooseLogo(option.path)}
+                    className={`flex flex-col items-center gap-2 rounded-xl border p-4 text-xs transition ${
+                      active
+                        ? "border-primary bg-primary/5 font-semibold"
+                        : "border-border/70 hover:border-primary/50"
+                    }`}
+                  >
+                    <img
+                      src={publicUrl(option.path)}
+                      alt={option.label}
+                      loading="lazy"
+                      className="h-12 w-auto max-w-full object-contain"
+                    />
+                    <span>
+                      {option.label}
+                      {active ? " · naudojamas" : ""}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </section>
       )}
