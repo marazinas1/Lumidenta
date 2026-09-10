@@ -1,5 +1,20 @@
-/** Lumidenta wordmark with the sage star mark from the approved design. */
+import { useQuery } from "@tanstack/react-query";
+
+import { catalogQuery } from "@/lib/catalog";
+
+/**
+ * Lumidenta logo. When the owner uploads a logo in Nustatymai it is used
+ * everywhere; otherwise the built-in sage mark + wordmark is shown.
+ */
 export function LumaLogo() {
+  const { data } = useQuery({ ...catalogQuery, staleTime: 60_000 });
+  const logoUrl = data?.settings.logoUrl ?? null;
+  const name = data?.settings.practiceName || "Lumidenta";
+
+  if (logoUrl) {
+    return <img src={logoUrl} alt={name} className="logo-image" />;
+  }
+
   return (
     <>
       <svg className="logo-mark" viewBox="0 0 24 24" fill="none" aria-hidden>
