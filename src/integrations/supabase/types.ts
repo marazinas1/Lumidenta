@@ -476,6 +476,7 @@ export type Database = {
           facebook_url: string
           favicon_path: string | null
           id: string
+          logo_path: string | null
           map_url: string
           opl_licence: string
           phone: string
@@ -493,6 +494,7 @@ export type Database = {
           facebook_url?: string
           favicon_path?: string | null
           id?: string
+          logo_path?: string | null
           map_url?: string
           opl_licence?: string
           phone?: string
@@ -510,6 +512,7 @@ export type Database = {
           facebook_url?: string
           favicon_path?: string | null
           id?: string
+          logo_path?: string | null
           map_url?: string
           opl_licence?: string
           phone?: string
