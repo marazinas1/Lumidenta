@@ -9,6 +9,7 @@ export const common = {
   nav: {
     home: "Home",
     services: "Services",
+    prices: "Prices",
     about: "About",
     contacts: "Contacts",
     site: "Site",

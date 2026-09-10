@@ -552,6 +552,26 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 @media (max-width:900px){.luma .tstm-grid{grid-template-columns:1fr 1fr;}}
 @media (max-width:560px){.luma .tstm-grid{grid-template-columns:1fr;}}
 
+/* Prices — same tinted, rounded language as the service cards. */
+.luma .price-list{display:grid;gap:12px;}
+.luma a.price-row{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--lradius);padding:20px 24px;
+  text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s,background .2s;}
+.luma a.price-row:hover{transform:translateY(-2px);background:var(--sage-tint);
+  box-shadow:0 16px 36px -24px rgba(24,26,18,0.35);}
+.luma .price-name{display:flex;flex-direction:column;gap:4px;min-width:0;}
+.luma .price-name strong{font-size:1rem;font-weight:700;}
+.luma .price-name span{font-size:0.85rem;color:var(--ink-soft);}
+.luma .price-value{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0;}
+.luma .price-value strong{font-size:1.02rem;font-weight:700;white-space:nowrap;}
+.luma .price-value span{font-size:0.78rem;color:var(--ink-soft);}
+.luma .price-note{margin-top:36px;max-width:60ch;}
+.luma .price-note p{color:var(--ink-soft);font-size:0.9rem;line-height:1.7;margin-bottom:22px;}
+@media (max-width:560px){.luma .price-value{align-items:flex-start;}}
+.luma .svc-price{display:inline-flex;align-items:baseline;gap:8px;margin-top:14px;
+  background:var(--sage-tint);border-radius:999px;padding:8px 16px;font-size:0.92rem;font-weight:700;}
+.luma .svc-price span{font-weight:500;font-size:0.8rem;color:var(--sage-deep);}
+
 /* Inner pages — the calm sibling of the home sections. */
 .luma .page-head{padding:96px 0 12px;}
 .luma .page-head h1{font-size:clamp(2rem,4vw,3rem);line-height:1.14;margin-bottom:16px;}
