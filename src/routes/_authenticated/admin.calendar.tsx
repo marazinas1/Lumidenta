@@ -522,6 +522,15 @@ function CalendarPage() {
               onPointerUp={onPointerUp}
               onPointerCancel={onPointerUp}
             >
+              {now && visibleDays.some((d) => isSameDay(d, now)) ? (
+                <div
+                  className="pointer-events-none absolute inset-x-0 z-10 border-t border-destructive"
+                  style={{ top: (minutesOfDay(now) - dayStart) * PX_PER_MIN }}
+                >
+                  <span className="absolute -left-1 -top-1 h-2 w-2 rounded-full bg-destructive" />
+                </div>
+              ) : null}
+
               {visibleDays.map((day) => {
                 const open = openIntervalsFor(day, hours, exceptions);
                 const dayKey = ymd(day);
