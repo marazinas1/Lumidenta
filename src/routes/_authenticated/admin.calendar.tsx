@@ -80,15 +80,38 @@ function CalendarPage() {
   const queryClient = useQueryClient();
   const { services } = useCatalog();
 
-  const [weekStart, setWeekStart] = useState(() => startOfWeek(new Date()));
+  const [view, setView] = useState<CalendarView>("week");
+  const [anchor, setAnchor] = useState(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  });
   const [mobileDay, setMobileDay] = useState(() => ymd(new Date()));
   const [draft, setDraft] = useState<Draft | null>(null);
   const [drag, setDrag] = useState<DragState | null>(null);
+  const [now, setNow] = useState<Date | null>(null);
   const gridRef = useRef<HTMLDivElement | null>(null);
 
-  const days = weekDays(weekStart);
+  // Remember the last used view; read after mount so SSR markup stays stable.
+  useEffect(() => {
+    const stored = window.localStorage.getItem("lumidenta-calendar-view");
+    if (stored === "day" || stored === "week" || stored === "month") setView(stored);
+    else if (window.matchMedia("(max-width: 767px)").matches) setView("day");
+    setNow(new Date());
+    const timer = window.setInterval(() => setNow(new Date()), 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  function changeView(next: CalendarView) {
+    setView(next);
+    window.localStorage.setItem("lumidenta-calendar-view", next);
+  }
+
+  const weekStart = startOfWeek(anchor);
+  const days = view === "month" ? monthGridDays(anchor) : weekDays(weekStart);
   const from = ymd(days[0] as Date);
-  const to = ymd(days[6] as Date);
+  const to = ymd(days[days.length - 1] as Date);
+
 
   const fetchAppointments = useServerFn(listAppointments);
   const fetchHours = useServerFn(listWorkingHours);
