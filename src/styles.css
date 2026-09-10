@@ -199,28 +199,10 @@
 }
 
 /*
- * Semantinės spalvos perrašomos TIK viešuosiuose puslapiuose (.site-theme apvalkalas),
- * kad administravimo panelės išvaizda nepasikeistų.
+ * Spalvos gyvena :root bloke (viena vieta visai platformai) — čia liko tik
+ * šrifto ir fokuso apvalkalas.
  */
 .site-theme {
-  --background: var(--color-linen);
-  --foreground: var(--color-ink);
-  --card: var(--color-warm-white);
-  --card-foreground: var(--color-ink);
-  --popover: var(--color-warm-white);
-  --popover-foreground: var(--color-ink);
-  --primary: var(--color-sage);
-  --primary-foreground: var(--color-warm-white);
-  --secondary: var(--color-warm-white);
-  --secondary-foreground: var(--color-ink);
-  --muted: oklch(0.94 0.008 82);
-  --muted-foreground: var(--color-stone);
-  --accent: oklch(0.94 0.01 150);
-  --accent-foreground: var(--color-sage-deep);
-  --destructive-foreground: var(--color-warm-white);
-  --border: oklch(0.911 0.013 82.4);
-  --input: oklch(0.911 0.013 82.4);
-  --ring: var(--color-sage);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
