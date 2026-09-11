@@ -553,6 +553,8 @@ export type Database = {
           id: string
           logo_path: string | null
           logo_size: number
+          maintenance_message: string
+          maintenance_mode: boolean
           map_url: string
           opl_licence: string
           phone: string
@@ -572,6 +574,8 @@ export type Database = {
           id?: string
           logo_path?: string | null
           logo_size?: number
+          maintenance_message?: string
+          maintenance_mode?: boolean
           map_url?: string
           opl_licence?: string
           phone?: string
@@ -591,6 +595,8 @@ export type Database = {
           id?: string
           logo_path?: string | null
           logo_size?: number
+          maintenance_message?: string
+          maintenance_mode?: boolean
           map_url?: string
           opl_licence?: string
           phone?: string

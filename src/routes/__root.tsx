@@ -19,6 +19,10 @@ import { useRememberedLocaleRedirect } from "@/components/site/LanguageSwitcher"
 import { useLocale } from "@/content";
 import { htmlLang } from "@/lib/locale";
 import { usePageViewTracking } from "@/lib/page-view-tracking";
+import { catalogQuery, ensureCatalog } from "@/lib/catalog";
+import { MaintenanceScreen } from "@/components/site/MaintenanceScreen";
+import { useSignedIn } from "@/hooks/useStaffSession";
+import { useQuery } from "@tanstack/react-query";
 
 /** Core (administravimo / personalo) maršrutai neturi svetainės antraštės ir poraštės. */
 const CORE_PREFIXES = ["/admin", "/staff", "/auth", "/reset-password", "/api"];
@@ -85,12 +89,15 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
+  head: ({ loaderData }) => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "Lumidenta" },
-      { name: "robots", content: "noindex, nofollow" },
+      ...((loaderData as { settings?: { maintenanceMode?: boolean } } | undefined)?.settings
+        ?.maintenanceMode
+        ? [{ name: "robots", content: "noindex, nofollow" }]
+        : []),
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -104,6 +111,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "apple-touch-icon", href: "/api/public/favicon" },
     ],
   }),
+  loader: ({ context }) => ensureCatalog(context),
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -150,17 +158,30 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="luma site-theme min-h-screen">
-        <>
-          <SiteHeader />
-          <main>
-            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-            <Outlet />
-          </main>
-          <SiteFooter />
-        </>
-      </div>
+      <PublicShell />
       <Toaster />
     </QueryClientProvider>
+  );
+}
+
+/** Public site, or the maintenance notice when the owner switched it on. */
+function PublicShell() {
+  const { data } = useQuery(catalogQuery);
+  const signedIn = useSignedIn();
+  const maintenance = Boolean(data?.settings.maintenanceMode);
+
+  if (maintenance && signedIn !== true) {
+    return <MaintenanceScreen />;
+  }
+
+  return (
+    <div className="luma site-theme min-h-screen">
+      <SiteHeader />
+      <main>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </main>
+      <SiteFooter />
+    </div>
   );
 }

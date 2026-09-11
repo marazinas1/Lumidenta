@@ -1,2 +1,7 @@
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /reset-password
+
+Sitemap: https://lumidenta.lt/sitemap.xml

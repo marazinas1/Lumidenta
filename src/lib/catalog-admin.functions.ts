@@ -130,6 +130,8 @@ const settingsFields = z.object({
   favicon_path: z.string().trim().max(400).nullable().default(null),
   logo_path: z.string().trim().max(400).nullable().default(null),
   logo_size: z.number().int().min(32).max(80).default(48),
+  maintenance_mode: z.boolean().default(false),
+  maintenance_message: z.string().trim().max(600).default(""),
 });
 
 export const saveSiteSettings = createServerFn({ method: "POST" })
