@@ -64,6 +64,8 @@ export const fetchPublicSchedule = createServerFn({ method: "GET" })
     let busy: BusyInterval[] = [];
     try {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { releaseStalePending } = await import("./booking.server");
+      await releaseStalePending();
       const { data: rows } = await supabaseAdmin
         .from("appointments")
         .select("starts_at, ends_at")
