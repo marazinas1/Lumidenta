@@ -125,7 +125,7 @@ function AdminLayout() {
                   <Icon className="h-4 w-4" />
                   {l.label}
                   {"badge" in l && l.badge ? (
-                    <span className="admin-nav-badge" aria-label={`${l.badge} neperskaitytos užklausos`}>
+                    <span className="admin-nav-badge" aria-label={`${l.badge} nauji pranešimai`}>
                       {l.badge > 99 ? "99+" : l.badge}
                     </span>
                   ) : null}
@@ -163,8 +163,8 @@ function AdminLayout() {
           <SheetTrigger asChild>
             <button type="button" aria-label="Meniu" className="relative rounded-md p-2">
               <Menu className="h-5 w-5" />
-              {unread > 0 ? (
-                <span className="admin-mobile-dot">{unread > 99 ? "99+" : unread}</span>
+              {unread + pendingVisits > 0 ? (
+                <span className="admin-mobile-dot">{unread + pendingVisits > 99 ? "99+" : unread + pendingVisits}</span>
               ) : null}
             </button>
           </SheetTrigger>
