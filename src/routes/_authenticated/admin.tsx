@@ -65,6 +65,7 @@ function AdminLayout() {
         { to: "/admin/calendar", label: "Kalendorius", icon: CalendarDays, badge: pendingVisits },
         { to: "/admin/inquiries", label: "Užklausos", icon: Inbox, badge: unread },
         { to: "/admin/schedule", label: "Darbo laikas", icon: Clock },
+        { to: "/admin/analytics", label: "Analitika", icon: BarChart3 },
       ],
     },
     {
@@ -78,9 +79,12 @@ function AdminLayout() {
     },
     {
       label: "Nustatymai",
-      links: [{ to: "/admin/settings", label: "Nustatymai", icon: Settings }],
+      links: [
+        { to: "/admin/users", label: "Vartotojai", icon: Users },
+        { to: "/admin/settings", label: "Nustatymai", icon: Settings },
+      ],
     },
-  ] as const;
+  ];
 
   async function signOut() {
     setNavOpen(false);
