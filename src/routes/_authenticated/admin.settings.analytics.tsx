@@ -167,22 +167,32 @@ function AnalyticsPage() {
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold">Analitika</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 max-w-prose text-sm text-muted-foreground">
             Nuosavi lankomumo duomenys. Jokių slapukų ir jokių trečiųjų šalių sekimo įrankių.
+            Skaičiuojami tik tikri apsilankymai: robotai atmetami, o apsilankymas užskaitomas tik
+            tada, kai žmogus svetainėje išbūna bent 5 sekundes arba ką nors paspaudžia.
           </p>
         </div>
-        <div className="flex gap-2">
-          {RANGES.map((r) => (
-            <Button
-              key={r.value}
-              type="button"
-              size="sm"
-              variant={range === r.value ? "default" : "outline"}
-              onClick={() => setRange(r.value)}
-            >
-              {r.label}
-            </Button>
-          ))}
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-2">
+            <Switch id="include-short" checked={includeShort} onCheckedChange={setIncludeShort} />
+            <Label htmlFor="include-short" className="text-sm font-normal text-muted-foreground">
+              Rodyti ir trumpus apsilankymus
+            </Label>
+          </div>
+          <div className="flex gap-2">
+            {RANGES.map((r) => (
+              <Button
+                key={r.value}
+                type="button"
+                size="sm"
+                variant={range === r.value ? "default" : "outline"}
+                onClick={() => setRange(r.value)}
+              >
+                {r.label}
+              </Button>
+            ))}
+          </div>
         </div>
       </div>
 
