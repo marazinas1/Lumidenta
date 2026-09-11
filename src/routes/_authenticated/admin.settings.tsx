@@ -9,8 +9,6 @@ export const Route = createFileRoute("/_authenticated/admin/settings")({
 });
 
 function SettingsLayout() {
-  const fetchRole = useServerFn(getMyRole);
-  const { data: me } = useQuery({ queryKey: ["my-role"], queryFn: () => fetchRole() });
   const { location } = useRouterState();
   const path = location.pathname.replace(/\/$/, "");
 
@@ -20,8 +18,6 @@ function SettingsLayout() {
     { to: "/admin/settings/pages/home", label: "Pradžios tekstai" },
     { to: "/admin/settings/pages/about", label: "Apie tekstai" },
     { to: "/admin/settings/pages/contact", label: "Kontaktų tekstai" },
-    { to: "/admin/settings/analytics", label: "Analitika" },
-    ...(me?.isOwner ? [{ to: "/admin/settings/users", label: "Vartotojai" }] : []),
     { to: "/admin/settings/maintenance", label: "Techniniai darbai" },
   ];
 
