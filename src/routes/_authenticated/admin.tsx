@@ -27,6 +27,7 @@ import { ROLE_LABEL } from "@/lib/roles";
 import { supabase } from "@/integrations/supabase/client";
 import { useUnreadInquiryCount } from "@/hooks/admin/useInquiries";
 import { LumaLogo } from "@/components/site/LumaLogo";
+import { MaintenanceBanner } from "@/components/site/MaintenanceBanner";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -176,6 +177,7 @@ function AdminLayout() {
       </header>
 
       <main className="admin-main">
+        <MaintenanceBanner compact />
         <Outlet />
       </main>
     </div>

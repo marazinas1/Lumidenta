@@ -23,6 +23,8 @@ import { catalogQuery, ensureCatalog } from "@/lib/catalog";
 import { MaintenanceScreen } from "@/components/site/MaintenanceScreen";
 import { useSignedIn } from "@/hooks/useStaffSession";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { MaintenanceBanner } from "@/components/site/MaintenanceBanner";
 
 /** Core (administravimo / personalo) maršrutai neturi svetainės antraštės ir poraštės. */
 const CORE_PREFIXES = ["/admin", "/staff", "/auth", "/reset-password", "/api"];
@@ -168,14 +170,20 @@ function RootComponent() {
 function PublicShell() {
   const { data } = useQuery(catalogQuery);
   const signedIn = useSignedIn();
+  const [visitorPreview, setVisitorPreview] = useState(false);
   const maintenance = Boolean(data?.settings.maintenanceMode);
 
   if (maintenance && signedIn !== true) {
     return <MaintenanceScreen />;
   }
 
+  if (maintenance && visitorPreview) {
+    return <MaintenanceScreen onExitPreview={() => setVisitorPreview(false)} />;
+  }
+
   return (
     <div className="luma site-theme min-h-screen">
+      <MaintenanceBanner onPreviewVisitor={() => setVisitorPreview(true)} />
       <SiteHeader />
       <main>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
