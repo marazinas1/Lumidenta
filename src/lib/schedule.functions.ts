@@ -44,13 +44,19 @@ export const fetchPublicSchedule = createServerFn({ method: "GET" })
     const fromTs = new Date(`${data.from}T00:00:00`).toISOString();
     const toTs = new Date(`${data.to}T23:59:59`).toISOString();
 
-    const [hoursRes, exceptionsRes] = await Promise.all([
+    const [hoursRes, exceptionsRes, servicesRes] = await Promise.all([
       supabase.from("working_hours").select("id, weekday, start_min, end_min"),
       supabase
         .from("schedule_exceptions")
         .select("id, day, kind, start_min, end_min, note")
         .gte("day", data.from)
         .lte("day", data.to),
+      supabase
+        .from("services")
+        .select("id, title, duration_min, sort_order")
+        .eq("published", true)
+        .eq("bookable", true)
+        .order("sort_order", { ascending: true }),
     ]);
 
     // Appointment rows are staff-only, so the busy list is read with the
