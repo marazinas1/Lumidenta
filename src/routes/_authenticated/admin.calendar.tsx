@@ -21,6 +21,7 @@ import {
   listWorkingHours,
   moveAppointment,
   saveAppointment,
+  setAppointmentStatus,
 } from "@/lib/schedule-admin.functions";
 import {
   addDays,
@@ -185,6 +186,18 @@ function CalendarPage() {
       toast.error(error.message);
       refresh();
     },
+  });
+
+  const setStatus = useServerFn(setAppointmentStatus);
+  const statusMutation = useMutation({
+    mutationFn: (v: { id: string; status: Appointment["status"] }) => setStatus({ data: v }),
+    onSuccess: (_r, v) => {
+      toast.success(v.status === "confirmed" ? "Vizitas patvirtintas." : "Užklausa atmesta.");
+      setDraft(null);
+      refresh();
+      void queryClient.invalidateQueries({ queryKey: ["admin", "appointments", "pending-count"] });
+    },
+    onError: (error: Error) => toast.error(error.message),
   });
 
   const deleteMutation = useMutation({
@@ -777,7 +790,28 @@ function CalendarPage() {
             ) : (
               <span />
             )}
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
+              {draft?.id && draft.status === "pending" ? (
+                <>
+                  <Button
+                    variant="outline"
+                    disabled={!canEdit || statusMutation.isPending}
+                    onClick={() =>
+                      draft.id && statusMutation.mutate({ id: draft.id, status: "cancelled" })
+                    }
+                  >
+                    Atmesti
+                  </Button>
+                  <Button
+                    disabled={!canEdit || statusMutation.isPending}
+                    onClick={() =>
+                      draft.id && statusMutation.mutate({ id: draft.id, status: "confirmed" })
+                    }
+                  >
+                    Patvirtinti
+                  </Button>
+                </>
+              ) : null}
               <Button variant="ghost" onClick={() => setDraft(null)}>
                 Atšaukti
               </Button>
