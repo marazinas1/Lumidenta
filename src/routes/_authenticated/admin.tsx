@@ -3,24 +3,19 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import {
-  BarChart3,
   CalendarDays,
   Clock,
-  FileText,
   Globe,
-  Home,
   Inbox,
   LayoutDashboard,
   Newspaper,
   LogOut,
   Menu,
-  Phone,
   Quote,
   Settings,
 
   Stethoscope,
   Tag,
-  Users,
 } from "lucide-react";
 import { getMyRole } from "@/lib/roles.functions";
 import { ROLE_LABEL } from "@/lib/roles";
@@ -64,26 +59,21 @@ function AdminLayout() {
 
   const groups = [
     {
-      label: "Darbo sritis",
+      label: "Kasdien",
       links: [
         { to: "/admin", label: "Apžvalga", icon: LayoutDashboard },
         { to: "/admin/calendar", label: "Kalendorius", icon: CalendarDays, badge: pendingVisits },
-        { to: "/admin/schedule", label: "Darbo laikas", icon: Clock },
         { to: "/admin/inquiries", label: "Užklausos", icon: Inbox, badge: unread },
-        { to: "/admin/analytics", label: "Analitika", icon: BarChart3 },
-        ...(me.isOwner ? [{ to: "/admin/users", label: "Vartotojai", icon: Users }] : []),
+        { to: "/admin/schedule", label: "Darbo laikas", icon: Clock },
       ],
     },
     {
-      label: "Svetainė",
+      label: "Turinys",
       links: [
-        { to: "/admin/website/home", label: "Pradžia", icon: Home },
         { to: "/admin/website/services", label: "Paslaugos", icon: Stethoscope },
         { to: "/admin/website/prices", label: "Kainos", icon: Tag },
         { to: "/admin/website/testimonials", label: "Atsiliepimai", icon: Quote },
         { to: "/admin/website/posts", label: "Straipsniai", icon: Newspaper },
-        { to: "/admin/website/about", label: "Apie", icon: FileText },
-        { to: "/admin/website/contact", label: "Kontaktai", icon: Phone },
       ],
     },
     {
@@ -111,14 +101,16 @@ function AdminLayout() {
             <span className="admin-nav-group-label">{g.label}</span>
             {g.links.map((l) => {
               const Icon = l.icon;
-              const active = location.pathname.replace(/\/$/, "") === l.to;
+              const current = location.pathname.replace(/\/$/, "");
+              const active =
+                l.to === "/admin" ? current === "/admin" : current.startsWith(l.to);
               return (
                 <Link
                   key={l.to}
                   to={l.to}
                   activeOptions={{ exact: true }}
-                  activeProps={{ className: "admin-nav-link active" }}
-                  inactiveProps={{ className: "admin-nav-link" }}
+                  activeProps={{ className: active ? "admin-nav-link active" : "admin-nav-link" }}
+                  inactiveProps={{ className: active ? "admin-nav-link active" : "admin-nav-link" }}
                   onClick={() => setNavOpen(false)}
                   className={active ? "admin-nav-link active" : "admin-nav-link"}
                 >

@@ -49,6 +49,11 @@ import { Route as EnPaslaugosIndexRouteImport } from './routes/en/paslaugos.inde
 import { Route as EnPaslaugosSlugRouteImport } from './routes/en/paslaugos.$slug'
 import { Route as EnStraipsniaiIndexRouteImport } from './routes/en/straipsniai.index'
 import { Route as EnStraipsniaiSlugRouteImport } from './routes/en/straipsniai.$slug'
+import { Route as AuthenticatedAdminSettingsIndexRouteImport } from './routes/_authenticated/admin.settings.index'
+import { Route as AuthenticatedAdminSettingsAnalyticsRouteImport } from './routes/_authenticated/admin.settings.analytics'
+import { Route as AuthenticatedAdminSettingsAppearanceRouteImport } from './routes/_authenticated/admin.settings.appearance'
+import { Route as AuthenticatedAdminSettingsMaintenanceRouteImport } from './routes/_authenticated/admin.settings.maintenance'
+import { Route as AuthenticatedAdminSettingsUsersRouteImport } from './routes/_authenticated/admin.settings.users'
 import { Route as AuthenticatedAdminWebsiteAboutRouteImport } from './routes/_authenticated/admin.website.about'
 import { Route as AuthenticatedAdminWebsiteContactRouteImport } from './routes/_authenticated/admin.website.contact'
 import { Route as AuthenticatedAdminWebsiteHomeRouteImport } from './routes/_authenticated/admin.website.home'
@@ -58,6 +63,9 @@ import { Route as AuthenticatedAdminWebsiteServicesRouteImport } from './routes/
 import { Route as AuthenticatedAdminWebsiteTestimonialsRouteImport } from './routes/_authenticated/admin.website.testimonials'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
+import { Route as AuthenticatedAdminSettingsPagesAboutRouteImport } from './routes/_authenticated/admin.settings.pages.about'
+import { Route as AuthenticatedAdminSettingsPagesContactRouteImport } from './routes/_authenticated/admin.settings.pages.contact'
+import { Route as AuthenticatedAdminSettingsPagesHomeRouteImport } from './routes/_authenticated/admin.settings.pages.home'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -263,6 +271,36 @@ const EnStraipsniaiSlugRoute = EnStraipsniaiSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => EnStraipsniaiRoute,
 } as any)
+const AuthenticatedAdminSettingsIndexRoute =
+  AuthenticatedAdminSettingsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAdminSettingsRoute,
+  } as any)
+const AuthenticatedAdminSettingsAnalyticsRoute =
+  AuthenticatedAdminSettingsAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedAdminSettingsRoute,
+  } as any)
+const AuthenticatedAdminSettingsAppearanceRoute =
+  AuthenticatedAdminSettingsAppearanceRouteImport.update({
+    id: '/appearance',
+    path: '/appearance',
+    getParentRoute: () => AuthenticatedAdminSettingsRoute,
+  } as any)
+const AuthenticatedAdminSettingsMaintenanceRoute =
+  AuthenticatedAdminSettingsMaintenanceRouteImport.update({
+    id: '/maintenance',
+    path: '/maintenance',
+    getParentRoute: () => AuthenticatedAdminSettingsRoute,
+  } as any)
+const AuthenticatedAdminSettingsUsersRoute =
+  AuthenticatedAdminSettingsUsersRouteImport.update({
+    id: '/users',
+    path: '/users',
+    getParentRoute: () => AuthenticatedAdminSettingsRoute,
+  } as any)
 const AuthenticatedAdminWebsiteAboutRoute =
   AuthenticatedAdminWebsiteAboutRouteImport.update({
     id: '/website/about',
@@ -315,6 +353,24 @@ const LovableEmailAuthWebhookRoute = LovableEmailAuthWebhookRouteImport.update({
   path: '/lovable/email/auth/webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminSettingsPagesAboutRoute =
+  AuthenticatedAdminSettingsPagesAboutRouteImport.update({
+    id: '/pages/about',
+    path: '/pages/about',
+    getParentRoute: () => AuthenticatedAdminSettingsRoute,
+  } as any)
+const AuthenticatedAdminSettingsPagesContactRoute =
+  AuthenticatedAdminSettingsPagesContactRouteImport.update({
+    id: '/pages/contact',
+    path: '/pages/contact',
+    getParentRoute: () => AuthenticatedAdminSettingsRoute,
+  } as any)
+const AuthenticatedAdminSettingsPagesHomeRoute =
+  AuthenticatedAdminSettingsPagesHomeRouteImport.update({
+    id: '/pages/home',
+    path: '/pages/home',
+    getParentRoute: () => AuthenticatedAdminSettingsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -347,7 +403,7 @@ export interface FileRoutesByFullPath {
   '/admin/calendar': typeof AuthenticatedAdminCalendarRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/schedule': typeof AuthenticatedAdminScheduleRoute
-  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRouteWithChildren
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/api/public/favicon': typeof ApiPublicFaviconRoute
   '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
@@ -356,6 +412,10 @@ export interface FileRoutesByFullPath {
   '/en/apie/': typeof EnApieIndexRoute
   '/en/paslaugos/': typeof EnPaslaugosIndexRoute
   '/en/straipsniai/': typeof EnStraipsniaiIndexRoute
+  '/admin/settings/analytics': typeof AuthenticatedAdminSettingsAnalyticsRoute
+  '/admin/settings/appearance': typeof AuthenticatedAdminSettingsAppearanceRoute
+  '/admin/settings/maintenance': typeof AuthenticatedAdminSettingsMaintenanceRoute
+  '/admin/settings/users': typeof AuthenticatedAdminSettingsUsersRoute
   '/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
@@ -365,6 +425,10 @@ export interface FileRoutesByFullPath {
   '/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
+  '/admin/settings/': typeof AuthenticatedAdminSettingsIndexRoute
+  '/admin/settings/pages/about': typeof AuthenticatedAdminSettingsPagesAboutRoute
+  '/admin/settings/pages/contact': typeof AuthenticatedAdminSettingsPagesContactRoute
+  '/admin/settings/pages/home': typeof AuthenticatedAdminSettingsPagesHomeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -389,7 +453,6 @@ export interface FileRoutesByTo {
   '/admin/calendar': typeof AuthenticatedAdminCalendarRoute
   '/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/admin/schedule': typeof AuthenticatedAdminScheduleRoute
-  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/api/public/favicon': typeof ApiPublicFaviconRoute
   '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
@@ -398,6 +461,10 @@ export interface FileRoutesByTo {
   '/en/apie': typeof EnApieIndexRoute
   '/en/paslaugos': typeof EnPaslaugosIndexRoute
   '/en/straipsniai': typeof EnStraipsniaiIndexRoute
+  '/admin/settings/analytics': typeof AuthenticatedAdminSettingsAnalyticsRoute
+  '/admin/settings/appearance': typeof AuthenticatedAdminSettingsAppearanceRoute
+  '/admin/settings/maintenance': typeof AuthenticatedAdminSettingsMaintenanceRoute
+  '/admin/settings/users': typeof AuthenticatedAdminSettingsUsersRoute
   '/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
@@ -407,6 +474,10 @@ export interface FileRoutesByTo {
   '/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsIndexRoute
+  '/admin/settings/pages/about': typeof AuthenticatedAdminSettingsPagesAboutRoute
+  '/admin/settings/pages/contact': typeof AuthenticatedAdminSettingsPagesContactRoute
+  '/admin/settings/pages/home': typeof AuthenticatedAdminSettingsPagesHomeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -441,7 +512,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/calendar': typeof AuthenticatedAdminCalendarRoute
   '/_authenticated/admin/inquiries': typeof AuthenticatedAdminInquiriesRoute
   '/_authenticated/admin/schedule': typeof AuthenticatedAdminScheduleRoute
-  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRouteWithChildren
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/api/public/favicon': typeof ApiPublicFaviconRoute
   '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
@@ -450,6 +521,10 @@ export interface FileRoutesById {
   '/en/apie/': typeof EnApieIndexRoute
   '/en/paslaugos/': typeof EnPaslaugosIndexRoute
   '/en/straipsniai/': typeof EnStraipsniaiIndexRoute
+  '/_authenticated/admin/settings/analytics': typeof AuthenticatedAdminSettingsAnalyticsRoute
+  '/_authenticated/admin/settings/appearance': typeof AuthenticatedAdminSettingsAppearanceRoute
+  '/_authenticated/admin/settings/maintenance': typeof AuthenticatedAdminSettingsMaintenanceRoute
+  '/_authenticated/admin/settings/users': typeof AuthenticatedAdminSettingsUsersRoute
   '/_authenticated/admin/website/about': typeof AuthenticatedAdminWebsiteAboutRoute
   '/_authenticated/admin/website/contact': typeof AuthenticatedAdminWebsiteContactRoute
   '/_authenticated/admin/website/home': typeof AuthenticatedAdminWebsiteHomeRoute
@@ -459,6 +534,10 @@ export interface FileRoutesById {
   '/_authenticated/admin/website/testimonials': typeof AuthenticatedAdminWebsiteTestimonialsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
+  '/_authenticated/admin/settings/': typeof AuthenticatedAdminSettingsIndexRoute
+  '/_authenticated/admin/settings/pages/about': typeof AuthenticatedAdminSettingsPagesAboutRoute
+  '/_authenticated/admin/settings/pages/contact': typeof AuthenticatedAdminSettingsPagesContactRoute
+  '/_authenticated/admin/settings/pages/home': typeof AuthenticatedAdminSettingsPagesHomeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -502,6 +581,10 @@ export interface FileRouteTypes {
     | '/en/apie/'
     | '/en/paslaugos/'
     | '/en/straipsniai/'
+    | '/admin/settings/analytics'
+    | '/admin/settings/appearance'
+    | '/admin/settings/maintenance'
+    | '/admin/settings/users'
     | '/admin/website/about'
     | '/admin/website/contact'
     | '/admin/website/home'
@@ -511,6 +594,10 @@ export interface FileRouteTypes {
     | '/admin/website/testimonials'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
+    | '/admin/settings/'
+    | '/admin/settings/pages/about'
+    | '/admin/settings/pages/contact'
+    | '/admin/settings/pages/home'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -535,7 +622,6 @@ export interface FileRouteTypes {
     | '/admin/calendar'
     | '/admin/inquiries'
     | '/admin/schedule'
-    | '/admin/settings'
     | '/admin/users'
     | '/api/public/favicon'
     | '/en/paslaugos/$slug'
@@ -544,6 +630,10 @@ export interface FileRouteTypes {
     | '/en/apie'
     | '/en/paslaugos'
     | '/en/straipsniai'
+    | '/admin/settings/analytics'
+    | '/admin/settings/appearance'
+    | '/admin/settings/maintenance'
+    | '/admin/settings/users'
     | '/admin/website/about'
     | '/admin/website/contact'
     | '/admin/website/home'
@@ -553,6 +643,10 @@ export interface FileRouteTypes {
     | '/admin/website/testimonials'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
+    | '/admin/settings'
+    | '/admin/settings/pages/about'
+    | '/admin/settings/pages/contact'
+    | '/admin/settings/pages/home'
   id:
     | '__root__'
     | '/'
@@ -595,6 +689,10 @@ export interface FileRouteTypes {
     | '/en/apie/'
     | '/en/paslaugos/'
     | '/en/straipsniai/'
+    | '/_authenticated/admin/settings/analytics'
+    | '/_authenticated/admin/settings/appearance'
+    | '/_authenticated/admin/settings/maintenance'
+    | '/_authenticated/admin/settings/users'
     | '/_authenticated/admin/website/about'
     | '/_authenticated/admin/website/contact'
     | '/_authenticated/admin/website/home'
@@ -604,6 +702,10 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/website/testimonials'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
+    | '/_authenticated/admin/settings/'
+    | '/_authenticated/admin/settings/pages/about'
+    | '/_authenticated/admin/settings/pages/contact'
+    | '/_authenticated/admin/settings/pages/home'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -908,6 +1010,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnStraipsniaiSlugRouteImport
       parentRoute: typeof EnStraipsniaiRoute
     }
+    '/_authenticated/admin/settings/': {
+      id: '/_authenticated/admin/settings/'
+      path: '/'
+      fullPath: '/admin/settings/'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminSettingsRoute
+    }
+    '/_authenticated/admin/settings/analytics': {
+      id: '/_authenticated/admin/settings/analytics'
+      path: '/analytics'
+      fullPath: '/admin/settings/analytics'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedAdminSettingsRoute
+    }
+    '/_authenticated/admin/settings/appearance': {
+      id: '/_authenticated/admin/settings/appearance'
+      path: '/appearance'
+      fullPath: '/admin/settings/appearance'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsAppearanceRouteImport
+      parentRoute: typeof AuthenticatedAdminSettingsRoute
+    }
+    '/_authenticated/admin/settings/maintenance': {
+      id: '/_authenticated/admin/settings/maintenance'
+      path: '/maintenance'
+      fullPath: '/admin/settings/maintenance'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsMaintenanceRouteImport
+      parentRoute: typeof AuthenticatedAdminSettingsRoute
+    }
+    '/_authenticated/admin/settings/users': {
+      id: '/_authenticated/admin/settings/users'
+      path: '/users'
+      fullPath: '/admin/settings/users'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminSettingsRoute
+    }
     '/_authenticated/admin/website/about': {
       id: '/_authenticated/admin/website/about'
       path: '/website/about'
@@ -971,15 +1108,70 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LovableEmailAuthWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/settings/pages/about': {
+      id: '/_authenticated/admin/settings/pages/about'
+      path: '/pages/about'
+      fullPath: '/admin/settings/pages/about'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsPagesAboutRouteImport
+      parentRoute: typeof AuthenticatedAdminSettingsRoute
+    }
+    '/_authenticated/admin/settings/pages/contact': {
+      id: '/_authenticated/admin/settings/pages/contact'
+      path: '/pages/contact'
+      fullPath: '/admin/settings/pages/contact'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsPagesContactRouteImport
+      parentRoute: typeof AuthenticatedAdminSettingsRoute
+    }
+    '/_authenticated/admin/settings/pages/home': {
+      id: '/_authenticated/admin/settings/pages/home'
+      path: '/pages/home'
+      fullPath: '/admin/settings/pages/home'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsPagesHomeRouteImport
+      parentRoute: typeof AuthenticatedAdminSettingsRoute
+    }
   }
 }
+
+interface AuthenticatedAdminSettingsRouteChildren {
+  AuthenticatedAdminSettingsAnalyticsRoute: typeof AuthenticatedAdminSettingsAnalyticsRoute
+  AuthenticatedAdminSettingsAppearanceRoute: typeof AuthenticatedAdminSettingsAppearanceRoute
+  AuthenticatedAdminSettingsMaintenanceRoute: typeof AuthenticatedAdminSettingsMaintenanceRoute
+  AuthenticatedAdminSettingsUsersRoute: typeof AuthenticatedAdminSettingsUsersRoute
+  AuthenticatedAdminSettingsIndexRoute: typeof AuthenticatedAdminSettingsIndexRoute
+  AuthenticatedAdminSettingsPagesAboutRoute: typeof AuthenticatedAdminSettingsPagesAboutRoute
+  AuthenticatedAdminSettingsPagesContactRoute: typeof AuthenticatedAdminSettingsPagesContactRoute
+  AuthenticatedAdminSettingsPagesHomeRoute: typeof AuthenticatedAdminSettingsPagesHomeRoute
+}
+
+const AuthenticatedAdminSettingsRouteChildren: AuthenticatedAdminSettingsRouteChildren =
+  {
+    AuthenticatedAdminSettingsAnalyticsRoute:
+      AuthenticatedAdminSettingsAnalyticsRoute,
+    AuthenticatedAdminSettingsAppearanceRoute:
+      AuthenticatedAdminSettingsAppearanceRoute,
+    AuthenticatedAdminSettingsMaintenanceRoute:
+      AuthenticatedAdminSettingsMaintenanceRoute,
+    AuthenticatedAdminSettingsUsersRoute: AuthenticatedAdminSettingsUsersRoute,
+    AuthenticatedAdminSettingsIndexRoute: AuthenticatedAdminSettingsIndexRoute,
+    AuthenticatedAdminSettingsPagesAboutRoute:
+      AuthenticatedAdminSettingsPagesAboutRoute,
+    AuthenticatedAdminSettingsPagesContactRoute:
+      AuthenticatedAdminSettingsPagesContactRoute,
+    AuthenticatedAdminSettingsPagesHomeRoute:
+      AuthenticatedAdminSettingsPagesHomeRoute,
+  }
+
+const AuthenticatedAdminSettingsRouteWithChildren =
+  AuthenticatedAdminSettingsRoute._addFileChildren(
+    AuthenticatedAdminSettingsRouteChildren,
+  )
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
   AuthenticatedAdminCalendarRoute: typeof AuthenticatedAdminCalendarRoute
   AuthenticatedAdminInquiriesRoute: typeof AuthenticatedAdminInquiriesRoute
   AuthenticatedAdminScheduleRoute: typeof AuthenticatedAdminScheduleRoute
-  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRouteWithChildren
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminWebsiteAboutRoute: typeof AuthenticatedAdminWebsiteAboutRoute
@@ -996,7 +1188,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminCalendarRoute: AuthenticatedAdminCalendarRoute,
   AuthenticatedAdminInquiriesRoute: AuthenticatedAdminInquiriesRoute,
   AuthenticatedAdminScheduleRoute: AuthenticatedAdminScheduleRoute,
-  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRouteWithChildren,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminWebsiteAboutRoute: AuthenticatedAdminWebsiteAboutRoute,

@@ -240,9 +240,25 @@ function GroupCard({
 }) {
   const [draft, setDraft] = useState(group);
   const [item, setItem] = useState({ title: "", note: "", price_text: "" });
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="space-y-4 rounded-xl border border-border/70 p-5">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="font-medium">{group.title}</p>
+          <p className="text-xs text-muted-foreground">
+            {items.length} {items.length === 1 ? "eilutė" : "eilutės"}
+            {group.published ? "" : " · nerodoma svetainėje"}
+          </p>
+        </div>
+        <Button type="button" variant="secondary" size="sm" onClick={() => setOpen((v) => !v)}>
+          {open ? "Suskleisti" : "Redaguoti"}
+        </Button>
+      </div>
+
+      {!open ? null : (
+      <>
       <div className="grid gap-3 md:grid-cols-[1fr_1fr_auto_auto_auto] md:items-end">
         <div className="flex flex-col gap-1.5">
           <Label className="text-sm">Grupės pavadinimas</Label>
@@ -337,6 +353,8 @@ function GroupCard({
           <Plus className="mr-2 h-4 w-4" /> Pridėti
         </Button>
       </div>
+      </>
+      )}
     </div>
   );
 }
