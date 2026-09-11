@@ -1,6 +1,6 @@
 import { sendLovableEmail } from "@lovable.dev/email-js";
 
-const SENDER_DOMAIN = "notify.lumidenta.deerva.com";
+const SENDER_DOMAIN = "notify.lumidenta.lt";
 
 /**
  * Transactional e-mail sender for account invites and password recovery.

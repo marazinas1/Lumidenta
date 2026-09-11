@@ -10,7 +10,7 @@ import { ensurePageContent, usePageContent, type ContentLoaderArgs } from "@/lib
 import { pageHead } from "@/lib/seo";
 
 const PAGE = "posts";
-const SITE = "https://lumidenta.deerva.com";
+const SITE = "https://lumidenta.lt";
 
 export function formatPostDate(value: string) {
   // Fixed locale + UTC so the server and the browser render the same string.
