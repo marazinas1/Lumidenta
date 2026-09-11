@@ -30,6 +30,13 @@ Siūlau prieš sprendžiant tiesiog pabandyti variantą B — Hostingerio DNS re
 
 Ne. Lovable siuntimas jau veikia ir su juo laiškai jau ateina. Resend tos pačios NS problemos neišspręstų — jam reikėtų lygiai tokio pat DNS patvirtinimo.
 
+### Ar Erika jau dabar gauna klientų žinutes į paštą?
+
+Ne, dar ne — ir dėl dviejų skirtingų priežasčių:
+
+- **Registracijos užklausos** — laiškas praktikai jau paruoštas ir išsiunčiamas automatiškai, bet jis eina adresu, įrašytu Nustatymuose. Tas laukas kol kas tuščias, todėl laiškas niekur nekeliauja. Kai tik Erika įrašys savo el. paštą, registracijų pranešimai pradės ateiti be jokių papildomų darbų.
+- **Kontaktų formos žinutės** — jos šiuo metu tik įkrenta į valdymo skydelį („Užklausos“), laiško niekam nesiunčia. Tai reikia pridėti — įtraukta į darbų sąrašą žemiau.
+
 ## Baigiamųjų darbų sąrašas (įrašysiu į atmintį)
 
 - Siuntėjo domenas: `lumidenta.lt` vietoj `deerva.com` (variantas B arba C)
