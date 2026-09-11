@@ -1,7 +1,3 @@
+# Svetainė dar nebaigta — indeksavimas įjungiamas tik paleidimo dieną.
 User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /auth
-Disallow: /reset-password
-
-Sitemap: https://lumidenta.lt/sitemap.xml
+Disallow: /
