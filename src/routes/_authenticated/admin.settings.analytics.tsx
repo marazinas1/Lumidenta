@@ -9,11 +9,20 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Eye, Inbox, TrendingDown, TrendingUp, Users } from "lucide-react";
+import { Clock, Eye, Inbox, Layers, LogOut, TrendingDown, TrendingUp, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { useAnalytics, percentChange, type AnalyticsRange } from "@/hooks/admin/useAnalytics";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import {
+  useAnalytics,
+  percentChange,
+  formatDuration,
+  countryLabel,
+  countryFlag,
+  type AnalyticsRange,
+} from "@/hooks/admin/useAnalytics";
 import { useBrandedTitle } from "@/hooks/useBrandedTitle";
 
 export const Route = createFileRoute("/_authenticated/admin/settings/analytics")({
