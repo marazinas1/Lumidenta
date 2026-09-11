@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { useContent } from "@/content";
-import { supabase } from "@/integrations/supabase/client";
+import { submitLead } from "@/lib/leads.functions";
 import { contact } from "@/data/contact";
 
 function buildFormSchema(kontaktaiForm: ReturnType<typeof useContent>["kontaktaiForm"]) {
@@ -74,6 +75,7 @@ function Field({
 export function ContactForm() {
   const { kontaktaiForm } = useContent();
   const formSchema = buildFormSchema(kontaktaiForm);
+  const sendLead = useServerFn(submitLead);
   const [values, setValues] = useState({ name: "", email: "", phone: "", message: "" });
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
@@ -103,14 +105,16 @@ export function ContactForm() {
     setStatus("sending");
 
     try {
-      const { error } = await (supabase as any).from("leads").insert({
-        name: parsed.data.name,
-        email: parsed.data.email,
-        phone: parsed.data.phone || null,
-        message: parsed.data.message,
-        source: "kontaktai",
+      await sendLead({
+        data: {
+          name: parsed.data.name,
+          email: parsed.data.email,
+          phone: parsed.data.phone,
+          message: parsed.data.message,
+          source: "kontaktai",
+          company: "",
+        },
       });
-      if (error) throw error;
       setValues({ name: "", email: "", phone: "", message: "" });
       setStatus("sent");
     } catch {
