@@ -1,5 +1,9 @@
-import { queryOptions, useQuery, type QueryClient } from "@tanstack/react-query";
+import { queryOptions, useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+
+import { BookingDialog } from "@/components/site/BookingDialog";
+import { dayTime } from "@/lib/schedule";
+
 
 
 import { Reveal, RevealItems } from "@/components/site/Reveal";
