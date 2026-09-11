@@ -431,10 +431,11 @@ function CalendarPage() {
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
         <span className="inline-flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-sm bg-primary/25" /> Patvirtintas
+          <span className="h-2.5 w-2.5 rounded-sm border border-primary bg-primary/70" /> Patvirtintas
         </span>
         <span className="inline-flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-sm bg-primary/15" /> Laukia patvirtinimo
+          <span className="h-2.5 w-2.5 rounded-sm border border-dashed border-primary bg-background" />{" "}
+          Laukia patvirtinimo
         </span>
         <span className="inline-flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-sm bg-muted" /> Užblokuotas laikas
@@ -592,8 +593,8 @@ function CalendarPage() {
                                 : cancelled
                                   ? "border-border bg-background text-muted-foreground line-through"
                                   : appt.status === "pending"
-                                    ? "border-primary/40 bg-primary/15"
-                                    : "border-primary/60 bg-primary/25"
+                                    ? "border-2 border-dashed border-primary bg-background text-foreground"
+                                    : "border-primary bg-primary/70 text-primary-foreground"
                             } ${canEdit ? "cursor-grab" : ""}`}
                             style={{
                               top: (p.startMin - dayStart) * PX_PER_MIN,
