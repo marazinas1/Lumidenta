@@ -108,9 +108,11 @@ function RequestsPage() {
                       {appt.note}
                     </p>
                   ) : null}
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    Gauta {receivedLabel(appt.created_at)}
-                  </p>
+                  {appt.created_at ? (
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      Gauta {receivedLabel(appt.created_at)}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div className="flex flex-wrap gap-2">

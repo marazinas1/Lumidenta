@@ -33,6 +33,7 @@ export type Appointment = {
   status: "pending" | "confirmed" | "arrived" | "no_show" | "cancelled";
   kind: "appointment" | "block";
   source: "admin" | "web";
+  created_at?: string;
 };
 
 export type BusyInterval = { startsAt: string; endsAt: string };
