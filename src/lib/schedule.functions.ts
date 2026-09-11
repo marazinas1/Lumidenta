@@ -78,9 +78,18 @@ export const fetchPublicSchedule = createServerFn({ method: "GET" })
       console.error("[schedule] busy read failed", error);
     }
 
+    const services: BookableService[] = (servicesRes.data ?? []).map(
+      (row: { id: string; title: string; duration_min: number | null }) => ({
+        id: row.id,
+        title: row.title,
+        durationMin: row.duration_min && row.duration_min > 0 ? row.duration_min : 30,
+      }),
+    );
+
     return {
       hours: (hoursRes.data ?? []) as WorkingHour[],
       exceptions: (exceptionsRes.data ?? []) as ScheduleException[],
       busy,
+      services,
     };
   });
