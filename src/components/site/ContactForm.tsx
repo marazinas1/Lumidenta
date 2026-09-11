@@ -104,14 +104,16 @@ export function ContactForm() {
     setStatus("sending");
 
     try {
-      const { error } = await (supabase as any).from("leads").insert({
-        name: parsed.data.name,
-        email: parsed.data.email,
-        phone: parsed.data.phone || null,
-        message: parsed.data.message,
-        source: "kontaktai",
+      await sendLead({
+        data: {
+          name: parsed.data.name,
+          email: parsed.data.email,
+          phone: parsed.data.phone,
+          message: parsed.data.message,
+          source: "kontaktai",
+          company: "",
+        },
       });
-      if (error) throw error;
       setValues({ name: "", email: "", phone: "", message: "" });
       setStatus("sent");
     } catch {
