@@ -80,14 +80,22 @@ export function bookingRoute(locale: Locale) {
 function BookingPage() {
   const { settings } = useCatalog();
   const { data } = useQuery(scheduleQuery());
+  const qc = useQueryClient();
   const schedule = data ?? emptySchedule;
   const [weekOffset, setWeekOffset] = useState(0);
   // Past slots are hidden only after mount, so SSR and hydration agree.
   const [now, setNow] = useState<Date | null>(null);
   useEffect(() => setNow(new Date()), []);
 
+  const services = schedule.services;
+  const [serviceId, setServiceId] = useState<string>("");
+  const selected = services.find((s) => s.id === serviceId) ?? null;
+  const step = selected?.durationMin ?? 30;
+  const [slot, setSlot] = useState<Date | null>(null);
+
   const weekStart = addDays(startOfWeek(new Date()), weekOffset * 7);
   const days = weekDays(weekStart);
+
 
 
   return (
