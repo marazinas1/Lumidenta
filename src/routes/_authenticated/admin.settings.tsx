@@ -1,8 +1,4 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
-
-import { getMyRole } from "@/lib/roles.functions";
 
 export const Route = createFileRoute("/_authenticated/admin/settings")({
   component: SettingsLayout,
