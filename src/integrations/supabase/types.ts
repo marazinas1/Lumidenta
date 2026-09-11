@@ -283,8 +283,12 @@ export type Database = {
       page_views: {
         Row: {
           country: string
+          country_code: string
           created_at: string
+          duration_ms: number
+          engaged: boolean
           id: string
+          is_bot: boolean
           path: string
           referrer: string
           session_id: string
@@ -292,8 +296,12 @@ export type Database = {
         }
         Insert: {
           country?: string
+          country_code?: string
           created_at?: string
+          duration_ms?: number
+          engaged?: boolean
           id?: string
+          is_bot?: boolean
           path?: string
           referrer?: string
           session_id?: string
@@ -301,8 +309,12 @@ export type Database = {
         }
         Update: {
           country?: string
+          country_code?: string
           created_at?: string
+          duration_ms?: number
+          engaged?: boolean
           id?: string
+          is_bot?: boolean
           path?: string
           referrer?: string
           session_id?: string
@@ -692,7 +704,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      analytics_summary: { Args: { _from: string; _to: string }; Returns: Json }
+      analytics_summary: {
+        Args: { _from: string; _include_short?: boolean; _to: string }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -703,6 +718,7 @@ export type Database = {
       is_developer: { Args: { _user_id: string }; Returns: boolean }
       is_owner: { Args: { _user_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      prune_page_views: { Args: never; Returns: undefined }
     }
     Enums: {
       app_role: "developer" | "owner" | "editor"
