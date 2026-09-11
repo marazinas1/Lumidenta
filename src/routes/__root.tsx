@@ -154,17 +154,30 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="luma site-theme min-h-screen">
-        <>
-          <SiteHeader />
-          <main>
-            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-            <Outlet />
-          </main>
-          <SiteFooter />
-        </>
-      </div>
+      <PublicShell />
       <Toaster />
     </QueryClientProvider>
+  );
+}
+
+/** Public site, or the maintenance notice when the owner switched it on. */
+function PublicShell() {
+  const { data } = useQuery(catalogQuery);
+  const signedIn = useSignedIn();
+  const maintenance = Boolean(data?.settings.maintenanceMode);
+
+  if (maintenance && signedIn !== true) {
+    return <MaintenanceScreen />;
+  }
+
+  return (
+    <div className="luma site-theme min-h-screen">
+      <SiteHeader />
+      <main>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </main>
+      <SiteFooter />
+    </div>
   );
 }
