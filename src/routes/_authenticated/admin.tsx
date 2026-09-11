@@ -3,8 +3,10 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import {
+  BarChart3,
   CalendarDays,
   Clock,
+  Users,
   Globe,
   Inbox,
   LayoutDashboard,
@@ -65,6 +67,7 @@ function AdminLayout() {
         { to: "/admin/calendar", label: "Kalendorius", icon: CalendarDays, badge: pendingVisits },
         { to: "/admin/inquiries", label: "Užklausos", icon: Inbox, badge: unread },
         { to: "/admin/schedule", label: "Darbo laikas", icon: Clock },
+        { to: "/admin/analytics", label: "Analitika", icon: BarChart3 },
       ],
     },
     {
@@ -78,9 +81,12 @@ function AdminLayout() {
     },
     {
       label: "Nustatymai",
-      links: [{ to: "/admin/settings", label: "Nustatymai", icon: Settings }],
+      links: [
+        { to: "/admin/users", label: "Vartotojai", icon: Users },
+        { to: "/admin/settings", label: "Nustatymai", icon: Settings },
+      ],
     },
-  ] as const;
+  ];
 
   async function signOut() {
     setNavOpen(false);
