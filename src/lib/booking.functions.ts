@@ -47,7 +47,8 @@ export const requestAppointment = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     // Requests nobody answered for 48 h free the slot again.
-    await releaseStalePending(supabaseAdmin);
+    const { releaseStalePending } = await import("./booking.server");
+    await releaseStalePending();
 
     // --- rate limits -------------------------------------------------------
     const since = new Date(Date.now() - DAY_MS).toISOString();
@@ -167,17 +168,4 @@ function vilniusMinutes(date: Date): number {
   }).format(date);
   const [h = "0", m = "0"] = parts.split(":");
   return Number(h) * 60 + Number(m);
-}
-
-/** Web requests left unanswered for 48 h are cancelled so the slot reopens. */
-export async function releaseStalePending(admin: {
-  from: (table: string) => any;
-}): Promise<void> {
-  const cutoff = new Date(Date.now() - 2 * DAY_MS).toISOString();
-  await admin
-    .from("appointments")
-    .update({ status: "cancelled" })
-    .eq("status", "pending")
-    .eq("source", "web")
-    .lt("created_at", cutoff);
 }

@@ -101,3 +101,19 @@ export async function notifyAppointmentDecision(input: {
     idempotencyKey: `appt-${input.confirmed ? "ok" : "no"}-${input.startsAt}-${input.email}`,
   });
 }
+
+/** Web requests left unanswered for 48 h are cancelled so the slot reopens. */
+export async function releaseStalePending(): Promise<void> {
+  try {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const cutoff = new Date(Date.now() - 2 * 86_400_000).toISOString();
+    await supabaseAdmin
+      .from("appointments")
+      .update({ status: "cancelled" })
+      .eq("status", "pending")
+      .eq("source", "web")
+      .lt("created_at", cutoff);
+  } catch (error) {
+    console.error("[booking] stale release failed", error);
+  }
+}
