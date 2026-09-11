@@ -98,14 +98,15 @@ export function MonthGrid({
                           onOpenAppointment(appt);
                         }
                       }}
-                      className={`truncate rounded px-1 py-0.5 text-[11px] leading-tight ${
+                      className={`truncate rounded border px-1 py-0.5 text-[11px] leading-tight ${
                         muted
-                          ? "bg-muted text-muted-foreground"
+                          ? "border-border bg-muted text-muted-foreground"
                           : appt.status === "pending"
-                            ? "bg-primary/15"
-                            : "bg-primary/25"
+                            ? "border-dashed border-primary bg-background text-foreground"
+                            : "border-primary bg-primary/70 text-primary-foreground"
                       }`}
                     >
+                      {appt.status === "pending" && !muted ? "⏳ " : ""}
                       {formatTime(appt.starts_at)}
                       {appt.kind === "block"
                         ? " · Užimta"

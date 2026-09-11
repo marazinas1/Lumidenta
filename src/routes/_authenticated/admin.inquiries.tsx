@@ -110,7 +110,7 @@ function InquiryDetail({
 }
 
 function InquiriesPage() {
-  useBrandedTitle("Užklausos");
+  useBrandedTitle("Žinutės");
   const [filter, setFilter] = useState<InquiryFilter>("all");
   const [search, setSearch] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
@@ -155,10 +155,11 @@ function InquiriesPage() {
 
   return (
     <div className="max-w-5xl">
-      <h1 className="text-2xl font-semibold">Užklausos</h1>
+      <h1 className="text-2xl font-semibold">Žinutės</h1>
       <p className="mt-1 text-sm text-muted-foreground">
-        Visos žinutės, atsiųstos per svetainės kontaktų formą. Archyvavimas užklausą tik paslepia —
-        ji niekada neištrinama.
+        Laisvos formos žinutės, atsiųstos per svetainės kontaktų formą. Registracijos į vizitą yra
+        atskirai — skiltyje „Vizitų užklausos“. Archyvavimas žinutę tik paslepia — ji niekada
+        neištrinama.
       </p>
 
       <div className="mb-5 mt-6 flex flex-col gap-3 sm:flex-row">

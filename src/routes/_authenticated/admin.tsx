@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import {
   BarChart3,
+  CalendarCheck,
   CalendarDays,
   Clock,
   Users,
@@ -64,8 +65,9 @@ function AdminLayout() {
       label: "Kasdien",
       links: [
         { to: "/admin", label: "Apžvalga", icon: LayoutDashboard },
-        { to: "/admin/calendar", label: "Kalendorius", icon: CalendarDays, badge: pendingVisits },
-        { to: "/admin/inquiries", label: "Užklausos", icon: Inbox, badge: unread },
+        { to: "/admin/calendar", label: "Kalendorius", icon: CalendarDays },
+        { to: "/admin/requests", label: "Vizitų užklausos", icon: CalendarCheck, badge: pendingVisits },
+        { to: "/admin/inquiries", label: "Žinutės", icon: Inbox, badge: unread },
         { to: "/admin/schedule", label: "Darbo laikas", icon: Clock },
         { to: "/admin/analytics", label: "Analitika", icon: BarChart3 },
       ],
