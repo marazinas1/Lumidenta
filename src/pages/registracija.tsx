@@ -105,8 +105,8 @@ function BookingPage() {
           <div className="eyebrow">Registracija</div>
           <h1>Laisvi vizito laikai.</h1>
           <p className="lead">
-            Žemiau matote, kada dirbu ir kurie laikai dar laisvi. Pasirinkę Jums tinkantį laiką,
-            paskambinkite arba parašykite — vizitą patvirtinsiu asmeniškai.
+            Pasirinkite paslaugą ir Jums tinkantį laiką — užklausa atkeliaus pas mane, o vizitą
+            patvirtinsiu asmeniškai telefonu arba el. paštu.
           </p>
         </div>
       </section>
