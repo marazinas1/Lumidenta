@@ -205,11 +205,36 @@ export const setAppointmentStatus = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     await assertOwner(context);
+    const { data: row } = await context.supabase
+      .from("appointments")
+      .select("patient_email, service_title, starts_at, source")
+      .eq("id", data.id)
+      .maybeSingle();
+
     const { error } = await context.supabase
       .from("appointments")
       .update({ status: data.status })
       .eq("id", data.id);
     if (error) throw new Error(friendly(error.message));
+
+    // Answering an online request also answers the patient, when they left an
+    // e-mail. A failed notification must not fail the status change.
+    if (row?.source === "web" && row.patient_email) {
+      const decided = data.status === "confirmed" || data.status === "cancelled";
+      if (decided) {
+        try {
+          const { notifyAppointmentDecision } = await import("./booking.server");
+          await notifyAppointmentDecision({
+            email: row.patient_email,
+            serviceTitle: row.service_title ?? "",
+            startsAt: row.starts_at,
+            confirmed: data.status === "confirmed",
+          });
+        } catch (notifyError) {
+          console.error("[schedule] decision notify failed", notifyError);
+        }
+      }
+    }
     return { ok: true };
   });
 

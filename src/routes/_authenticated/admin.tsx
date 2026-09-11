@@ -26,6 +26,7 @@ import { getMyRole } from "@/lib/roles.functions";
 import { ROLE_LABEL } from "@/lib/roles";
 import { supabase } from "@/integrations/supabase/client";
 import { useUnreadInquiryCount } from "@/hooks/admin/useInquiries";
+import { usePendingAppointmentCount } from "@/hooks/admin/useAppointments";
 import { LumaLogo } from "@/components/site/LumaLogo";
 import { MaintenanceBanner } from "@/components/site/MaintenanceBanner";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -45,6 +46,7 @@ function AdminLayout() {
   });
   const { location } = useRouterState();
   const { data: unread = 0 } = useUnreadInquiryCount();
+  const { data: pendingVisits = 0 } = usePendingAppointmentCount();
 
   if (isLoading) {
     return <div className="p-8 text-muted-foreground">Kraunama…</div>;
@@ -65,7 +67,7 @@ function AdminLayout() {
       label: "Darbo sritis",
       links: [
         { to: "/admin", label: "Apžvalga", icon: LayoutDashboard },
-        { to: "/admin/calendar", label: "Kalendorius", icon: CalendarDays },
+        { to: "/admin/calendar", label: "Kalendorius", icon: CalendarDays, badge: pendingVisits },
         { to: "/admin/schedule", label: "Darbo laikas", icon: Clock },
         { to: "/admin/inquiries", label: "Užklausos", icon: Inbox, badge: unread },
         { to: "/admin/analytics", label: "Analitika", icon: BarChart3 },
@@ -123,7 +125,7 @@ function AdminLayout() {
                   <Icon className="h-4 w-4" />
                   {l.label}
                   {"badge" in l && l.badge ? (
-                    <span className="admin-nav-badge" aria-label={`${l.badge} neperskaitytos užklausos`}>
+                    <span className="admin-nav-badge" aria-label={`${l.badge} nauji pranešimai`}>
                       {l.badge > 99 ? "99+" : l.badge}
                     </span>
                   ) : null}
@@ -161,8 +163,8 @@ function AdminLayout() {
           <SheetTrigger asChild>
             <button type="button" aria-label="Meniu" className="relative rounded-md p-2">
               <Menu className="h-5 w-5" />
-              {unread > 0 ? (
-                <span className="admin-mobile-dot">{unread > 99 ? "99+" : unread}</span>
+              {unread + pendingVisits > 0 ? (
+                <span className="admin-mobile-dot">{unread + pendingVisits > 99 ? "99+" : unread + pendingVisits}</span>
               ) : null}
             </button>
           </SheetTrigger>

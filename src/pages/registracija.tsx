@@ -1,5 +1,9 @@
-import { queryOptions, useQuery, type QueryClient } from "@tanstack/react-query";
+import { queryOptions, useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+
+import { BookingDialog } from "@/components/site/BookingDialog";
+import { dayTime } from "@/lib/schedule";
+
 
 
 import { Reveal, RevealItems } from "@/components/site/Reveal";
@@ -80,14 +84,22 @@ export function bookingRoute(locale: Locale) {
 function BookingPage() {
   const { settings } = useCatalog();
   const { data } = useQuery(scheduleQuery());
+  const qc = useQueryClient();
   const schedule = data ?? emptySchedule;
   const [weekOffset, setWeekOffset] = useState(0);
   // Past slots are hidden only after mount, so SSR and hydration agree.
   const [now, setNow] = useState<Date | null>(null);
   useEffect(() => setNow(new Date()), []);
 
+  const services = schedule.services;
+  const [serviceId, setServiceId] = useState<string>("");
+  const selected = services.find((s) => s.id === serviceId) ?? null;
+  const step = selected?.durationMin ?? 30;
+  const [slot, setSlot] = useState<Date | null>(null);
+
   const weekStart = addDays(startOfWeek(new Date()), weekOffset * 7);
   const days = weekDays(weekStart);
+
 
 
   return (
@@ -97,8 +109,8 @@ function BookingPage() {
           <div className="eyebrow">Registracija</div>
           <h1>Laisvi vizito laikai.</h1>
           <p className="lead">
-            Žemiau matote, kada dirbu ir kurie laikai dar laisvi. Pasirinkę Jums tinkantį laiką,
-            paskambinkite arba parašykite — vizitą patvirtinsiu asmeniškai.
+            Pasirinkite paslaugą ir Jums tinkantį laiką — užklausa atkeliaus pas mane, o vizitą
+            patvirtinsiu asmeniškai telefonu arba el. paštu.
           </p>
         </div>
       </section>
@@ -129,6 +141,33 @@ function BookingPage() {
             </div>
           </Reveal>
 
+          {services.length > 0 ? (
+            <Reveal>
+              <div className="sched-services">
+                <span className="label-caps text-stone">Paslauga</span>
+                <div className="sched-service-list">
+                  <button
+                    type="button"
+                    className={serviceId === "" ? "sched-service active" : "sched-service"}
+                    onClick={() => setServiceId("")}
+                  >
+                    Konsultacija (30 min.)
+                  </button>
+                  {services.map((s) => (
+                    <button
+                      key={s.id}
+                      type="button"
+                      className={serviceId === s.id ? "sched-service active" : "sched-service"}
+                      onClick={() => setServiceId(s.id)}
+                    >
+                      {s.title} ({s.durationMin} min.)
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          ) : null}
+
           <RevealItems className="sched-grid">
             {days.map((day) => {
               const open = openIntervalsFor(day, schedule.hours, schedule.exceptions);
@@ -137,7 +176,7 @@ function BookingPage() {
                 schedule.hours,
                 schedule.exceptions,
                 schedule.busy,
-                30,
+                step,
                 now,
               );
 
@@ -155,10 +194,15 @@ function BookingPage() {
                         <p className="sched-closed">Visi laikai užimti</p>
                       ) : (
                         <div className="sched-slots">
-                          {free.map((slot) => (
-                            <span key={slot.start} className="sched-slot">
-                              {minToHHMM(slot.start)}
-                            </span>
+                          {free.map((item) => (
+                            <button
+                              key={item.start}
+                              type="button"
+                              className="sched-slot"
+                              onClick={() => setSlot(dayTime(ymd(day), item.start))}
+                            >
+                              {minToHHMM(item.start)}
+                            </button>
                           ))}
                         </div>
                       )}
@@ -171,10 +215,10 @@ function BookingPage() {
 
           <Reveal>
             <div className="sched-cta">
-              <h2>Radote tinkamą laiką?</h2>
+              <h2>Norite pasitarti pirma?</h2>
               <p>
-                Registracija kol kas vyksta telefonu arba el. paštu — taip įsitikinu, kad vizito
-                trukmė atitinka Jūsų poreikį.
+                Jei nesate tikri, kurios paslaugos ar kiek laiko reikia, paskambinkite arba
+                parašykite — laiką parinksime kartu.
               </p>
               <div className="sched-cta-links">
                 {settings.phone ? (
@@ -192,6 +236,13 @@ function BookingPage() {
           </Reveal>
         </div>
       </section>
+
+      <BookingDialog
+        slot={slot}
+        service={selected}
+        onClose={() => setSlot(null)}
+        onBooked={() => void qc.invalidateQueries({ queryKey: ["public-schedule"] })}
+      />
     </>
   );
 }

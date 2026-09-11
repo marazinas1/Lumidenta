@@ -8,13 +8,21 @@ import type { BusyInterval, ScheduleException, WorkingHour } from "./schedule";
  * intervals are projected to time only — never a name, phone or e-mail.
  */
 
+export type BookableService = { id: string; title: string; durationMin: number };
+
 export type PublicSchedule = {
   hours: WorkingHour[];
   exceptions: ScheduleException[];
   busy: BusyInterval[];
+  services: BookableService[];
 };
 
-export const emptySchedule: PublicSchedule = { hours: [], exceptions: [], busy: [] };
+export const emptySchedule: PublicSchedule = {
+  hours: [],
+  exceptions: [],
+  busy: [],
+  services: [],
+};
 
 const rangeInput = z.object({
   from: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -36,13 +44,19 @@ export const fetchPublicSchedule = createServerFn({ method: "GET" })
     const fromTs = new Date(`${data.from}T00:00:00`).toISOString();
     const toTs = new Date(`${data.to}T23:59:59`).toISOString();
 
-    const [hoursRes, exceptionsRes] = await Promise.all([
+    const [hoursRes, exceptionsRes, servicesRes] = await Promise.all([
       supabase.from("working_hours").select("id, weekday, start_min, end_min"),
       supabase
         .from("schedule_exceptions")
         .select("id, day, kind, start_min, end_min, note")
         .gte("day", data.from)
         .lte("day", data.to),
+      supabase
+        .from("services")
+        .select("id, title, duration_min, sort_order")
+        .eq("published", true)
+        .eq("bookable", true)
+        .order("sort_order", { ascending: true }),
     ]);
 
     // Appointment rows are staff-only, so the busy list is read with the
@@ -50,6 +64,8 @@ export const fetchPublicSchedule = createServerFn({ method: "GET" })
     let busy: BusyInterval[] = [];
     try {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { releaseStalePending } = await import("./booking.server");
+      await releaseStalePending();
       const { data: rows } = await supabaseAdmin
         .from("appointments")
         .select("starts_at, ends_at")
@@ -64,9 +80,18 @@ export const fetchPublicSchedule = createServerFn({ method: "GET" })
       console.error("[schedule] busy read failed", error);
     }
 
+    const services: BookableService[] = (servicesRes.data ?? []).map(
+      (row: { id: string; title: string; duration_min: number | null }) => ({
+        id: row.id,
+        title: row.title,
+        durationMin: row.duration_min && row.duration_min > 0 ? row.duration_min : 30,
+      }),
+    );
+
     return {
       hours: (hoursRes.data ?? []) as WorkingHour[],
       exceptions: (exceptionsRes.data ?? []) as ScheduleException[],
       busy,
+      services,
     };
   });

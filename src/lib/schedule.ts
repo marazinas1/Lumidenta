@@ -306,6 +306,8 @@ export function freeSlotsFor(
   step = 30,
   now: Date | null = null,
 ): Interval[] {
+  // Days already gone offer nothing; only the current day needs hour filtering.
+  if (now && ymd(day) < ymd(now)) return [];
   const open = openIntervalsFor(day, hours, exceptions);
   const taken = busyIntervalsFor(day, busy);
   const isToday = now ? ymd(day) === ymd(now) : false;
