@@ -322,6 +322,9 @@ function AnalyticsPage() {
               empty="Peržiūrų dar nėra."
               rows={(data?.top_pages ?? []).map((p) => ({ label: p.path, views: Number(p.views) }))}
             />
+          </div>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
             <BreakdownList
               title="Srauto šaltiniai"
               total={totalViews}
