@@ -136,7 +136,8 @@ function BreakdownList({
 function AnalyticsPage() {
   useBrandedTitle("Analitika");
   const [range, setRange] = useState<AnalyticsRange>(30);
-  const { data, isLoading, error } = useAnalytics(range);
+  const [includeShort, setIncludeShort] = useState(false);
+  const { data, isLoading, error } = useAnalytics(range, includeShort);
 
   const chartData = useMemo(() => {
     const byDay = new Map((data?.daily ?? []).map((d) => [d.day, d]));
