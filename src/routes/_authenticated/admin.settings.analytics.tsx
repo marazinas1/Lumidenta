@@ -221,8 +221,41 @@ function AnalyticsPage() {
               change={percentChange(totalVisitors, Number(data?.previous?.visitors ?? 0))}
               icon={Users}
             />
-            <StatCard label="Užklausos" value={leads} icon={Inbox} />
-            <StatCard label="Konversija" value={conversion} suffix="%" icon={TrendingUp} />
+            <StatCard
+              label="Užklausos"
+              value={leads}
+              icon={Inbox}
+              hint="Kiek žmonių parašė per kontaktų formą."
+            />
+            <StatCard
+              label="Konversija"
+              value={conversion}
+              suffix="%"
+              icon={TrendingUp}
+              hint="Kokia dalis lankytojų parašė užklausą."
+            />
+          </div>
+
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <StatCard
+              label="Vidutinė trukmė"
+              value={formatDuration(Number(data?.avg_duration_ms ?? 0))}
+              icon={Clock}
+              hint="Kiek vidutiniškai laiko žmogus praleidžia svetainėje."
+            />
+            <StatCard
+              label="Atmetimo rodiklis"
+              value={Number(data?.bounce_rate ?? 0)}
+              suffix="%"
+              icon={LogOut}
+              hint="Kiek lankytojų peržiūrėjo tik vieną puslapį."
+            />
+            <StatCard
+              label="Puslapiai / lankytojui"
+              value={Number(data?.pages_per_visit ?? 0)}
+              icon={Layers}
+              hint="Kiek puslapių vidutiniškai apžiūrima per vieną apsilankymą."
+            />
           </div>
 
           <div className="mt-6 rounded-xl border bg-card p-5">
