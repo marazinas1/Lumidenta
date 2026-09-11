@@ -141,6 +141,33 @@ function BookingPage() {
             </div>
           </Reveal>
 
+          {services.length > 0 ? (
+            <Reveal>
+              <div className="sched-services">
+                <span className="label-caps text-stone">Paslauga</span>
+                <div className="sched-service-list">
+                  <button
+                    type="button"
+                    className={serviceId === "" ? "sched-service active" : "sched-service"}
+                    onClick={() => setServiceId("")}
+                  >
+                    Konsultacija (30 min.)
+                  </button>
+                  {services.map((s) => (
+                    <button
+                      key={s.id}
+                      type="button"
+                      className={serviceId === s.id ? "sched-service active" : "sched-service"}
+                      onClick={() => setServiceId(s.id)}
+                    >
+                      {s.title} ({s.durationMin} min.)
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          ) : null}
+
           <RevealItems className="sched-grid">
             {days.map((day) => {
               const open = openIntervalsFor(day, schedule.hours, schedule.exceptions);
@@ -149,7 +176,7 @@ function BookingPage() {
                 schedule.hours,
                 schedule.exceptions,
                 schedule.busy,
-                30,
+                step,
                 now,
               );
 
