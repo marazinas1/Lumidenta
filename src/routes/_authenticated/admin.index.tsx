@@ -42,7 +42,7 @@ function AdminDashboard() {
   const { data: traffic } = useAnalytics(7);
 
   return (
-    <div className="max-w-4xl space-y-12">
+    <div className="space-y-12">
       <header>
         <h1 className="text-2xl font-semibold">Apžvalga</h1>
         <p className="mt-1 text-sm text-muted-foreground">
