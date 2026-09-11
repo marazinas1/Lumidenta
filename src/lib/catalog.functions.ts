@@ -76,6 +76,8 @@ export type SiteSettings = {
   logoPath: string;
   logoUrl: string | null;
   logoSize: number;
+  maintenanceMode: boolean;
+  maintenanceMessage: string;
 };
 
 export type CatalogPayload = {
@@ -102,6 +104,8 @@ export const emptySettings: SiteSettings = {
   logoPath: "",
   logoUrl: null,
   logoSize: 48,
+  maintenanceMode: false,
+  maintenanceMessage: "",
 };
 
 export const emptyCatalog: CatalogPayload = {
@@ -220,6 +224,7 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
     }));
 
     const s = settingsRes.data as Record<string, string> | null;
+    const raw = settingsRes.data as Record<string, unknown> | null;
     const settings: SiteSettings = s
       ? {
           practiceName: s['practice_name'] || "Lumidenta",
@@ -241,6 +246,8 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
             ? `${url}/storage/v1/object/public/site-images/${s['logo_path']}?v=${encodeURIComponent(s['updated_at'] || s['logo_path'])}`
             : null,
           logoSize: Math.min(80, Math.max(32, Number(s['logo_size']) || 48)),
+          maintenanceMode: Boolean(raw?.['maintenance_mode']),
+          maintenanceMessage: String(raw?.['maintenance_message'] ?? ""),
         }
       : emptySettings;
 
