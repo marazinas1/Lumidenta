@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import { CATALOG_KEY, catalogQuery } from "@/lib/catalog";
 import { saveSiteSettings } from "@/lib/catalog-admin.functions";
 import { uploadFaviconToStorage, uploadLogoToStorage } from "@/lib/image-optimize";
@@ -32,6 +34,8 @@ type Form = {
   favicon_path: string;
   logo_path: string;
   logo_size: number;
+  maintenance_mode: boolean;
+  maintenance_message: string;
 };
 
 const FIELDS: { key: keyof Form; label: string; hint?: string }[] = [
@@ -71,6 +75,8 @@ const EMPTY: Form = {
   favicon_path: "",
   logo_path: "",
   logo_size: 48,
+  maintenance_mode: false,
+  maintenance_message: "",
 };
 
 function SettingsPage() {
@@ -97,6 +103,8 @@ function SettingsPage() {
       favicon_path: s.faviconPath,
       logo_path: s.logoPath,
       logo_size: s.logoSize,
+      maintenance_mode: s.maintenanceMode,
+      maintenance_message: s.maintenanceMessage,
     });
   }, [data]);
 
