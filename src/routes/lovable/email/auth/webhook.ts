@@ -10,9 +10,9 @@ import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
 
 // Configuration
 const SITE_NAME = "Lumidenta"
-const SENDER_DOMAIN = "notify.lumidenta.lt"
+const SENDER_DOMAIN = "notify.lumidenta.deerva.com"
 const ROOT_DOMAIN = "lumidenta.lt"
-const FROM_DOMAIN = "notify.lumidenta.lt"
+const FROM_DOMAIN = "notify.lumidenta.deerva.com"
 const SITE_URL = `https://${ROOT_DOMAIN}`
 
 // The SDK handler owns verification, dispatch, and retry semantics; this file
