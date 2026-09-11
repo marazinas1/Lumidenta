@@ -306,7 +306,16 @@ function AnalyticsPage() {
             </div>
           </div>
 
-          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+          <div className="mt-6 grid gap-4 lg:grid-cols-2">
+            <BreakdownList
+              title="Šalys"
+              total={totalViews}
+              empty="Šalių duomenų dar nėra."
+              rows={(data?.countries ?? []).map((c) => ({
+                label: `${countryFlag(c.code)}  ${countryLabel(c.code)}`,
+                views: Number(c.views),
+              }))}
+            />
             <BreakdownList
               title="Populiariausi puslapiai"
               total={totalViews}
