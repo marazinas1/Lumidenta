@@ -1,7 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-import { openIntervalsFor, type ScheduleException, type WorkingHour } from "./schedule";
+import {
+  BOOKING_LEAD_MIN,
+  openIntervalsFor,
+  type ScheduleException,
+  type WorkingHour,
+} from "./schedule";
 
 /**
  * Public appointment request. Anyone may call this, so everything is
@@ -39,7 +44,7 @@ export const requestAppointment = createServerFn({ method: "POST" })
     const start = new Date(data.startsAt);
     if (Number.isNaN(start.getTime())) fail("Neteisingas laikas.");
     const end = new Date(start.getTime() + data.durationMin * 60_000);
-    if (start.getTime() < Date.now() + 30 * 60_000) {
+    if (start.getTime() < Date.now() + BOOKING_LEAD_MIN * 60_000) {
       fail("Šis laikas jau praėjo. Pasirinkite kitą.");
     }
     if (start.getTime() > Date.now() + 120 * DAY_MS) fail("Per tolimas laikas.");
