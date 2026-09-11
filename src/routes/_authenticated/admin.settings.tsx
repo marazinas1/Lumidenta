@@ -219,6 +219,68 @@ function SettingsPage() {
         </p>
       </div>
 
+      {isLoading ? null : (
+        <section className="space-y-4 rounded-xl border border-border/70 p-5">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <Label>Techninių darbų režimas</Label>
+              <p className="mt-1 max-w-prose text-xs text-muted-foreground">
+                Įjungus, lankytojai mato tik pranešimą apie laikiną atnaujinimą su Jūsų telefonu ir
+                el. paštu. Prisijungę prie administravimo matote įprastą svetainę, todėl galite
+                ramiai tvarkyti turinį. Išjungus — svetainė grįžta iš karto.
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-medium">
+                {form.maintenance_mode ? "Įjungta" : "Išjungta"}
+              </span>
+              <Switch
+                checked={form.maintenance_mode}
+                onCheckedChange={(checked) => {
+                  const next = { ...form, maintenance_mode: checked };
+                  setForm(next);
+                  void save({ data: next })
+                    .then(async () => {
+                      await queryClient.invalidateQueries({ queryKey: CATALOG_KEY });
+                      toast.success(
+                        checked
+                          ? "Techninių darbų režimas įjungtas."
+                          : "Svetainė vėl matoma lankytojams.",
+                      );
+                    })
+                    .catch((error: unknown) => {
+                      setForm((f) => ({ ...f, maintenance_mode: !checked }));
+                      toast.error(
+                        error instanceof Error ? error.message : "Nepavyko pakeisti režimo",
+                      );
+                    });
+                }}
+                aria-label="Techninių darbų režimas"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="maintenance-message">Pranešimas lankytojams</Label>
+            <Textarea
+              id="maintenance-message"
+              rows={3}
+              placeholder="Svetainė šiuo metu atnaujinama. Netrukus grįšime — kol kas susisiekite telefonu arba el. paštu."
+              value={form.maintenance_message}
+              onChange={(e) => setForm({ ...form, maintenance_message: e.target.value })}
+            />
+            <Button
+              size="sm"
+              variant="secondary"
+              disabled={mutation.isPending}
+              onClick={() => mutation.mutate()}
+            >
+              Išsaugoti pranešimą
+            </Button>
+          </div>
+        </section>
+      )}
+
       {isLoading ? (
         <p className="text-sm text-muted-foreground">Kraunama…</p>
       ) : (
