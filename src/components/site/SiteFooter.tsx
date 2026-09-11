@@ -42,6 +42,12 @@ export function SiteFooter() {
         </div>
         <div className="foot-copy">
           <span>© Lumidenta · gyd. odontologė Erika · Braškių g. 2B-1, Vilnius</span>
+          <span className="foot-credit">
+            Svetainę sukūrė ir prižiūri{" "}
+            <a href="https://deerva.com/" target="_blank" rel="noopener">
+              Deerva
+            </a>
+          </span>
           <a href="/admin" className="foot-admin">
             Admin
           </a>
