@@ -10,13 +10,25 @@ const DEFAULT_MESSAGE =
  * Shown to visitors while the owner has switched maintenance mode on in
  * Admin → Nustatymai. Signed-in staff keep seeing the real site.
  */
-export function MaintenanceScreen() {
+export function MaintenanceScreen({ onExitPreview }: { onExitPreview?: () => void }) {
   const { data } = useQuery(catalogQuery);
   const s = data?.settings;
   const message = s?.maintenanceMessage?.trim() || DEFAULT_MESSAGE;
 
   return (
     <div className="luma site-theme flex min-h-screen items-center justify-center px-6 py-16">
+      {onExitPreview ? (
+        <div className="maintenance-banner" role="status">
+          <span className="maintenance-banner-text">
+            Peržiūra: taip svetainę mato lankytojai.
+          </span>
+          <span className="maintenance-banner-actions">
+            <button type="button" className="maintenance-banner-btn" onClick={onExitPreview}>
+              Grįžti į svetainę
+            </button>
+          </span>
+        </div>
+      ) : null}
       <div className="w-full max-w-xl text-center">
         <div className="mb-8 inline-flex items-center gap-2 text-xl font-extrabold">
           <LumaLogo />
