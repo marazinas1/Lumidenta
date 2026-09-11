@@ -194,10 +194,15 @@ function BookingPage() {
                         <p className="sched-closed">Visi laikai užimti</p>
                       ) : (
                         <div className="sched-slots">
-                          {free.map((slot) => (
-                            <span key={slot.start} className="sched-slot">
-                              {minToHHMM(slot.start)}
-                            </span>
+                          {free.map((item) => (
+                            <button
+                              key={item.start}
+                              type="button"
+                              className="sched-slot"
+                              onClick={() => setSlot(dayTime(ymd(day), item.start))}
+                            >
+                              {minToHHMM(item.start)}
+                            </button>
                           ))}
                         </div>
                       )}
