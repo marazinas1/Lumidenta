@@ -64,26 +64,21 @@ function AdminLayout() {
 
   const groups = [
     {
-      label: "Darbo sritis",
+      label: "Kasdien",
       links: [
         { to: "/admin", label: "Apžvalga", icon: LayoutDashboard },
         { to: "/admin/calendar", label: "Kalendorius", icon: CalendarDays, badge: pendingVisits },
-        { to: "/admin/schedule", label: "Darbo laikas", icon: Clock },
         { to: "/admin/inquiries", label: "Užklausos", icon: Inbox, badge: unread },
-        { to: "/admin/analytics", label: "Analitika", icon: BarChart3 },
-        ...(me.isOwner ? [{ to: "/admin/users", label: "Vartotojai", icon: Users }] : []),
+        { to: "/admin/schedule", label: "Darbo laikas", icon: Clock },
       ],
     },
     {
-      label: "Svetainė",
+      label: "Turinys",
       links: [
-        { to: "/admin/website/home", label: "Pradžia", icon: Home },
         { to: "/admin/website/services", label: "Paslaugos", icon: Stethoscope },
         { to: "/admin/website/prices", label: "Kainos", icon: Tag },
         { to: "/admin/website/testimonials", label: "Atsiliepimai", icon: Quote },
         { to: "/admin/website/posts", label: "Straipsniai", icon: Newspaper },
-        { to: "/admin/website/about", label: "Apie", icon: FileText },
-        { to: "/admin/website/contact", label: "Kontaktai", icon: Phone },
       ],
     },
     {
