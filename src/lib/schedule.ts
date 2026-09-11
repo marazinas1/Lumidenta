@@ -317,7 +317,8 @@ export function freeSlotsFor(
   for (const interval of open) {
     for (let start = interval.start; start + step <= interval.end; start += step) {
       const end = start + step;
-      if (isToday && start <= nowMin) continue;
+      // Must match the server's booking lead time, or a visible slot 401s.
+      if (isToday && start < nowMin + BOOKING_LEAD_MIN) continue;
       const overlaps = taken.some((b) => start < b.end && end > b.start);
       if (!overlaps) slots.push({ start, end });
     }
