@@ -215,10 +215,10 @@ function BookingPage() {
 
           <Reveal>
             <div className="sched-cta">
-              <h2>Radote tinkamą laiką?</h2>
+              <h2>Norite pasitarti pirma?</h2>
               <p>
-                Registracija kol kas vyksta telefonu arba el. paštu — taip įsitikinu, kad vizito
-                trukmė atitinka Jūsų poreikį.
+                Jei nesate tikri, kurios paslaugos ar kiek laiko reikia, paskambinkite arba
+                parašykite — laiką parinksime kartu.
               </p>
               <div className="sched-cta-links">
                 {settings.phone ? (
