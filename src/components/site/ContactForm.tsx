@@ -75,6 +75,7 @@ function Field({
 export function ContactForm() {
   const { kontaktaiForm } = useContent();
   const formSchema = buildFormSchema(kontaktaiForm);
+  const sendLead = useServerFn(submitLead);
   const [values, setValues] = useState({ name: "", email: "", phone: "", message: "" });
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
