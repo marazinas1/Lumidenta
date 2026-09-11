@@ -107,6 +107,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "apple-touch-icon", href: "/api/public/favicon" },
     ],
   }),
+  loader: ({ context }) => ensureCatalog(context),
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
