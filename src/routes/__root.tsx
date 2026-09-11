@@ -144,8 +144,10 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const staffSignedIn = useSignedIn();
   useRememberedLocaleRedirect();
-  usePageViewTracking(pathname, !isCorePath(pathname));
+  // Staff browsing their own site must not pollute the visitor numbers.
+  usePageViewTracking(pathname, !isCorePath(pathname) && staffSignedIn === false);
 
   if (isCorePath(pathname)) {
     return (
