@@ -9,11 +9,20 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Eye, Inbox, TrendingDown, TrendingUp, Users } from "lucide-react";
+import { Clock, Eye, Inbox, Layers, LogOut, TrendingDown, TrendingUp, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { useAnalytics, percentChange, type AnalyticsRange } from "@/hooks/admin/useAnalytics";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import {
+  useAnalytics,
+  percentChange,
+  formatDuration,
+  countryLabel,
+  countryFlag,
+  type AnalyticsRange,
+} from "@/hooks/admin/useAnalytics";
 import { useBrandedTitle } from "@/hooks/useBrandedTitle";
 
 export const Route = createFileRoute("/_authenticated/admin/settings/analytics")({
@@ -55,12 +64,14 @@ function StatCard({
   change,
   icon: Icon,
   suffix,
+  hint,
 }: {
   label: string;
   value: string | number;
   change?: number | null;
   icon: typeof Eye;
   suffix?: string;
+  hint?: string;
 }) {
   const positive = (change ?? 0) >= 0;
   return (
@@ -84,6 +95,7 @@ function StatCard({
           {change}% lyginant su ankstesniu laikotarpiu
         </p>
       )}
+      {hint && <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{hint}</p>}
     </div>
   );
 }
@@ -124,7 +136,8 @@ function BreakdownList({
 function AnalyticsPage() {
   useBrandedTitle("Analitika");
   const [range, setRange] = useState<AnalyticsRange>(30);
-  const { data, isLoading, error } = useAnalytics(range);
+  const [includeShort, setIncludeShort] = useState(false);
+  const { data, isLoading, error } = useAnalytics(range, includeShort);
 
   const chartData = useMemo(() => {
     const byDay = new Map((data?.daily ?? []).map((d) => [d.day, d]));
@@ -154,22 +167,32 @@ function AnalyticsPage() {
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold">Analitika</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 max-w-prose text-sm text-muted-foreground">
             Nuosavi lankomumo duomenys. Jokių slapukų ir jokių trečiųjų šalių sekimo įrankių.
+            Skaičiuojami tik tikri apsilankymai: robotai atmetami, o apsilankymas užskaitomas tik
+            tada, kai žmogus svetainėje išbūna bent 5 sekundes arba ką nors paspaudžia.
           </p>
         </div>
-        <div className="flex gap-2">
-          {RANGES.map((r) => (
-            <Button
-              key={r.value}
-              type="button"
-              size="sm"
-              variant={range === r.value ? "default" : "outline"}
-              onClick={() => setRange(r.value)}
-            >
-              {r.label}
-            </Button>
-          ))}
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-2">
+            <Switch id="include-short" checked={includeShort} onCheckedChange={setIncludeShort} />
+            <Label htmlFor="include-short" className="text-sm font-normal text-muted-foreground">
+              Rodyti ir trumpus apsilankymus
+            </Label>
+          </div>
+          <div className="flex gap-2">
+            {RANGES.map((r) => (
+              <Button
+                key={r.value}
+                type="button"
+                size="sm"
+                variant={range === r.value ? "default" : "outline"}
+                onClick={() => setRange(r.value)}
+              >
+                {r.label}
+              </Button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -198,8 +221,41 @@ function AnalyticsPage() {
               change={percentChange(totalVisitors, Number(data?.previous?.visitors ?? 0))}
               icon={Users}
             />
-            <StatCard label="Užklausos" value={leads} icon={Inbox} />
-            <StatCard label="Konversija" value={conversion} suffix="%" icon={TrendingUp} />
+            <StatCard
+              label="Užklausos"
+              value={leads}
+              icon={Inbox}
+              hint="Kiek žmonių parašė per kontaktų formą."
+            />
+            <StatCard
+              label="Konversija"
+              value={conversion}
+              suffix="%"
+              icon={TrendingUp}
+              hint="Kokia dalis lankytojų parašė užklausą."
+            />
+          </div>
+
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <StatCard
+              label="Vidutinė trukmė"
+              value={formatDuration(Number(data?.avg_duration_ms ?? 0))}
+              icon={Clock}
+              hint="Kiek vidutiniškai laiko žmogus praleidžia svetainėje."
+            />
+            <StatCard
+              label="Atmetimo rodiklis"
+              value={Number(data?.bounce_rate ?? 0)}
+              suffix="%"
+              icon={LogOut}
+              hint="Kiek lankytojų peržiūrėjo tik vieną puslapį."
+            />
+            <StatCard
+              label="Puslapiai / lankytojui"
+              value={Number(data?.pages_per_visit ?? 0)}
+              icon={Layers}
+              hint="Kiek puslapių vidutiniškai apžiūrima per vieną apsilankymą."
+            />
           </div>
 
           <div className="mt-6 rounded-xl border bg-card p-5">
@@ -250,13 +306,25 @@ function AnalyticsPage() {
             </div>
           </div>
 
-          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+          <div className="mt-6 grid gap-4 lg:grid-cols-2">
+            <BreakdownList
+              title="Šalys"
+              total={totalViews}
+              empty="Šalių duomenų dar nėra."
+              rows={(data?.countries ?? []).map((c) => ({
+                label: `${countryFlag(c.code)}  ${countryLabel(c.code)}`,
+                views: Number(c.views),
+              }))}
+            />
             <BreakdownList
               title="Populiariausi puslapiai"
               total={totalViews}
               empty="Peržiūrų dar nėra."
               rows={(data?.top_pages ?? []).map((p) => ({ label: p.path, views: Number(p.views) }))}
             />
+          </div>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
             <BreakdownList
               title="Srauto šaltiniai"
               total={totalViews}

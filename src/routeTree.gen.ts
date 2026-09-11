@@ -44,6 +44,7 @@ import { Route as AuthenticatedAdminScheduleRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as ApiPublicFaviconRouteImport } from './routes/api/public/favicon'
+import { Route as ApiPublicPvRouteImport } from './routes/api/public/pv'
 import { Route as EnApieIndexRouteImport } from './routes/en/apie.index'
 import { Route as EnPaslaugosIndexRouteImport } from './routes/en/paslaugos.index'
 import { Route as EnPaslaugosSlugRouteImport } from './routes/en/paslaugos.$slug'
@@ -246,6 +247,11 @@ const ApiPublicFaviconRoute = ApiPublicFaviconRouteImport.update({
   path: '/api/public/favicon',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPvRoute = ApiPublicPvRouteImport.update({
+  id: '/api/public/pv',
+  path: '/api/public/pv',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnApieIndexRoute = EnApieIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -406,6 +412,7 @@ export interface FileRoutesByFullPath {
   '/admin/settings': typeof AuthenticatedAdminSettingsRouteWithChildren
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/api/public/favicon': typeof ApiPublicFaviconRoute
+  '/api/public/pv': typeof ApiPublicPvRoute
   '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
   '/en/straipsniai/$slug': typeof EnStraipsniaiSlugRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -455,6 +462,7 @@ export interface FileRoutesByTo {
   '/admin/schedule': typeof AuthenticatedAdminScheduleRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/api/public/favicon': typeof ApiPublicFaviconRoute
+  '/api/public/pv': typeof ApiPublicPvRoute
   '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
   '/en/straipsniai/$slug': typeof EnStraipsniaiSlugRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -515,6 +523,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRouteWithChildren
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/api/public/favicon': typeof ApiPublicFaviconRoute
+  '/api/public/pv': typeof ApiPublicPvRoute
   '/en/paslaugos/$slug': typeof EnPaslaugosSlugRoute
   '/en/straipsniai/$slug': typeof EnStraipsniaiSlugRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -575,6 +584,7 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/users'
     | '/api/public/favicon'
+    | '/api/public/pv'
     | '/en/paslaugos/$slug'
     | '/en/straipsniai/$slug'
     | '/admin/'
@@ -624,6 +634,7 @@ export interface FileRouteTypes {
     | '/admin/schedule'
     | '/admin/users'
     | '/api/public/favicon'
+    | '/api/public/pv'
     | '/en/paslaugos/$slug'
     | '/en/straipsniai/$slug'
     | '/admin'
@@ -683,6 +694,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/users'
     | '/api/public/favicon'
+    | '/api/public/pv'
     | '/en/paslaugos/$slug'
     | '/en/straipsniai/$slug'
     | '/_authenticated/admin/'
@@ -724,6 +736,7 @@ export interface RootRouteChildren {
   StraipsniaiRoute: typeof StraipsniaiRouteWithChildren
   TaisyklesRoute: typeof TaisyklesRoute
   ApiPublicFaviconRoute: typeof ApiPublicFaviconRoute
+  ApiPublicPvRoute: typeof ApiPublicPvRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
 }
@@ -973,6 +986,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/favicon'
       fullPath: '/api/public/favicon'
       preLoaderRoute: typeof ApiPublicFaviconRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pv': {
+      id: '/api/public/pv'
+      path: '/api/public/pv'
+      fullPath: '/api/public/pv'
+      preLoaderRoute: typeof ApiPublicPvRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/en/apie/': {
@@ -1332,6 +1352,7 @@ const rootRouteChildren: RootRouteChildren = {
   StraipsniaiRoute: StraipsniaiRouteWithChildren,
   TaisyklesRoute: TaisyklesRoute,
   ApiPublicFaviconRoute: ApiPublicFaviconRoute,
+  ApiPublicPvRoute: ApiPublicPvRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
 }
