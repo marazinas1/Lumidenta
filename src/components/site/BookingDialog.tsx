@@ -81,7 +81,7 @@ export function BookingDialog({
 
   return (
     <Dialog open={slot !== null} onOpenChange={(open) => (open ? null : onClose())}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
+      <DialogContent className="luma max-h-[90vh] overflow-y-auto sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
             {status === "sent" ? "Užklausa išsiųsta" : "Registracijos užklausa"}
