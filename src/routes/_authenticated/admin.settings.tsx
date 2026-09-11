@@ -228,7 +228,7 @@ function SettingsPage() {
               <div key={field.key} className="space-y-2">
                 <Label>{field.label}</Label>
                 <Input
-                  value={form[field.key]}
+                  value={String(form[field.key] ?? "")}
                   onChange={(e) => setForm({ ...form, [field.key]: e.target.value })}
                 />
                 {field.hint ? (
