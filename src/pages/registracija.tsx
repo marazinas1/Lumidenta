@@ -236,6 +236,13 @@ function BookingPage() {
           </Reveal>
         </div>
       </section>
+
+      <BookingDialog
+        slot={slot}
+        service={selected}
+        onClose={() => setSlot(null)}
+        onBooked={() => void qc.invalidateQueries({ queryKey: ["public-schedule"] })}
+      />
     </>
   );
 }
