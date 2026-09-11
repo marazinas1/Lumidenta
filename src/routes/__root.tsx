@@ -89,11 +89,14 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
+  head: ({ loaderData }) => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "Lumidenta" },
+      ...(loaderData?.settings?.maintenanceMode
+        ? [{ name: "robots", content: "noindex, nofollow" }]
+        : []),
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
