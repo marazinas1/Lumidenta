@@ -19,6 +19,10 @@ import { useRememberedLocaleRedirect } from "@/components/site/LanguageSwitcher"
 import { useLocale } from "@/content";
 import { htmlLang } from "@/lib/locale";
 import { usePageViewTracking } from "@/lib/page-view-tracking";
+import { catalogQuery, ensureCatalog } from "@/lib/catalog";
+import { MaintenanceScreen } from "@/components/site/MaintenanceScreen";
+import { useSignedIn } from "@/hooks/useStaffSession";
+import { useQuery } from "@tanstack/react-query";
 
 /** Core (administravimo / personalo) maršrutai neturi svetainės antraštės ir poraštės. */
 const CORE_PREFIXES = ["/admin", "/staff", "/auth", "/reset-password", "/api"];
@@ -90,7 +94,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "Lumidenta" },
-      { name: "robots", content: "noindex, nofollow" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
