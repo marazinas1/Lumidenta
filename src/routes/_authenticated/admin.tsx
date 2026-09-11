@@ -106,14 +106,16 @@ function AdminLayout() {
             <span className="admin-nav-group-label">{g.label}</span>
             {g.links.map((l) => {
               const Icon = l.icon;
-              const active = location.pathname.replace(/\/$/, "") === l.to;
+              const current = location.pathname.replace(/\/$/, "");
+              const active =
+                l.to === "/admin" ? current === "/admin" : current.startsWith(l.to);
               return (
                 <Link
                   key={l.to}
                   to={l.to}
                   activeOptions={{ exact: true }}
-                  activeProps={{ className: "admin-nav-link active" }}
-                  inactiveProps={{ className: "admin-nav-link" }}
+                  activeProps={{ className: active ? "admin-nav-link active" : "admin-nav-link" }}
+                  inactiveProps={{ className: active ? "admin-nav-link active" : "admin-nav-link" }}
                   onClick={() => setNavOpen(false)}
                   className={active ? "admin-nav-link active" : "admin-nav-link"}
                 >
