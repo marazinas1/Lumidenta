@@ -3,8 +3,10 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import {
+  BarChart3,
   CalendarDays,
   Clock,
+  Users,
   Globe,
   Inbox,
   LayoutDashboard,
