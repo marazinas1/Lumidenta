@@ -94,7 +94,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "Lumidenta" },
-      ...(loaderData?.settings?.maintenanceMode
+      ...((loaderData as { settings?: { maintenanceMode?: boolean } } | undefined)?.settings
+        ?.maintenanceMode
         ? [{ name: "robots", content: "noindex, nofollow" }]
         : []),
       { property: "og:type", content: "website" },
