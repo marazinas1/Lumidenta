@@ -64,12 +64,14 @@ function StatCard({
   change,
   icon: Icon,
   suffix,
+  hint,
 }: {
   label: string;
   value: string | number;
   change?: number | null;
   icon: typeof Eye;
   suffix?: string;
+  hint?: string;
 }) {
   const positive = (change ?? 0) >= 0;
   return (
@@ -93,6 +95,7 @@ function StatCard({
           {change}% lyginant su ankstesniu laikotarpiu
         </p>
       )}
+      {hint && <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{hint}</p>}
     </div>
   );
 }
