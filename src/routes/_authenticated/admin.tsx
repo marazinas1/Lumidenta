@@ -3,24 +3,19 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import {
-  BarChart3,
   CalendarDays,
   Clock,
-  FileText,
   Globe,
-  Home,
   Inbox,
   LayoutDashboard,
   Newspaper,
   LogOut,
   Menu,
-  Phone,
   Quote,
   Settings,
 
   Stethoscope,
   Tag,
-  Users,
 } from "lucide-react";
 import { getMyRole } from "@/lib/roles.functions";
 import { ROLE_LABEL } from "@/lib/roles";
