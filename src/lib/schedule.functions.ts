@@ -8,13 +8,21 @@ import type { BusyInterval, ScheduleException, WorkingHour } from "./schedule";
  * intervals are projected to time only — never a name, phone or e-mail.
  */
 
+export type BookableService = { id: string; title: string; durationMin: number };
+
 export type PublicSchedule = {
   hours: WorkingHour[];
   exceptions: ScheduleException[];
   busy: BusyInterval[];
+  services: BookableService[];
 };
 
-export const emptySchedule: PublicSchedule = { hours: [], exceptions: [], busy: [] };
+export const emptySchedule: PublicSchedule = {
+  hours: [],
+  exceptions: [],
+  busy: [],
+  services: [],
+};
 
 const rangeInput = z.object({
   from: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
