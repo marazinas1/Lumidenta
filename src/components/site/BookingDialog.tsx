@@ -101,6 +101,10 @@ export function BookingDialog({
               Ačiū. Laikas rezervuotas laikinai ir laukia patvirtinimo — susisieksiu su Jumis
               asmeniškai.
             </p>
+            <p className="text-sm text-stone">
+              Patvirtinimo laišką siunčiame iš noreply@notify.lumidenta.deerva.com. Jei jo
+              nematote, patikrinkite „Šlamštas“ (Spam) arba „Promotions“ skiltį.
+            </p>
             <button type="button" className="btn" onClick={onClose}>
               Uždaryti
             </button>

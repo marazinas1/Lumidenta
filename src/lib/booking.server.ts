@@ -67,7 +67,9 @@ export async function notifyNewAppointment(input: {
       html: wrap(
         "Ačiū, užklausą gavau",
         `<p>Pageidaujamas laikas: <strong>${when}</strong><br/>${input.serviceTitle}</p>
-         <p>Vizitą patvirtinsiu asmeniškai — atsakymą gausite el. paštu arba telefonu.</p>`,
+         <p>Vizitą patvirtinsiu asmeniškai — atsakymą gausite el. paštu arba telefonu.</p>
+         <p>Kad patvirtinimo laiškas nepasimestų, įtraukite šį adresą į adresų knygą arba
+            patikrinkite „Šlamštas“ ir „Promotions“ skiltis.</p>`,
       ),
       text: `Užklausa gauta: ${when}. Vizitas dar nepatvirtintas.`,
       idempotencyKey: `appt-ack-${input.startsAt}-${input.phone}`,
