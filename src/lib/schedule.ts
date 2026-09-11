@@ -53,6 +53,9 @@ export const WEEKDAYS_SHORT = ["Pr", "An", "Tr", "Kt", "Pn", "Št", "Sk"] as con
 
 export const ACTIVE_STATUSES = ["pending", "confirmed"] as const;
 
+/** Minutes of notice a web request needs; shared by the page and the server. */
+export const BOOKING_LEAD_MIN = 30;
+
 export const STATUS_LABEL: Record<Appointment["status"], string> = {
   pending: "Laukia patvirtinimo",
   confirmed: "Patvirtintas",
