@@ -18,7 +18,7 @@ export function MaintenanceScreen({ onExitPreview }: { onExitPreview?: () => voi
   return (
     <div className="luma site-theme flex min-h-screen items-center justify-center px-6 py-16">
       {onExitPreview ? (
-        <div className="maintenance-banner" role="status">
+        <div className="maintenance-banner maintenance-banner-fixed" role="status">
           <span className="maintenance-banner-text">
             Peržiūra: taip svetainę mato lankytojai.
           </span>
