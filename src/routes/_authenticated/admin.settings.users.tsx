@@ -34,7 +34,7 @@ import { MANAGED_ROLES, ROLE_LABEL, type AdminRole } from "@/lib/roles";
 import { PLATFORM_NAME } from "@/lib/brand";
 import { useBrandedTitle } from "@/hooks/useBrandedTitle";
 
-export const Route = createFileRoute("/_authenticated/admin/users")({
+export const Route = createFileRoute("/_authenticated/admin/settings/users")({
   component: UsersPage,
   head: () => ({
     meta: [

@@ -9,7 +9,7 @@ import { getMyRole } from "@/lib/roles.functions";
 import { pageContentQuery } from "@/lib/page-content";
 import { emptyPageContent } from "@/lib/page-content.functions";
 
-export const Route = createFileRoute("/_authenticated/admin/website/home")({
+export const Route = createFileRoute("/_authenticated/admin/settings/pages/home")({
   component: HomeEditor,
 });
 

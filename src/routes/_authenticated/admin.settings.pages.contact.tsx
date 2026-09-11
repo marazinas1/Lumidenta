@@ -6,7 +6,7 @@ import { ReadOnlyNotice, useCanEdit } from "@/components/admin/ReadOnlyNotice";
 import { pageContentQuery } from "@/lib/page-content";
 import { emptyPageContent } from "@/lib/page-content.functions";
 
-export const Route = createFileRoute("/_authenticated/admin/website/contact")({
+export const Route = createFileRoute("/_authenticated/admin/settings/pages/contact")({
   component: ContactEditor,
 });
 

@@ -16,7 +16,7 @@ import { Progress } from "@/components/ui/progress";
 import { useAnalytics, percentChange, type AnalyticsRange } from "@/hooks/admin/useAnalytics";
 import { useBrandedTitle } from "@/hooks/useBrandedTitle";
 
-export const Route = createFileRoute("/_authenticated/admin/analytics")({
+export const Route = createFileRoute("/_authenticated/admin/settings/analytics")({
   component: AnalyticsPage,
 });
 

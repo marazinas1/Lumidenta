@@ -85,12 +85,12 @@ function AdminDashboard() {
           <Stat
             value={Number(traffic?.totals?.views ?? 0)}
             label="Peržiūros"
-            to="/admin/analytics"
+            to="/admin/settings/analytics"
           />
           <Stat
             value={Number(traffic?.totals?.visitors ?? 0)}
             label="Lankytojai"
-            to="/admin/analytics"
+            to="/admin/settings/analytics"
           />
           <Stat value={Number(traffic?.leads ?? 0)} label="Užklausos" to="/admin/inquiries" />
           <Stat value={unread} label="Neperskaitytos" to="/admin/inquiries" />
@@ -139,13 +139,13 @@ function AdminDashboard() {
             </Link>
           </Button>
           <Button asChild variant="outline">
-            <Link to="/admin/analytics">
+            <Link to="/admin/settings/analytics">
               <Eye className="mr-2 h-4 w-4" />
               Analitika
             </Link>
           </Button>
           <Button asChild variant="outline">
-            <Link to="/admin/users">
+            <Link to="/admin/settings/users">
               <Users className="mr-2 h-4 w-4" />
               Vartotojai
             </Link>
