@@ -116,8 +116,10 @@ function AdminLayout() {
             {g.links.map((l) => {
               const Icon = l.icon;
               const current = location.pathname.replace(/\/$/, "");
-              const active =
-                l.to === "/admin" ? current === "/admin" : current.startsWith(l.to);
+              const exactPaths = ["/admin", "/admin/settings"];
+              const active = exactPaths.includes(l.to)
+                ? current === l.to
+                : current.startsWith(l.to);
               return (
                 <Link
                   key={l.to}
