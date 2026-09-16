@@ -9,16 +9,19 @@ import {
   Clock,
   Users,
   Globe,
+  Home,
   Inbox,
   LayoutDashboard,
   Newspaper,
   LogOut,
   Menu,
+  Phone,
   Quote,
   Settings,
 
   Stethoscope,
   Tag,
+  UserRound,
 } from "lucide-react";
 import { getMyRole } from "@/lib/roles.functions";
 import { ROLE_LABEL } from "@/lib/roles";
@@ -75,6 +78,9 @@ function AdminLayout() {
     {
       label: "Turinys",
       links: [
+        { to: "/admin/settings/pages/home", label: "Pradžios puslapis", icon: Home },
+        { to: "/admin/settings/pages/about", label: "Apie", icon: UserRound },
+        { to: "/admin/settings/pages/contact", label: "Kontaktai", icon: Phone },
         { to: "/admin/website/services", label: "Paslaugos", icon: Stethoscope },
         { to: "/admin/website/prices", label: "Kainos", icon: Tag },
         { to: "/admin/website/testimonials", label: "Atsiliepimai", icon: Quote },

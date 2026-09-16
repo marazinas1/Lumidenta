@@ -84,30 +84,50 @@ export function PageTextField({
     <div className="space-y-2">
       <div className="flex items-center justify-between gap-3">
         <Label className="text-sm">{label}</Label>
-        {usingDefault ? (
-          <span className="text-[11px] uppercase tracking-wide text-muted-foreground">
+        {dirty ? (
+          <span className="text-[11px] uppercase tracking-wide text-primary">
+            Neišsaugota
+          </span>
+        ) : usingDefault ? (
+          <span className="text-[11px] uppercase tracking-wide text-muted-foreground/60">
             Numatytasis
           </span>
-        ) : null}
+        ) : (
+          <span className="text-[11px] uppercase tracking-wide text-muted-foreground">
+            Pakeista
+          </span>
+        )}
       </div>
 
       {multiline ? (
         <Textarea
           rows={3}
+          className="page-text-field"
           value={draft}
           placeholder={fallback}
           onChange={(e) => setDraft(e.target.value)}
         />
       ) : (
-        <Input value={draft} placeholder={fallback} onChange={(e) => setDraft(e.target.value)} />
+        <Input
+          className="page-text-field"
+          value={draft}
+          placeholder={fallback}
+          onChange={(e) => setDraft(e.target.value)}
+        />
       )}
+
+      <p className="text-xs text-muted-foreground/70">
+        {usingDefault
+          ? "Spauskite laukelį ir rašykite savo tekstą ant viršaus — dabartinis tekstas pakeisis jūsų."
+          : "Palikite tuščią, jei norite grįžti prie numatytojo teksto."}
+      </p>
 
       <div className="flex flex-wrap items-center gap-2">
         <Button type="button" size="sm" disabled={!dirty || busy} onClick={() => mutation.mutate(draft)}>
           <Check className="mr-1 h-3.5 w-3.5" />
           Išsaugoti
         </Button>
-        {!usingDefault ? (
+        {!dirty && !usingDefault ? (
           <Button
             type="button"
             size="sm"
@@ -116,7 +136,7 @@ export function PageTextField({
             onClick={() => mutation.mutate("")}
           >
             <RotateCcw className="mr-1 h-3.5 w-3.5" />
-            Atstatyti numatytąjį
+            Grąžinti numatytąjį
           </Button>
         ) : null}
 
@@ -144,6 +164,12 @@ export function PageTextField({
               Prašyti padaryti numatytuoju
             </Button>
           )
+        ) : null}
+
+        {!dirty && !busy ? (
+          <span className="text-xs text-muted-foreground/70">
+            Pakeiskite tekstą, kad galėtumėte išsaugoti.
+          </span>
         ) : null}
       </div>
 
