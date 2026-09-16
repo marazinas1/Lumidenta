@@ -20,5 +20,5 @@
 ## Techninės detalės
 
 - `src/routes/_authenticated/admin.tsx` — „Turinys" grupė papildoma trimis nuorodomis į esamus `/admin/settings/pages/*` maršrutus (arba naujus `/admin/website/*` aliasus su nukreipimais).
-- `src/components/admin/PageTextField.tsx` — `draft` inicijuojamas `value || fallback`, tuščias laukelis traktuojamas kaip „grąžinti numatytąjį"; pridedama būsenos žymė ir disabled paaiškinimas.
+- `src/components/admin/PageTextField.tsx` — blankesnis šešėlinio teksto stilius (per CSS tokenus), užuominos eilutė, būsenos žymė ir disabled paaiškinimas; įvedus tekstą jis paruduoja iki normalaus.
 - Serverio pusė (`saveText`, RLS `is_owner`) nekeičiama — ji jau leidžia savininkui rašyti; patikrinimą darysiu Playwright'u prisijungus savininko sesija.
