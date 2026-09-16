@@ -118,7 +118,7 @@ export function PageTextField({
 
       <p className="text-xs text-muted-foreground/70">
         {usingDefault
-          ? "Spauskite laukelį ir rašykite savo tekstą ant viršaus — dabartinis tekstas pakeisis jūsų."
+          ? "Spauskite laukelį ir rašykite savo tekstą — jis pakeis dabartinį."
           : "Palikite tuščią, jei norite grįžti prie numatytojo teksto."}
       </p>
 
