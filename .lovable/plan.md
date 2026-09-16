@@ -10,11 +10,12 @@
 ## Ką padarysiu
 
 1. **Tekstų puslapiai atsiras šoniniame meniu.** Skiltyje „Turinys" pridedu: Pradžios puslapis, Apie, Kontaktai. Seni adresai po Nustatymais veiks toliau (nukreipimai), kad niekas nesulūžtų.
-2. **Laukeliai bus iš karto užpildyti tikru tekstu**, kurį lankytojas mato svetainėje — ne pilku šešėliu. Erika galės tiesiog taisyti esamą sakinį.
-3. **Aiški laukelio būsena:** „Numatytasis" arba „Pakeista", o šalia — „Grąžinti numatytąjį".
-4. **Mygtukas visada matomas ir suprantamas:** neaktyvus tik tada, kai nieko nepakeista, su paaiškinimu „Pakeiskite tekstą, kad galėtumėte išsaugoti"; išsaugojus — aiškus patvirtinimas.
-5. **Patikrinsiu gyvai jos teisėmis**, kad įrašymas tikrai suveikia ir pakeitimas iškart matomas svetainėje (ne tik pranešimas „Išsaugota").
-6. Trumpa instrukcija Erikai lietuviškai — kur dabar ką rasti.
+2. **Dabartinis tekstas lieka matomas laukelyje kaip švelniai papilkėjęs užrašas**, kurį galima perrašyti savo — bet jis daromas žymiai blankesnis (nei paprastas tekstas, panašiai kaip šešėlinis), kad intuityviai atrodytų „rašyk ant viršaus".
+3. **Prielaida paaiškinama tiesiogiai:** šalia laukelio arba jame rodoma užuomina, pvz. „Rašykite čia — dabartinis tekstas pakeisis jūsų" arba laukelio apačioje „Palikite tuščią, jei norite numatytojo teksto". Įvedus bet kokį simbolį, tekstas tampa pilnai tamsus — aišku, kad tai dabar yra jūsų tekstas.
+4. **Aiški laukelio būsena:** „Numatytasis" arba „Pakeista", o šalia — „Grąžinti numatytąjį".
+5. **Mygtukas visada matomas ir suprantamas:** neaktyvus tik tada, kai nieko nepakeista, su paaiškinimu „Pakeiskite tekstą, kad galėtumėte išsaugoti"; išsaugojus — aiškus patvirtinimas.
+6. **Patikrinsiu gyvai jos teisėmis**, kad įrašymas tikrai suveikia ir pakeitimas iškart matomas svetainėje (ne tik pranešimas „Išsaugota").
+7. Trumpa instrukcija Erikai lietuviškai — kur dabar ką rasti.
 
 ## Techninės detalės
 
