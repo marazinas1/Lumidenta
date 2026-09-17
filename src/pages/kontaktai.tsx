@@ -68,7 +68,7 @@ function ContactsPage({ locale }: { locale: Locale }) {
             </RevealItems>
           ) : null}
 
-          <Reveal style={{ marginTop: "56px" }}>
+          <Reveal className="contact-form-wrap">
             <ContactForm />
           </Reveal>
 
