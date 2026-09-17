@@ -198,7 +198,7 @@ function PostDetailPage() {
 
           {post.author ? <p className="post-author">{post.author}</p> : null}
 
-          <div style={{ marginTop: "40px" }}>
+          <div className="post-booking-action">
             <LocaleLink to="/kontaktai" className="btn">
               Registruotis vizitui →
             </LocaleLink>

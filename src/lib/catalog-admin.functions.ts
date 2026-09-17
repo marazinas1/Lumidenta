@@ -63,7 +63,11 @@ export const saveService = createServerFn({ method: "POST" })
   .inputValidator((d) => serviceFields.extend({ id: z.string().uuid().optional() }).parse(d))
   .handler(async ({ data, context }) => {
     await assertOwner(context);
-    const { id, ...fields } = data;
+    const { id, ...rawFields } = data;
+    const fields = {
+      ...rawFields,
+      includes: rawFields.includes.filter((item) => item.length > 0),
+    };
     const query = id
       ? context.supabase.from("services").update(fields).eq("id", id)
       : context.supabase.from("services").insert(fields);
