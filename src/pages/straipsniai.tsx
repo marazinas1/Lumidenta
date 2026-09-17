@@ -70,7 +70,7 @@ function PostsPage({ locale }: { locale: Locale }) {
   return (
     <>
       <section className="page-head">
-        <div className="wrap post-detail-layout">
+        <div className="wrap">
           <div className="eyebrow">{copy("hero_eyebrow", "Straipsniai")}</div>
           <h1>{copy("hero_heading", "Apie dantų sveikatą — paprastai.")}</h1>
           <p className="lead">
@@ -83,7 +83,7 @@ function PostsPage({ locale }: { locale: Locale }) {
       </section>
 
       <section className="page-body">
-        <div className="wrap post-detail-layout">
+        <div className="wrap">
           {posts.length === 0 ? (
             <p className="lead">Straipsnių kol kas nėra — netrukus atsiras.</p>
           ) : (
@@ -148,7 +148,7 @@ export function postDetailRoute(locale: Locale) {
     ),
     notFoundComponent: () => (
       <section className="page-body">
-        <div className="wrap">
+        <div className="wrap post-detail-layout">
           <p>Tokio straipsnio nėra.</p>
           <LocaleLink to="/straipsniai" className="btn btn-line">
             Visi straipsniai →
