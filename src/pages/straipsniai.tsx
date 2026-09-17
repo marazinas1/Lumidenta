@@ -83,7 +83,7 @@ function PostsPage({ locale }: { locale: Locale }) {
       </section>
 
       <section className="page-body">
-        <div className="wrap">
+        <div className="wrap post-detail-layout">
           {posts.length === 0 ? (
             <p className="lead">Straipsnių kol kas nėra — netrukus atsiras.</p>
           ) : (

@@ -186,23 +186,23 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
       const rawIncludes = toStringList(row.includes);
       const hasLegacyHeading = !row.includes_heading && rawIncludes[0] === "Kada verta kreiptis?";
       return {
-      id: row.id,
-      slug: row.slug,
-      title: row.title,
-      excerpt: row.excerpt ?? "",
-      body: row.body ?? "",
-      icon: row.icon ?? "",
-      tone: row.tone ?? "t1",
-      imageUrl: row.image_path
-        ? `${url}/storage/v1/object/public/${row.image_bucket}/${row.image_path}`
-        : null,
-      includes: hasLegacyHeading ? rawIncludes.slice(1) : rawIncludes,
-      includesHeading: row.includes_heading || (hasLegacyHeading ? rawIncludes[0] ?? "" : ""),
-      preBookingMessage: row.pre_booking_message ?? "",
-      priceText: row.price_text ?? "",
-      priceNote: row.price_note ?? "",
-      sortOrder: row.sort_order ?? 0,
-      showOnHome: Boolean(row.show_on_home),
+        id: row.id,
+        slug: row.slug,
+        title: row.title,
+        excerpt: row.excerpt ?? "",
+        body: row.body ?? "",
+        icon: row.icon ?? "",
+        tone: row.tone ?? "t1",
+        imageUrl: row.image_path
+          ? `${url}/storage/v1/object/public/${row.image_bucket}/${row.image_path}`
+          : null,
+        includes: hasLegacyHeading ? rawIncludes.slice(1) : rawIncludes,
+        includesHeading: row.includes_heading || (hasLegacyHeading ? rawIncludes[0] ?? "" : ""),
+        preBookingMessage: row.pre_booking_message ?? "",
+        priceText: row.price_text ?? "",
+        priceNote: row.price_note ?? "",
+        sortOrder: row.sort_order ?? 0,
+        showOnHome: Boolean(row.show_on_home),
       };
     });
 

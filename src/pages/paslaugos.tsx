@@ -193,7 +193,7 @@ function ServiceDetailView({ service, tone }: { service: ServiceRow; tone: strin
 
             <div className="service-booking-action">
               <LocaleLink to="/registracija" className="btn">
-              Registruotis vizitui →
+                Registruotis vizitui →
               </LocaleLink>
             </div>
           </div>
