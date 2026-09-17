@@ -580,7 +580,7 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 .luma .price-name strong{font-size:0.98rem;font-weight:600;}
 .luma .price-name span{font-size:0.82rem;color:var(--ink-soft);}
 .luma .price-value{font-size:0.98rem;font-weight:700;white-space:nowrap;}
-.luma .price-note{margin-top:36px;max-width:60ch;}
+.luma .price-note{max-width:68ch;margin:48px auto 0;text-align:center;}
 .luma .price-note p{color:var(--ink-soft);font-size:0.9rem;line-height:1.7;margin-bottom:22px;}
 @media (max-width:560px){
   .luma .price-group{padding:22px 20px;}
@@ -592,13 +592,15 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 .luma .svc-price a{color:var(--sage-deep);font-weight:600;font-size:0.8rem;text-decoration:none;}
 .luma .svc-price a:hover{text-decoration:underline;}
 
-/* Inner pages — the calm sibling of the home sections. */
-.luma .page-head{padding:96px 0 12px;}
+/* Inner pages — centred on the same 1340px grid and rhythm as the homepage. */
+.luma .page-head{padding:96px 0 44px;text-align:center;}
+.luma .page-head .wrap{max-width:900px;}
+.luma .page-head .eyebrow{justify-content:center;}
 .luma .page-head h1{font-size:clamp(2rem,4vw,3rem);line-height:1.14;margin-bottom:16px;}
-.luma .page-head p.lead{color:var(--ink-soft);font-size:1.02rem;max-width:56ch;}
-.luma .page-body{padding:48px 0 96px;}
-.luma .page-body .prose{max-width:68ch;}
-.luma .page-body .prose p{color:var(--ink-soft);margin-bottom:16px;line-height:1.75;}
+.luma .page-head p.lead{color:var(--ink-soft);font-size:1.05rem;line-height:1.7;max-width:62ch;margin-right:auto;margin-left:auto;}
+.luma .page-body{padding:44px 0 104px;}
+.luma .page-body .prose{width:100%;max-width:76ch;margin-right:auto;margin-left:auto;}
+.luma .page-body .prose p{color:var(--ink-soft);margin-bottom:24px;font-size:1.04rem;line-height:1.82;}
 .luma .page-body h2{font-size:clamp(1.4rem,2.4vw,1.8rem);margin:36px 0 14px;}
 .luma .back-link{display:inline-block;margin-bottom:24px;font-size:0.86rem;color:var(--ink-soft);text-decoration:none;}
 .luma .back-link:hover{color:var(--sage);}
@@ -626,18 +628,18 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 .luma .check .dot{width:22px;height:22px;border-radius:50%;background:var(--sage-tint);color:var(--sage-deep);
   display:flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;}
 .luma .service-detail-layout{width:100%;}
-.luma .page-body .service-prose{max-width:78ch;}
-.luma .service-checklist-block{margin-top:42px;padding:32px;background:var(--sage-tint);border:1px solid var(--line);border-radius:var(--lradius);}
+.luma .page-body .service-prose{max-width:76ch;}
+.luma .service-checklist-block{max-width:1100px;margin:64px auto 0;padding:44px 48px;background:var(--sage-tint);border:1px solid var(--line);border-radius:32px;}
 .luma .service-checklist-heading{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
-.luma .service-checklist-heading>span{display:grid;width:30px;height:30px;flex-shrink:0;place-items:center;border-radius:50%;background:var(--card);color:var(--sage-deep);font-weight:700;}
+.luma .service-checklist-heading>span{display:grid;width:40px;height:40px;flex-shrink:0;place-items:center;border-radius:50%;background:var(--card);color:var(--sage-deep);font-weight:700;}
 .luma .service-checklist-heading h2{margin:0;font-size:clamp(1.25rem,2vw,1.65rem);}
-.luma .service-checklist{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 28px;margin:0;}
+.luma .service-checklist{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 48px;margin:0;}
 .luma .service-checklist .check{align-items:flex-start;line-height:1.55;}
-.luma .service-booking-note{max-width:78ch;margin-top:34px;padding:24px 26px;border-left:3px solid var(--sage);background:var(--card);border-radius:0 var(--lradius) var(--lradius) 0;}
+.luma .service-booking-note{max-width:76ch;margin:48px auto 0;padding:26px 30px;border-left:3px solid var(--sage);background:var(--card);border-radius:0 var(--lradius) var(--lradius) 0;}
 .luma .service-booking-note p{margin:0;color:var(--ink);font-weight:500;}
-.luma .service-booking-action{margin-top:32px;}
+.luma .service-booking-action{margin-top:36px;text-align:center;}
 @media (max-width:720px){
-  .luma .service-checklist-block{padding:24px 20px;}
+  .luma .service-checklist-block{margin-top:44px;padding:28px 22px;border-radius:22px;}
   .luma .service-checklist{grid-template-columns:1fr;}
 }
 @media (max-width:900px){.luma .touch-grid{grid-template-columns:1fr;gap:36px;}.luma .touch-photo{max-width:340px;margin:0 auto;}}
@@ -748,11 +750,11 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 .luma .back-link:hover{color:var(--ink);}
 .luma .page-head .post-date{display:block;margin-bottom:10px;}
 .luma .post-detail-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:0;}
-.luma .post-hero{width:100%;max-width:1100px;border-radius:var(--lradius);overflow:hidden;margin-bottom:42px;}
+.luma .post-hero{width:100%;max-width:1100px;border-radius:var(--lradius);overflow:hidden;margin:0 auto 56px;}
 .luma .post-hero img{width:100%;height:auto;display:block;}
-.luma .page-body .post-prose{max-width:78ch;}
-.luma .post-booking-action{margin-top:40px;}
-.luma .post-author{margin-top:24px;font-size:0.88rem;color:var(--ink-soft);}
+.luma .page-body .post-prose{max-width:76ch;}
+.luma .post-booking-action{margin-top:40px;text-align:center;}
+.luma .post-author{width:100%;max-width:76ch;margin:24px auto 0;font-size:0.88rem;color:var(--ink-soft);}
 
 @media (max-width:900px){
   .luma .post-grid{grid-template-columns:1fr 1fr;}
@@ -792,10 +794,25 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 .luma .sched-service-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
 .luma .sched-service{border:1px solid var(--line);background:transparent;border-radius:999px;padding:8px 16px;font-size:.9rem;cursor:pointer;}
 .luma .sched-service.active{background:var(--sage);border-color:var(--sage);color:#fff;}
-.luma .sched-cta{margin-top:48px;border:1px solid var(--line);border-radius:20px;padding:32px;background:var(--sage-tint);}
+.luma .sched-cta{max-width:1100px;margin:56px auto 0;border:1px solid var(--line);border-radius:20px;padding:36px;background:var(--sage-tint);text-align:center;}
 .luma .sched-cta h2{margin:0 0 8px;}
-.luma .sched-cta p{color:var(--ink-soft);margin:0 0 18px;max-width:60ch;}
-.luma .sched-cta-links{display:flex;flex-wrap:wrap;gap:12px;}
+.luma .sched-cta p{color:var(--ink-soft);max-width:64ch;margin:0 auto 20px;}
+.luma .sched-cta-links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}
+
+/* Page-specific content follows the same centred editorial axes. */
+.luma .about-credentials{max-width:76ch;margin:64px auto 0;text-align:center;}
+.luma .about-credentials h2{margin-top:0;}
+.luma .contact-form-wrap{max-width:900px;margin:56px auto 0;}
+.luma .contact-map-frame{max-width:1100px;margin-right:auto;margin-left:auto;}
+.luma .contact-map-note{max-width:1100px;margin-right:auto;margin-left:auto;}
+
+@media (max-width:640px){
+  .luma .page-head{padding:68px 0 30px;}
+  .luma .page-body{padding:34px 0 76px;}
+  .luma .page-body .prose p{font-size:1rem;line-height:1.75;}
+  .luma .service-booking-note{padding:22px 20px;}
+  .luma .sched-cta{padding:28px 20px;}
+}
 
 /* -------------------------------------------- techninių darbų įspėjimas */
 .luma .maintenance-banner{position:relative;z-index:60;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:10px 20px;background:#f7ecd2;color:#5a4415;border-bottom:1px solid #e5d3ab;font-size:.9rem;}

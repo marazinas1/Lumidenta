@@ -90,18 +90,16 @@ function AboutPage({ locale }: { locale: Locale }) {
         </RevealItems>
 
         <div className="wrap">
-
-
-          <Reveal>
-          <h2>{copy("about_credentials_heading", "Kvalifikacija")}</h2>
-          <div className="prose">
-            <p>
-              {copy(
-                "about_credentials",
-                "LSMU Odontologijos fakultetas, 2014 m. Daugiau nei 10 metų klinikinės praktikos.",
-              )}
-            </p>
-          </div>
+          <Reveal className="about-credentials">
+            <h2>{copy("about_credentials_heading", "Kvalifikacija")}</h2>
+            <div className="prose">
+              <p>
+                {copy(
+                  "about_credentials",
+                  "LSMU Odontologijos fakultetas, 2014 m. Daugiau nei 10 metų klinikinės praktikos.",
+                )}
+              </p>
+            </div>
           </Reveal>
         </div>
       </section>
