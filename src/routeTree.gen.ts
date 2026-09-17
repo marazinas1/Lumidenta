@@ -68,6 +68,8 @@ import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/em
 import { Route as AuthenticatedAdminSettingsPagesAboutRouteImport } from './routes/_authenticated/admin.settings.pages.about'
 import { Route as AuthenticatedAdminSettingsPagesContactRouteImport } from './routes/_authenticated/admin.settings.pages.contact'
 import { Route as AuthenticatedAdminSettingsPagesHomeRouteImport } from './routes/_authenticated/admin.settings.pages.home'
+import { Route as AuthenticatedAdminSettingsPagesLegalRouteImport } from './routes/_authenticated/admin.settings.pages.legal'
+import { Route as AuthenticatedAdminSettingsPagesRegistrationRouteImport } from './routes/_authenticated/admin.settings.pages.registration'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -384,6 +386,18 @@ const AuthenticatedAdminSettingsPagesHomeRoute =
     path: '/pages/home',
     getParentRoute: () => AuthenticatedAdminSettingsRoute,
   } as any)
+const AuthenticatedAdminSettingsPagesLegalRoute =
+  AuthenticatedAdminSettingsPagesLegalRouteImport.update({
+    id: '/pages/legal',
+    path: '/pages/legal',
+    getParentRoute: () => AuthenticatedAdminSettingsRoute,
+  } as any)
+const AuthenticatedAdminSettingsPagesRegistrationRoute =
+  AuthenticatedAdminSettingsPagesRegistrationRouteImport.update({
+    id: '/pages/registration',
+    path: '/pages/registration',
+    getParentRoute: () => AuthenticatedAdminSettingsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -444,6 +458,8 @@ export interface FileRoutesByFullPath {
   '/admin/settings/pages/about': typeof AuthenticatedAdminSettingsPagesAboutRoute
   '/admin/settings/pages/contact': typeof AuthenticatedAdminSettingsPagesContactRoute
   '/admin/settings/pages/home': typeof AuthenticatedAdminSettingsPagesHomeRoute
+  '/admin/settings/pages/legal': typeof AuthenticatedAdminSettingsPagesLegalRoute
+  '/admin/settings/pages/registration': typeof AuthenticatedAdminSettingsPagesRegistrationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -495,6 +511,8 @@ export interface FileRoutesByTo {
   '/admin/settings/pages/about': typeof AuthenticatedAdminSettingsPagesAboutRoute
   '/admin/settings/pages/contact': typeof AuthenticatedAdminSettingsPagesContactRoute
   '/admin/settings/pages/home': typeof AuthenticatedAdminSettingsPagesHomeRoute
+  '/admin/settings/pages/legal': typeof AuthenticatedAdminSettingsPagesLegalRoute
+  '/admin/settings/pages/registration': typeof AuthenticatedAdminSettingsPagesRegistrationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -557,6 +575,8 @@ export interface FileRoutesById {
   '/_authenticated/admin/settings/pages/about': typeof AuthenticatedAdminSettingsPagesAboutRoute
   '/_authenticated/admin/settings/pages/contact': typeof AuthenticatedAdminSettingsPagesContactRoute
   '/_authenticated/admin/settings/pages/home': typeof AuthenticatedAdminSettingsPagesHomeRoute
+  '/_authenticated/admin/settings/pages/legal': typeof AuthenticatedAdminSettingsPagesLegalRoute
+  '/_authenticated/admin/settings/pages/registration': typeof AuthenticatedAdminSettingsPagesRegistrationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -619,6 +639,8 @@ export interface FileRouteTypes {
     | '/admin/settings/pages/about'
     | '/admin/settings/pages/contact'
     | '/admin/settings/pages/home'
+    | '/admin/settings/pages/legal'
+    | '/admin/settings/pages/registration'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -670,6 +692,8 @@ export interface FileRouteTypes {
     | '/admin/settings/pages/about'
     | '/admin/settings/pages/contact'
     | '/admin/settings/pages/home'
+    | '/admin/settings/pages/legal'
+    | '/admin/settings/pages/registration'
   id:
     | '__root__'
     | '/'
@@ -731,6 +755,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/settings/pages/about'
     | '/_authenticated/admin/settings/pages/contact'
     | '/_authenticated/admin/settings/pages/home'
+    | '/_authenticated/admin/settings/pages/legal'
+    | '/_authenticated/admin/settings/pages/registration'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1169,6 +1195,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSettingsPagesHomeRouteImport
       parentRoute: typeof AuthenticatedAdminSettingsRoute
     }
+    '/_authenticated/admin/settings/pages/legal': {
+      id: '/_authenticated/admin/settings/pages/legal'
+      path: '/pages/legal'
+      fullPath: '/admin/settings/pages/legal'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsPagesLegalRouteImport
+      parentRoute: typeof AuthenticatedAdminSettingsRoute
+    }
+    '/_authenticated/admin/settings/pages/registration': {
+      id: '/_authenticated/admin/settings/pages/registration'
+      path: '/pages/registration'
+      fullPath: '/admin/settings/pages/registration'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsPagesRegistrationRouteImport
+      parentRoute: typeof AuthenticatedAdminSettingsRoute
+    }
   }
 }
 
@@ -1181,6 +1221,8 @@ interface AuthenticatedAdminSettingsRouteChildren {
   AuthenticatedAdminSettingsPagesAboutRoute: typeof AuthenticatedAdminSettingsPagesAboutRoute
   AuthenticatedAdminSettingsPagesContactRoute: typeof AuthenticatedAdminSettingsPagesContactRoute
   AuthenticatedAdminSettingsPagesHomeRoute: typeof AuthenticatedAdminSettingsPagesHomeRoute
+  AuthenticatedAdminSettingsPagesLegalRoute: typeof AuthenticatedAdminSettingsPagesLegalRoute
+  AuthenticatedAdminSettingsPagesRegistrationRoute: typeof AuthenticatedAdminSettingsPagesRegistrationRoute
 }
 
 const AuthenticatedAdminSettingsRouteChildren: AuthenticatedAdminSettingsRouteChildren =
@@ -1199,6 +1241,10 @@ const AuthenticatedAdminSettingsRouteChildren: AuthenticatedAdminSettingsRouteCh
       AuthenticatedAdminSettingsPagesContactRoute,
     AuthenticatedAdminSettingsPagesHomeRoute:
       AuthenticatedAdminSettingsPagesHomeRoute,
+    AuthenticatedAdminSettingsPagesLegalRoute:
+      AuthenticatedAdminSettingsPagesLegalRoute,
+    AuthenticatedAdminSettingsPagesRegistrationRoute:
+      AuthenticatedAdminSettingsPagesRegistrationRoute,
   }
 
 const AuthenticatedAdminSettingsRouteWithChildren =

@@ -4,12 +4,13 @@ import { LocaleLink } from "@/components/site/LocaleLink";
 import { LumaLogo } from "@/components/site/LumaLogo";
 import { useCatalog } from "@/lib/catalog";
 
-/** Used until Erika sets her own link in the admin settings. */
-const FACEBOOK_FALLBACK = "https://www.facebook.com/profile.php?id=61557528596416";
-
 export function SiteFooter() {
   const { settings } = useCatalog();
-  const facebookUrl = settings.facebookUrl || FACEBOOK_FALLBACK;
+  const facebookUrl = settings.facebookUrl;
+  const address = [settings.addressLine, settings.district].filter(Boolean).join(", ");
+  const identity = [settings.practiceName || "Lumidenta", settings.dentistName, address]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <footer className="site-footer">
@@ -41,10 +42,10 @@ export function SiteFooter() {
           </nav>
         </div>
         <div className="foot-copy">
-          <span>© Lumidenta · gyd. odontologė Erika · Braškių g. 2B-1, Vilnius</span>
+          <span>© {identity}</span>
           <span className="foot-credit">
             Svetainę sukūrė ir prižiūri{" "}
-            <a href="https://deerva.com/" target="_blank" rel="noopener">
+            <a href="https://www.deerva.com/?utm_source=lumidenta.lt&utm_medium=referral&utm_campaign=platform-badge" target="_blank" rel="noopener">
               Deerva
             </a>
           </span>

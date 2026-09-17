@@ -80,7 +80,7 @@ function AboutPage({ locale }: { locale: Locale }) {
 
           <div className="about-photo">
             {portrait ? (
-              <img src={portrait.url} alt={portrait.alt || "Gydytoja odontologė"} loading="lazy" />
+              <img src={portrait.url} alt={portrait.alt || "Gydytoja odontologė"} loading="lazy" decoding="async" />
             ) : (
               <div className="hero-photo-label">
                 {copy("about_portrait_label", "Nuotrauka bus netrukus")}
@@ -96,7 +96,7 @@ function AboutPage({ locale }: { locale: Locale }) {
               <p>
                 {copy(
                   "about_credentials",
-                  "LSMU Odontologijos fakultetas, 2014 m. Daugiau nei 10 metų klinikinės praktikos.",
+                  "Informacija apie kvalifikaciją bus paskelbta ją patvirtinus.",
                 )}
               </p>
             </div>

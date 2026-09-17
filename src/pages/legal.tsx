@@ -3,19 +3,25 @@ import { getContent, useContent } from "@/content";
 import type { Locale } from "@/lib/locale";
 import { useLooseLoaderData } from "@/lib/route-data";
 import { ensurePageContent, type ContentLoaderArgs } from "@/lib/page-content";
+import { resolveCopy } from "@/lib/page-content";
+import { sanitizeHtml } from "@/lib/sanitize-html";
 import { pageHead } from "@/lib/seo";
 
 type LegalLoaderData = { doc: LegalDocumentData | null };
 type Kind = "rental" | "privacy";
 
-/** Shared factory for the two legal documents. Real texts land in a later step. */
+/** Shared factory for the two legal documents stored through the page editor. */
 export function legalRoute(locale: Locale, kind: Kind) {
   const c = getContent(locale);
   const doc = c.legal[kind];
   return {
     loader: async ({ context }: ContentLoaderArgs): Promise<LegalLoaderData> => {
-      await ensurePageContent(context);
-      return { doc: null };
+      const content = await ensurePageContent(context);
+      const page = kind === "privacy" ? "privacy" : "terms";
+      const raw = resolveCopy(content, page, "body", locale, "").trim();
+      if (!raw) return { doc: null };
+      const html = sanitizeHtml(raw.includes("<") ? raw : raw.split(/\n{2,}/).map((paragraph) => `<p>${paragraph}</p>`).join(""));
+      return { doc: { name: doc.title, html } };
     },
     head: () => ({
       ...pageHead({

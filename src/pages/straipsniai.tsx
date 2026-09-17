@@ -28,7 +28,7 @@ export function PostCard({ post }: { post: PostRow }) {
     <LocaleLink to="/straipsniai/$slug" params={{ slug: post.slug }} className="post-card">
       {post.imageUrl ? (
         <div className="post-cover">
-          <img src={post.imageUrl} alt={post.imageAlt || post.title} loading="lazy" />
+          <img src={post.imageUrl} alt={post.imageAlt || post.title} loading="lazy" decoding="async" />
         </div>
       ) : null}
       <div className="post-body">
@@ -120,6 +120,7 @@ export function postDetailRoute(locale: Locale) {
         title: post.seoTitle || `${post.title} — ${c.common.brand}`,
         description: (post.seoDescription || post.excerpt).slice(0, 155),
         locale,
+        image: post.imageUrl,
       });
       return {
         ...head,
@@ -183,7 +184,7 @@ function PostDetailPage() {
         <div className="wrap post-detail-layout">
           {post.imageUrl ? (
             <div className="post-hero">
-              <img src={post.imageUrl} alt={post.imageAlt || post.title} />
+              <img src={post.imageUrl} alt={post.imageAlt || post.title} loading="lazy" decoding="async" />
             </div>
           ) : null}
 

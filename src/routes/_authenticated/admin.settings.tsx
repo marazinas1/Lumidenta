@@ -14,6 +14,8 @@ function SettingsLayout() {
     { to: "/admin/settings/pages/home", label: "Pradžios tekstai" },
     { to: "/admin/settings/pages/about", label: "Apie tekstai" },
     { to: "/admin/settings/pages/contact", label: "Kontaktų tekstai" },
+    { to: "/admin/settings/pages/registration", label: "Registracijos tekstai" },
+    { to: "/admin/settings/pages/legal", label: "Teisiniai tekstai" },
     { to: "/admin/settings/maintenance", label: "Techniniai darbai" },
   ];
 

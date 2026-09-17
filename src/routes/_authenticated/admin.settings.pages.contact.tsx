@@ -24,6 +24,13 @@ const FIELDS: Field[] = [
       "Parašykite arba paskambinkite — vizito laiką suderinsime Jums patogiu metu.",
     multiline: true,
   },
+  { slot: "form_title", label: "Formos antraštė", fallback: "Parašykite man" },
+  {
+    slot: "form_lead",
+    label: "Formos įžanga",
+    fallback: "Užpildykite formą — atsakysiu el. paštu arba telefonu.",
+    multiline: true,
+  },
 ];
 
 function ContactEditor() {

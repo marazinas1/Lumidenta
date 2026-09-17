@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import { useContent } from "@/content";
 import { submitLead } from "@/lib/leads.functions";
-import { contact } from "@/data/contact";
+import { usePageContent } from "@/lib/page-content";
 
 function buildFormSchema(kontaktaiForm: ReturnType<typeof useContent>["kontaktaiForm"]) {
   return z.object({
@@ -16,6 +16,7 @@ function buildFormSchema(kontaktaiForm: ReturnType<typeof useContent>["kontaktai
       .trim()
       .min(1, kontaktaiForm.messageError)
       .max(2000, kontaktaiForm.messageError),
+    consent: z.literal(true, { message: "Patvirtinkite, kad sutinkate su privatumo politika." }),
   });
 }
 
@@ -24,6 +25,7 @@ type FormSchema = ReturnType<typeof buildFormSchema>;
 type Errors = Partial<Record<keyof z.infer<FormSchema>, string>>;
 
 function Field({
+  id,
   label,
   value,
   error,
@@ -32,6 +34,7 @@ function Field({
   multiline,
   onChange,
 }: {
+  id: string;
   label: string;
   value: string;
   error?: string | undefined;
@@ -43,47 +46,52 @@ function Field({
   const className =
     "w-full rounded-xl border border-border bg-linen px-4 py-3 text-sm text-ink outline-none focus:border-sage";
   return (
-    <label className="block space-y-2">
-      <span className="label-caps text-stone">{label}</span>
+    <div className="block space-y-2">
+      <label htmlFor={id} className="label-caps text-stone">{label}</label>
       {multiline ? (
         <textarea
           rows={5}
+          id={id}
           value={value}
           maxLength={2000}
           aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${id}-error` : undefined}
           onChange={(event) => onChange(event.target.value)}
           className={className}
         />
       ) : (
         <input
           type={type}
+          id={id}
           value={value}
           autoComplete={autoComplete}
           maxLength={255}
           aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${id}-error` : undefined}
           onChange={(event) => onChange(event.target.value)}
           className={className}
         />
       )}
-      {error ? <span className="block text-xs font-medium text-destructive">{error}</span> : null}
-    </label>
+      {error ? <span id={`${id}-error`} className="block text-xs font-medium text-destructive">{error}</span> : null}
+    </div>
   );
 }
 
 /** Contact form on /kontaktai. Sends through a server function; on backend
  *  failure it offers the plain e-mail route instead of losing the message. */
-export function ContactForm() {
+export function ContactForm({ email: practiceEmail }: { email?: string }) {
   const { kontaktaiForm } = useContent();
+  const { copy } = usePageContent("contact", "lt");
   const formSchema = buildFormSchema(kontaktaiForm);
   const sendLead = useServerFn(submitLead);
-  const [values, setValues] = useState({ name: "", email: "", phone: "", message: "" });
+  const [values, setValues] = useState({ name: "", email: "", phone: "", message: "", consent: false });
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
 
-  const set = (key: keyof typeof values) => (value: string) =>
+  const set = (key: "name" | "email" | "phone" | "message") => (value: string) =>
     setValues((current) => ({ ...current, [key]: value }));
 
-  const mailtoHref = `mailto:${contact.email}?subject=${encodeURIComponent(
+  const mailtoHref = `mailto:${practiceEmail ?? ""}?subject=${encodeURIComponent(
     "Užklausa iš lumidenta.lt",
   )}&body=${encodeURIComponent(`${values.message}\n\n${values.name}\n${values.phone}`)}`;
 
@@ -111,11 +119,12 @@ export function ContactForm() {
           email: parsed.data.email,
           phone: parsed.data.phone,
           message: parsed.data.message,
+          consent: parsed.data.consent,
           source: "kontaktai",
           company: "",
         },
       });
-      setValues({ name: "", email: "", phone: "", message: "" });
+      setValues({ name: "", email: "", phone: "", message: "", consent: false });
       setStatus("sent");
     } catch {
       setStatus("failed");
@@ -125,12 +134,13 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl bg-linen p-6 sm:p-8">
       <div>
-        <h2 className="font-display text-2xl font-medium text-ink">{kontaktaiForm.title}</h2>
-        <p className="mt-2 text-sm text-stone">{kontaktaiForm.lead}</p>
+        <h2 className="font-display text-2xl font-medium text-ink">{copy("form_title", kontaktaiForm.title)}</h2>
+        <p className="mt-2 text-sm text-stone">{copy("form_lead", kontaktaiForm.lead)}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field
+          id="contact-name"
           label={kontaktaiForm.name}
           value={values.name}
           autoComplete="name"
@@ -138,6 +148,7 @@ export function ContactForm() {
           onChange={set("name")}
         />
         <Field
+          id="contact-phone"
           label={kontaktaiForm.phone}
           type="tel"
           value={values.phone}
@@ -147,6 +158,7 @@ export function ContactForm() {
         />
       </div>
       <Field
+        id="contact-email"
         label={kontaktaiForm.email}
         type="email"
         value={values.email}
@@ -154,7 +166,28 @@ export function ContactForm() {
         error={errors.email}
         onChange={set("email")}
       />
+
+      <label className="contact-consent">
+        <input
+          type="checkbox"
+          checked={values.consent}
+          aria-invalid={errors.consent ? true : undefined}
+          aria-describedby={errors.consent ? "contact-consent-error" : undefined}
+          required
+          onChange={(event) => setValues((current) => ({ ...current, consent: event.target.checked }))}
+        />
+        <span>
+          Sutinku, kad mano kontaktiniai duomenys būtų naudojami atsakyti į šią žinutę. Perskaitykite{" "}
+          <a href="/privatumo-politika">privatumo politiką</a>.
+        </span>
+      </label>
+      {errors.consent ? (
+        <span id="contact-consent-error" className="block text-xs font-medium text-destructive">
+          {errors.consent}
+        </span>
+      ) : null}
       <Field
+        id="contact-message"
         label={kontaktaiForm.message}
         value={values.message}
         multiline
@@ -173,10 +206,10 @@ export function ContactForm() {
         ) : null}
         {status === "failed" ? (
           <p className="rounded-xl bg-warm-white p-4 text-sm text-ink">
-            {kontaktaiForm.error}{" "}
-            <a className="text-sage underline underline-offset-2" href={mailtoHref}>
-              {kontaktaiForm.mailFallback}
-            </a>
+            {kontaktaiForm.error}
+            {practiceEmail ? (
+              <>{" "}<a className="text-sage underline underline-offset-2" href={mailtoHref}>{kontaktaiForm.mailFallback}</a></>
+            ) : null}
           </p>
         ) : null}
       </div>

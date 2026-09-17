@@ -65,13 +65,14 @@ export function SiteHeader() {
           type="button"
           className="nav-toggle"
           aria-expanded={open}
+          aria-controls="mobile-navigation"
           onClick={() => setOpen((value) => !value)}
         >
           {open ? "Uždaryti" : "Meniu"}
         </button>
       </div>
 
-      <div className={`wrap mobile-nav${open ? " open" : ""}`}>
+      <div id="mobile-navigation" className={`wrap mobile-nav${open ? " open" : ""}`}>
         {links.map((link) => (
           <LocaleLink key={link.label} to={link.to} hash={link.hash} onClick={() => setOpen(false)}>
             {link.label}

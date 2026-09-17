@@ -40,7 +40,7 @@ const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
       {
         slot: "hero_note",
         label: "Pastaba po mygtukais",
-        fallback: "Gyd. odontologė Erika · priimu Braškių g. 2B-1, Vilnius",
+        fallback: "Individuali odontologijos praktika Vilniuje",
       },
     ],
   },
@@ -48,7 +48,7 @@ const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
     title: "Kortelės ant nuotraukos",
     fields: [
       { slot: "hero_card1_title", label: "1 kortelės antraštė", fallback: "Priėmimo vieta" },
-      { slot: "hero_card1_text", label: "1 kortelės tekstas", fallback: "Braškių g. 2B-1, Vilnius" },
+      { slot: "hero_card1_text", label: "1 kortelės tekstas", fallback: "Vilnius" },
       { slot: "hero_card2_title", label: "2 kortelės antraštė", fallback: "Individualus dėmesys" },
       { slot: "hero_card2_text", label: "2 kortelės tekstas", fallback: "kiekvienam vizitui" },
     ],
@@ -56,8 +56,8 @@ const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
   {
     title: "Skaičių juosta",
     fields: [
-      { slot: "stat1_value", label: "1 reikšmė", fallback: "10+" },
-      { slot: "stat1_label", label: "1 paaiškinimas", fallback: "metų klinikinės patirties" },
+      { slot: "stat1_value", label: "1 reikšmė", fallback: "Individualiai" },
+      { slot: "stat1_label", label: "1 paaiškinimas", fallback: "visas dėmesys vienam pacientui" },
       { slot: "stat2_value", label: "2 reikšmė", fallback: "Optika" },
       { slot: "stat2_label", label: "2 paaiškinimas", fallback: "naudojama kiekvienam vizitui" },
       { slot: "stat3_value", label: "3 reikšmė", fallback: "Koferdamas" },
@@ -144,7 +144,7 @@ const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
         slot: "cta_text",
         label: "Tekstas",
         fallback:
-          "Vizito laiką suderinkite telefonu arba žinute. Priėmimas — Braškių g. 2B-1, Vilnius.",
+          "Vizito laiką suderinkite telefonu arba žinute.",
         multiline: true,
       },
       { slot: "cta_button", label: "Mygtukas", fallback: "Registruotis vizitui →" },
