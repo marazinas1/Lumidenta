@@ -16,6 +16,8 @@ export type ServiceRow = {
   tone: string;
   imageUrl: string | null;
   includes: string[];
+  includesHeading: string;
+  preBookingMessage: string;
   priceText: string;
   priceNote: string;
   sortOrder: number;
@@ -137,7 +139,7 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
       supabase
         .from("services")
         .select(
-          "id, slug, title, excerpt, body, icon, tone, image_bucket, image_path, includes, price_text, price_note, sort_order, show_on_home",
+          "id, slug, title, excerpt, body, icon, tone, image_bucket, image_path, includes, includes_heading, pre_booking_message, price_text, price_note, sort_order, show_on_home",
         )
         .eq("published", true)
         .order("sort_order", { ascending: true }),
@@ -180,7 +182,10 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
         })),
     }));
 
-    const services: ServiceRow[] = (servicesRes.data ?? []).map((row) => ({
+    const services: ServiceRow[] = (servicesRes.data ?? []).map((row) => {
+      const rawIncludes = toStringList(row.includes);
+      const hasLegacyHeading = !row.includes_heading && rawIncludes[0] === "Kada verta kreiptis?";
+      return {
       id: row.id,
       slug: row.slug,
       title: row.title,
@@ -191,12 +196,15 @@ export const fetchCatalog = createServerFn({ method: "GET" }).handler(
       imageUrl: row.image_path
         ? `${url}/storage/v1/object/public/${row.image_bucket}/${row.image_path}`
         : null,
-      includes: toStringList(row.includes),
+      includes: hasLegacyHeading ? rawIncludes.slice(1) : rawIncludes,
+      includesHeading: row.includes_heading || (hasLegacyHeading ? rawIncludes[0] ?? "" : ""),
+      preBookingMessage: row.pre_booking_message ?? "",
       priceText: row.price_text ?? "",
       priceNote: row.price_note ?? "",
       sortOrder: row.sort_order ?? 0,
       showOnHome: Boolean(row.show_on_home),
-    }));
+      };
+    });
 
     const testimonials: TestimonialRow[] = (testimonialsRes.data ?? []).map((row) => ({
       id: row.id,

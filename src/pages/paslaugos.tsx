@@ -156,30 +156,46 @@ function ServiceDetailView({ service, tone }: { service: ServiceRow; tone: strin
 
       <section className="page-body">
         <div className="wrap">
-          <Reveal className="prose">
-            {service.body
-              .split("\n")
-              .filter((p) => p.trim())
-              .map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-          </Reveal>
+          <div className="service-detail-layout">
+            <Reveal className="prose service-prose">
+              {service.body
+                .split("\n")
+                .filter((p) => p.trim())
+                .map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+            </Reveal>
 
-          {service.includes.length > 0 ? (
-            <RevealItems className="checklist" style={{ marginTop: "32px" }}>
-              {service.includes.map((item) => (
-                <div className="check" key={item}>
-                  <div className="dot">✓</div>
-                  {item}
-                </div>
-              ))}
-            </RevealItems>
-          ) : null}
+            {service.includes.length > 0 ? (
+              <section className="service-checklist-block">
+                {service.includesHeading ? (
+                  <div className="service-checklist-heading">
+                    <span aria-hidden="true">?</span>
+                    <h2>{service.includesHeading}</h2>
+                  </div>
+                ) : null}
+                <RevealItems className="checklist service-checklist">
+                  {service.includes.map((item) => (
+                    <div className="check" key={item}>
+                      <div className="dot">✓</div>
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </RevealItems>
+              </section>
+            ) : null}
 
-          <div style={{ marginTop: "40px" }}>
-            <LocaleLink to="/kontaktai" className="btn">
+            {service.preBookingMessage ? (
+              <Reveal className="service-booking-note">
+                <p>{service.preBookingMessage}</p>
+              </Reveal>
+            ) : null}
+
+            <div className="service-booking-action">
+              <LocaleLink to="/registracija" className="btn">
               Registruotis vizitui →
-            </LocaleLink>
+              </LocaleLink>
+            </div>
           </div>
         </div>
       </section>

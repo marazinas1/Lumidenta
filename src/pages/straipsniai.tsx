@@ -70,7 +70,7 @@ function PostsPage({ locale }: { locale: Locale }) {
   return (
     <>
       <section className="page-head">
-        <div className="wrap">
+        <div className="wrap post-detail-layout">
           <div className="eyebrow">{copy("hero_eyebrow", "Straipsniai")}</div>
           <h1>{copy("hero_heading", "Apie dantų sveikatą — paprastai.")}</h1>
           <p className="lead">
@@ -187,7 +187,7 @@ function PostDetailPage() {
             </div>
           ) : null}
 
-          <div className="prose">
+          <div className="prose post-prose">
             {post.body
               .split("\n")
               .filter((p) => p.trim())
