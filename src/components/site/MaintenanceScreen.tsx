@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Mail, Phone } from "lucide-react";
 
 import { LumaLogo } from "@/components/site/LumaLogo";
 import { catalogQuery } from "@/lib/catalog";
@@ -38,21 +39,27 @@ export function MaintenanceScreen({ onExitPreview }: { onExitPreview?: () => voi
         </h1>
         <p className="mx-auto mt-4 max-w-prose text-base text-muted-foreground">{message}</p>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-sm">
+        <div className="maintenance-contacts">
           {s?.phone ? (
             <a
-              className="rounded-full bg-primary px-5 py-2.5 font-medium text-primary-foreground"
+              className="maintenance-contact"
               href={`tel:${s.phone.replace(/\s+/g, "")}`}
             >
-              {s.phone}
+              <span className="maintenance-contact-icon" aria-hidden="true">
+                <Phone size={17} strokeWidth={1.6} />
+              </span>
+              <span>{s.phone}</span>
             </a>
           ) : null}
           {s?.email ? (
             <a
-              className="rounded-full border border-border px-5 py-2.5 font-medium"
+              className="maintenance-contact"
               href={`mailto:${s.email}`}
             >
-              {s.email}
+              <span className="maintenance-contact-icon" aria-hidden="true">
+                <Mail size={17} strokeWidth={1.6} />
+              </span>
+              <span>{s.email}</span>
             </a>
           ) : null}
         </div>
