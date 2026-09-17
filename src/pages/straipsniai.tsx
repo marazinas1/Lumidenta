@@ -148,7 +148,7 @@ export function postDetailRoute(locale: Locale) {
     ),
     notFoundComponent: () => (
       <section className="page-body">
-        <div className="wrap post-detail-layout">
+        <div className="wrap">
           <p>Tokio straipsnio nėra.</p>
           <LocaleLink to="/straipsniai" className="btn btn-line">
             Visi straipsniai →
@@ -169,7 +169,7 @@ function PostDetailPage() {
   return (
     <>
       <section className="page-head">
-        <div className="wrap">
+        <div className="wrap post-detail-layout">
           <LocaleLink to="/straipsniai" className="back-link">
             ← Visi straipsniai
           </LocaleLink>
