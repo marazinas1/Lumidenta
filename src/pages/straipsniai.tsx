@@ -28,7 +28,7 @@ export function PostCard({ post }: { post: PostRow }) {
     <LocaleLink to="/straipsniai/$slug" params={{ slug: post.slug }} className="post-card">
       {post.imageUrl ? (
         <div className="post-cover">
-          <img src={post.imageUrl} alt={post.imageAlt || post.title} loading="lazy" />
+          <img src={post.imageUrl} alt={post.imageAlt || post.title} loading="lazy" decoding="async" />
         </div>
       ) : null}
       <div className="post-body">

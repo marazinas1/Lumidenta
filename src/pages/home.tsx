@@ -78,6 +78,8 @@ function Index({ locale }: { locale: Locale }) {
                 src={heroPortrait.url}
                 alt={heroPortrait.alt || "Gyd. odontologė Erika"}
                 loading="eager"
+                fetchPriority="high"
+                decoding="async"
               />
             ) : (
               <div className="hero-photo-label">

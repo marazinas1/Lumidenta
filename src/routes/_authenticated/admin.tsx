@@ -7,6 +7,7 @@ import {
   CalendarCheck,
   CalendarDays,
   Clock,
+  FileText,
   Users,
   Globe,
   Home,
