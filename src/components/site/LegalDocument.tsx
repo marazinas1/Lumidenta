@@ -1,5 +1,4 @@
-import { PageHero } from "@/components/site/PageHero";
-import { PageSection } from "@/components/site/Prose";
+import { LocaleLink } from "@/components/site/LocaleLink";
 import { useContent, useLocale } from "@/content";
 export type LegalDocumentData = {
   name: string;
@@ -32,37 +31,43 @@ export function LegalDocumentPage({
 
   return (
     <>
-      <PageHero
-        eyebrow={eyebrow}
-        title={title}
-        lead={lead}
-        crumbs={[{ label: common.nav.home, to: "/" }, { label: title }]}
-      />
-      <PageSection>
-        <div className="mx-auto max-w-3xl">
+      <section className="page-head">
+        <div className="wrap">
+          <div className="eyebrow">{eyebrow}</div>
+          <h1>{title}</h1>
+          <p className="lead">{lead}</p>
+          <nav className="legal-breadcrumbs" aria-label={common.labels.breadcrumb}>
+            <LocaleLink to="/">{common.nav.home}</LocaleLink>
+            <span aria-hidden="true">·</span>
+            <span>{title}</span>
+          </nav>
+        </div>
+      </section>
+      <section className="page-body">
+        <div className="wrap">
+          <div className="legal-content">
           {hasContent ? (
             <>
               <div
-                className="legal-prose text-base leading-[1.8] text-stone"
+                className="legal-prose"
                 // Sanitized server-side in src/lib/sanitize-html.ts before it reaches the client.
                 dangerouslySetInnerHTML={{ __html: doc?.html ?? "" }}
               />
               {updated ? (
-                <p className="mt-12 border-t border-border pt-6 text-sm text-stone">
+                <p className="legal-updated">
                   {legal.updatedAt}: {updated}
                 </p>
               ) : null}
             </>
           ) : (
-            <div className="rounded-2xl bg-linen p-8">
-              <h2 className="font-display text-2xl font-medium text-ink">
-                {legal.unavailableTitle}
-              </h2>
-              <p className="mt-3 text-base leading-relaxed text-stone">{legal.unavailableText}</p>
+            <div className="legal-unavailable">
+              <h2>{legal.unavailableTitle}</h2>
+              <p>{legal.unavailableText}</p>
             </div>
           )}
+          </div>
         </div>
-      </PageSection>
+      </section>
     </>
   );
 }

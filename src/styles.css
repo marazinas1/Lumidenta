@@ -592,15 +592,14 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 .luma .svc-price a{color:var(--sage-deep);font-weight:600;font-size:0.8rem;text-decoration:none;}
 .luma .svc-price a:hover{text-decoration:underline;}
 
-/* Inner pages — centred on the same 1340px grid and rhythm as the homepage. */
+/* Inner pages — the homepage's 1340px grid is the single outer alignment axis. */
 .luma .page-head{padding:96px 0 44px;text-align:center;}
-.luma .page-head .wrap{max-width:900px;}
 .luma .page-head .eyebrow{justify-content:center;}
 .luma .page-head .svc-ic{margin-right:auto;margin-left:auto;}
-.luma .page-head h1{font-size:clamp(2rem,4vw,3rem);line-height:1.14;margin-bottom:16px;}
+.luma .page-head h1{max-width:1040px;margin-right:auto;margin-bottom:16px;margin-left:auto;font-size:clamp(2rem,4vw,3rem);line-height:1.14;}
 .luma .page-head p.lead{color:var(--ink-soft);font-size:1.05rem;line-height:1.7;max-width:62ch;margin-right:auto;margin-left:auto;}
 .luma .page-body{padding:44px 0 104px;}
-.luma .page-body .prose{width:100%;max-width:76ch;margin-right:auto;margin-left:auto;}
+.luma .page-body .prose{width:100%;max-width:1040px;margin-right:auto;margin-left:auto;text-align:left;}
 .luma .page-body .prose p{color:var(--ink-soft);margin-bottom:24px;font-size:1.04rem;line-height:1.82;}
 .luma .page-body h2{font-size:clamp(1.4rem,2.4vw,1.8rem);margin:36px 0 14px;}
 .luma .back-link{display:inline-block;margin-bottom:24px;font-size:0.86rem;color:var(--ink-soft);text-decoration:none;}
@@ -629,14 +628,14 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 .luma .check .dot{width:22px;height:22px;border-radius:50%;background:var(--sage-tint);color:var(--sage-deep);
   display:flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;}
 .luma .service-detail-layout{width:100%;}
-.luma .page-body .service-prose{max-width:76ch;}
-.luma .service-checklist-block{max-width:1100px;margin:64px auto 0;padding:44px 48px;background:var(--sage-tint);border:1px solid var(--line);border-radius:32px;}
+.luma .page-body .service-prose{max-width:1040px;}
+.luma .service-checklist-block{width:100%;margin:64px auto 0;padding:44px 48px;background:var(--sage-tint);border:1px solid var(--line);border-radius:32px;}
 .luma .service-checklist-heading{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
 .luma .service-checklist-heading>span{display:grid;width:40px;height:40px;flex-shrink:0;place-items:center;border-radius:50%;background:var(--card);color:var(--sage-deep);font-weight:700;}
 .luma .service-checklist-heading h2{margin:0;font-size:clamp(1.25rem,2vw,1.65rem);}
 .luma .service-checklist{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 48px;margin:0;}
 .luma .service-checklist .check{align-items:flex-start;line-height:1.55;}
-.luma .service-booking-note{max-width:76ch;margin:48px auto 0;padding:26px 30px;border-left:3px solid var(--sage);background:var(--card);border-radius:0 var(--lradius) var(--lradius) 0;}
+.luma .service-booking-note{max-width:1040px;margin:48px auto 0;padding:26px 30px;border-left:3px solid var(--sage);background:var(--card);border-radius:0 var(--lradius) var(--lradius) 0;}
 .luma .service-booking-note p{margin:0;color:var(--ink);font-weight:500;}
 .luma .service-booking-action{margin-top:36px;text-align:center;}
 @media (max-width:720px){
@@ -751,11 +750,11 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 .luma .back-link:hover{color:var(--ink);}
 .luma .page-head .post-date{display:block;margin-bottom:10px;}
 .luma .post-detail-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:0;}
-.luma .post-hero{width:100%;max-width:1100px;border-radius:var(--lradius);overflow:hidden;margin:0 auto 56px;}
+.luma .post-hero{width:100%;border-radius:var(--lradius);overflow:hidden;margin:0 auto 56px;}
 .luma .post-hero img{width:100%;height:auto;display:block;}
-.luma .page-body .post-prose{max-width:76ch;}
+.luma .page-body .post-prose{max-width:1040px;}
 .luma .post-booking-action{margin-top:40px;text-align:center;}
-.luma .post-author{width:100%;max-width:76ch;margin:24px auto 0;font-size:0.88rem;color:var(--ink-soft);}
+.luma .post-author{width:100%;max-width:1040px;margin:24px auto 0;font-size:0.88rem;color:var(--ink-soft);}
 
 @media (max-width:900px){
   .luma .post-grid{grid-template-columns:1fr 1fr;}
@@ -800,12 +799,21 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 .luma .sched-cta p{color:var(--ink-soft);max-width:64ch;margin:0 auto 20px;}
 .luma .sched-cta-links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}
 
-/* Page-specific content follows the same centred editorial axes. */
-.luma .about-credentials{max-width:76ch;margin:64px auto 0;text-align:center;}
+/* Page-specific content follows the same homepage outer edges. */
+.luma .about-credentials{width:100%;margin:64px auto 0;padding:40px 48px;border:1px solid var(--line);border-radius:var(--lradius);background:var(--card);text-align:left;}
 .luma .about-credentials h2{margin-top:0;}
-.luma .contact-form-wrap{max-width:900px;margin:56px auto 0;}
-.luma .contact-map-frame{max-width:1100px;margin-right:auto;margin-left:auto;}
-.luma .contact-map-note{max-width:1100px;margin-right:auto;margin-left:auto;}
+.luma .about-credentials .prose{max-width:1040px;margin-left:0;}
+.luma .contact-form-wrap{width:100%;margin:56px auto 0;}
+.luma .contact-map-frame{width:100%;margin-right:auto;margin-left:auto;}
+.luma .contact-map-note{width:100%;margin-right:auto;margin-left:auto;}
+
+/* Legal documents now share the current Lumidenta page system. */
+.luma .legal-content{width:100%;max-width:1040px;margin:0 auto;text-align:left;}
+.luma .legal-breadcrumbs{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:24px;color:var(--ink-soft);font-size:.82rem;}
+.luma .legal-breadcrumbs a:hover{color:var(--sage);}
+.luma .legal-unavailable{padding:32px;border:1px solid var(--line);border-radius:var(--lradius);background:var(--card);}
+.luma .legal-unavailable h2{margin:0 0 12px;}
+.luma .legal-updated{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:.88rem;}
 
 @media (max-width:640px){
   .luma .page-head{padding:68px 0 30px;}
@@ -813,6 +821,7 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
   .luma .page-body .prose p{font-size:1rem;line-height:1.75;}
   .luma .service-booking-note{padding:22px 20px;}
   .luma .sched-cta{padding:28px 20px;}
+  .luma .about-credentials{padding:28px 22px;}
 }
 
 /* -------------------------------------------- techninių darbų įspėjimas */
