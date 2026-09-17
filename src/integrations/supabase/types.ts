@@ -498,6 +498,8 @@ export type Database = {
           image_bucket: string
           image_path: string | null
           includes: Json
+          includes_heading: string
+          pre_booking_message: string
           price_note: string
           price_text: string
           published: boolean
@@ -519,6 +521,8 @@ export type Database = {
           image_bucket?: string
           image_path?: string | null
           includes?: Json
+          includes_heading?: string
+          pre_booking_message?: string
           price_note?: string
           price_text?: string
           published?: boolean
@@ -540,6 +544,8 @@ export type Database = {
           image_bucket?: string
           image_path?: string | null
           includes?: Json
+          includes_heading?: string
+          pre_booking_message?: string
           price_note?: string
           price_text?: string
           published?: boolean
