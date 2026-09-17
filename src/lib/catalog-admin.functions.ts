@@ -49,6 +49,8 @@ const serviceFields = z.object({
   icon: z.string().trim().max(8).default(""),
   tone: z.enum(["t1", "t2", "t3", "t4"]).default("t1"),
   includes: z.array(z.string().trim().max(300)).max(20).default([]),
+  includes_heading: z.string().trim().max(120).default(""),
+  pre_booking_message: z.string().trim().max(500).default(""),
   price_text: z.string().trim().max(120).default(""),
   price_note: z.string().trim().max(200).default(""),
   sort_order: z.number().int().min(0).max(999).default(0),
@@ -61,7 +63,11 @@ export const saveService = createServerFn({ method: "POST" })
   .inputValidator((d) => serviceFields.extend({ id: z.string().uuid().optional() }).parse(d))
   .handler(async ({ data, context }) => {
     await assertOwner(context);
-    const { id, ...fields } = data;
+    const { id, ...rawFields } = data;
+    const fields = {
+      ...rawFields,
+      includes: rawFields.includes.filter((item) => item.length > 0),
+    };
     const query = id
       ? context.supabase.from("services").update(fields).eq("id", id)
       : context.supabase.from("services").insert(fields);

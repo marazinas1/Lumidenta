@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,6 +38,8 @@ type ServiceDraft = {
   icon: string;
   tone: "t1" | "t2" | "t3" | "t4";
   includes: string[];
+  includes_heading: string;
+  pre_booking_message: string;
   price_text: string;
   price_note: string;
   sort_order: number;
@@ -60,6 +62,8 @@ const emptyDraft = (sortOrder: number): ServiceDraft => ({
   icon: "",
   tone: "t1",
   includes: [],
+  includes_heading: "",
+  pre_booking_message: "",
   price_text: "",
   price_note: "",
   sort_order: sortOrder,
@@ -117,7 +121,16 @@ function ServicesEditor() {
       body: String(row['body'] ?? ""),
       icon: String(row['icon'] ?? ""),
       tone: (row['tone'] as ServiceDraft["tone"]) ?? "t1",
-      includes: Array.isArray(row['includes']) ? (row['includes'] as string[]) : [],
+      includes: Array.isArray(row['includes'])
+        ? (row['includes'] as string[]).filter((item) => item !== "Kada verta kreiptis?")
+        : [],
+      includes_heading: String(
+        row['includes_heading'] ||
+          (Array.isArray(row['includes']) && row['includes'][0] === "Kada verta kreiptis?"
+            ? row['includes'][0]
+            : ""),
+      ),
+      pre_booking_message: String(row['pre_booking_message'] ?? ""),
       price_text: String(row['price_text'] ?? ""),
       price_note: String(row['price_note'] ?? ""),
       sort_order: Number(row['sort_order'] ?? 0),
@@ -303,18 +316,111 @@ function ServiceForm({
         <p className="text-xs text-muted-foreground">Kiekviena nauja eilutė — atskira pastraipa.</p>
       </div>
 
+      <div className="space-y-4 rounded-lg border border-border/70 p-4">
+        <div className="space-y-2">
+          <Label>Sąrašo antraštė</Label>
+          <Input
+            value={draft.includes_heading}
+            onChange={(e) => set("includes_heading", e.target.value)}
+            placeholder="Kada verta kreiptis?"
+          />
+          <p className="text-xs text-muted-foreground">
+            Ši antraštė svetainėje rodoma atskirai, be varnelės.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          <div className="flex items-center justify-between gap-3">
+            <Label>Sąrašo punktai</Label>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => set("includes", [...draft.includes, ""])}
+              disabled={draft.includes.length >= 20}
+            >
+              <Plus className="mr-2 h-4 w-4" /> Pridėti punktą
+            </Button>
+          </div>
+          {draft.includes.length === 0 ? (
+            <p className="text-sm text-muted-foreground">Punktų dar nėra.</p>
+          ) : (
+            <div className="space-y-2">
+              {draft.includes.map((item, index) => (
+                <div
+                  className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2"
+                  key={`include-${index}`}
+                >
+                  <Input
+                    value={item}
+                    aria-label={`Sąrašo punktas ${index + 1}`}
+                    onChange={(e) => {
+                      const next = [...draft.includes];
+                      next[index] = e.target.value;
+                      set("includes", next);
+                    }}
+                    placeholder="Įrašykite vieną atvejį"
+                  />
+                  <div className="flex shrink-0 gap-1">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Perkelti aukštyn"
+                      title="Perkelti aukštyn"
+                      disabled={index === 0}
+                      onClick={() => {
+                        const next = [...draft.includes];
+                        [next[index - 1], next[index]] = [next[index] ?? "", next[index - 1] ?? ""];
+                        set("includes", next);
+                      }}
+                    >
+                      <ArrowUp className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Perkelti žemyn"
+                      title="Perkelti žemyn"
+                      disabled={index === draft.includes.length - 1}
+                      onClick={() => {
+                        const next = [...draft.includes];
+                        [next[index], next[index + 1]] = [next[index + 1] ?? "", next[index] ?? ""];
+                        set("includes", next);
+                      }}
+                    >
+                      <ArrowDown className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Pašalinti punktą"
+                      title="Pašalinti punktą"
+                      onClick={() =>
+                        set("includes", draft.includes.filter((_, itemIndex) => itemIndex !== index))
+                      }
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
       <div className="space-y-2">
-        <Label>Ką apima (po vieną eilutėje)</Label>
+        <Label>Trumpa žinutė prieš registraciją</Label>
         <Textarea
-          rows={4}
-          value={draft.includes.join("\n")}
-          onChange={(e) =>
-            set(
-              "includes",
-              e.target.value.split("\n").map((line) => line.trim()).filter(Boolean),
-            )
-          }
+          rows={3}
+          value={draft.pre_booking_message}
+          onChange={(e) => set("pre_booking_message", e.target.value)}
+          placeholder="Papildoma informacija, kurią pacientas turėtų perskaityti prieš registruodamasis."
         />
+        <p className="text-xs text-muted-foreground">Palikus tuščią, šis blokas svetainėje nebus rodomas.</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">

@@ -180,14 +180,14 @@ function PostDetailPage() {
       </section>
 
       <section className="page-body">
-        <div className="wrap">
+        <div className="wrap post-detail-layout">
           {post.imageUrl ? (
             <div className="post-hero">
               <img src={post.imageUrl} alt={post.imageAlt || post.title} />
             </div>
           ) : null}
 
-          <div className="prose">
+          <div className="prose post-prose">
             {post.body
               .split("\n")
               .filter((p) => p.trim())
@@ -198,7 +198,7 @@ function PostDetailPage() {
 
           {post.author ? <p className="post-author">{post.author}</p> : null}
 
-          <div style={{ marginTop: "40px" }}>
+          <div className="post-booking-action">
             <LocaleLink to="/kontaktai" className="btn">
               Registruotis vizitui →
             </LocaleLink>
