@@ -15,7 +15,7 @@ function buildFormSchema(kontaktaiForm: ReturnType<typeof useContent>["kontaktai
       .trim()
       .min(1, kontaktaiForm.messageError)
       .max(2000, kontaktaiForm.messageError),
-    consent: z.literal(true, { error: "Patvirtinkite, kad sutinkate su privatumo politika." }),
+    consent: z.literal(true, { message: "Patvirtinkite, kad sutinkate su privatumo politika." }),
   });
 }
 

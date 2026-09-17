@@ -794,10 +794,13 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
 .luma .sched-service-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
 .luma .sched-service{border:1px solid var(--line);background:transparent;border-radius:999px;padding:8px 16px;font-size:.9rem;cursor:pointer;}
 .luma .sched-service.active{background:var(--sage);border-color:var(--sage);color:#fff;}
-.luma .sched-cta{max-width:1100px;margin:56px auto 0;border:1px solid var(--line);border-radius:20px;padding:36px;background:var(--sage-tint);text-align:center;}
-.luma .sched-cta h2{margin:0 0 8px;}
-.luma .sched-cta p{color:var(--ink-soft);max-width:64ch;margin:0 auto 20px;}
-.luma .sched-cta-links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}
+.luma .registration-cta{margin-top:56px;}
+.luma .registration-cta .cta-panel{max-width:none;margin:0;}
+.luma .registration-cta .cta-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:12px;}
+.luma .anchor-target{scroll-margin-top:112px;}
+.luma .contact-consent{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:12px;color:var(--ink-soft);font-size:.875rem;line-height:1.6;}
+.luma .contact-consent input{width:18px;height:18px;margin-top:2px;accent-color:var(--sage);}
+.luma .contact-consent a{color:var(--sage-deep);text-decoration:underline;text-underline-offset:3px;}
 
 /* Page-specific content follows the same homepage outer edges. */
 .luma .about-credentials{width:100%;margin:64px auto 0;padding:40px 48px;border:1px solid var(--line);border-radius:var(--lradius);background:var(--card);text-align:left;}
@@ -820,7 +823,7 @@ a.svc-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -22px rgba(24
   .luma .page-body{padding:34px 0 76px;}
   .luma .page-body .prose p{font-size:1rem;line-height:1.75;}
   .luma .service-booking-note{padding:22px 20px;}
-  .luma .sched-cta{padding:28px 20px;}
+  .luma .registration-cta .cta-actions{justify-content:flex-start;}
   .luma .about-credentials{padding:28px 22px;}
 }
 

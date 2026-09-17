@@ -150,6 +150,12 @@ const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
       { slot: "cta_button", label: "Mygtukas", fallback: "Registruotis vizitui →" },
     ],
   },
+  {
+    title: "Registracijos puslapio kvietimas",
+    fields: [
+      { slot: "registration_note", label: "Pastaba", fallback: "Registracijos puslapio tekstai tvarkomi atskiroje skiltyje." },
+    ],
+  },
 ];
 
 function HomeEditor() {
