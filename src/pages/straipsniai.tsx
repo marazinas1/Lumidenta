@@ -169,7 +169,7 @@ function PostDetailPage() {
   return (
     <>
       <section className="page-head">
-        <div className="wrap post-detail-layout">
+        <div className="wrap">
           <LocaleLink to="/straipsniai" className="back-link">
             ← Visi straipsniai
           </LocaleLink>
@@ -180,7 +180,7 @@ function PostDetailPage() {
       </section>
 
       <section className="page-body">
-        <div className="wrap">
+        <div className="wrap post-detail-layout">
           {post.imageUrl ? (
             <div className="post-hero">
               <img src={post.imageUrl} alt={post.imageAlt || post.title} />
