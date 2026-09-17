@@ -15,7 +15,7 @@ const FIELDS = [
   ["hero_heading", "Antraštė", "Laisvi vizito laikai.", false],
   ["hero_lead", "Įžanga", "Pasirinkite paslaugą ir Jums tinkantį laiką — užklausa atkeliaus pas mane, o vizitą patvirtinsiu asmeniškai telefonu arba el. paštu.", true],
   ["cta_heading", "Kvietimo antraštė", "Norite pasitarti pirma?", false],
-  ["cta_text", "Kvietimo tekstas", "Jei nesate tikri, kurios paslaugos ar kiek laiko reikia, parašykite arba paskambinkite — vizitą suderinsime kartu.", true],
+  ["cta_text", "Kvietimo tekstas", "Jei nesate tikri, kurios paslaugos ar kiek laiko reikia, parašykite arba paskambinkite — vizitą suderinsiu kartu su Jumis.", true],
   ["cta_button", "Mygtukas", "Parašyti žinutę →", false],
 ] as const;
 

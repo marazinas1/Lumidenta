@@ -68,7 +68,7 @@ function Index({ locale }: { locale: Locale }) {
               </LocaleLink>
             </div>
             <div className="hero-note">
-              {copy("hero_note", "Gyd. odontologė Erika · priimu Braškių g. 2B-1, Vilnius")}
+              {copy("hero_note", "Individuali odontologijos praktika Vilniuje")}
             </div>
           </div>
 
@@ -76,7 +76,7 @@ function Index({ locale }: { locale: Locale }) {
             {heroPortrait ? (
               <img
                 src={heroPortrait.url}
-                alt={heroPortrait.alt || "Gyd. odontologė Erika"}
+                alt={heroPortrait.alt || "Gydytoja odontologė kabinete"}
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
@@ -92,7 +92,7 @@ function Index({ locale }: { locale: Locale }) {
               <div className="ic">📍</div>
               <div>
                 <strong>{copy("hero_card1_title", "Priėmimo vieta")}</strong>
-                <span>{copy("hero_card1_text", "Braškių g. 2B-1, Vilnius")}</span>
+                <span>{copy("hero_card1_text", "Vilnius")}</span>
               </div>
             </div>
             <div className="float-card fc2">
@@ -108,8 +108,8 @@ function Index({ locale }: { locale: Locale }) {
         <div className="statbar">
           <RevealItems className="wrap">
             <div className="stat">
-              <strong>{copy("stat1_value", "10+")}</strong>
-              <span>{copy("stat1_label", "metų klinikinės patirties")}</span>
+              <strong>{copy("stat1_value", "Individualiai")}</strong>
+              <span>{copy("stat1_label", "visas dėmesys vienam pacientui")}</span>
             </div>
             <div className="stat">
               <strong>{copy("stat2_value", "Optika")}</strong>
@@ -265,7 +265,7 @@ function Index({ locale }: { locale: Locale }) {
             <p>
               {copy(
                 "cta_text",
-                "Vizito laiką suderinkite telefonu arba žinute. Priėmimas — Braškių g. 2B-1, Vilnius.",
+                "Vizito laiką suderinkite telefonu arba žinute.",
               )}
             </p>
           </div>

@@ -43,7 +43,7 @@ function ContactsPage({ locale }: { locale: Locale }) {
           <p className="lead">
             {copy(
               "contact_lead",
-              "Parašykite arba paskambinkite — vizito laiką suderinsime Jums patogiu metu.",
+              "Parašykite arba paskambinkite — vizito laiką suderinsiu Jums patogiu metu.",
             )}
           </p>
         </div>

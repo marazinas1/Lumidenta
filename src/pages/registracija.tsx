@@ -225,7 +225,7 @@ function BookingPage() {
               <p>
                 {copy(
                   "cta_text",
-                  "Jei nesate tikri, kurios paslaugos ar kiek laiko reikia, parašykite arba paskambinkite — vizitą suderinsime kartu.",
+                  "Jei nesate tikri, kurios paslaugos ar kiek laiko reikia, parašykite arba paskambinkite — vizitą suderinsiu kartu su Jumis.",
                 )}
               </p>
               </div>

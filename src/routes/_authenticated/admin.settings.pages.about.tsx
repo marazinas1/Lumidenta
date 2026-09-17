@@ -72,7 +72,7 @@ const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
         slot: "about_credentials",
         label: "Tekstas",
         fallback:
-          "LSMU Odontologijos fakultetas, 2014 m. Daugiau nei 10 metų klinikinės praktikos.",
+          "Informacija apie kvalifikaciją bus paskelbta ją patvirtinus.",
         multiline: true,
       },
     ],

@@ -96,7 +96,7 @@ function AboutPage({ locale }: { locale: Locale }) {
               <p>
                 {copy(
                   "about_credentials",
-                  "LSMU Odontologijos fakultetas, 2014 m. Daugiau nei 10 metų klinikinės praktikos.",
+                  "Informacija apie kvalifikaciją bus paskelbta ją patvirtinus.",
                 )}
               </p>
             </div>
