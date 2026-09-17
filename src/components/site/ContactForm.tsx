@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { useContent } from "@/content";
 import { submitLead } from "@/lib/leads.functions";
+import { usePageContent } from "@/lib/page-content";
 
 function buildFormSchema(kontaktaiForm: ReturnType<typeof useContent>["kontaktaiForm"]) {
   return z.object({
@@ -80,6 +81,7 @@ function Field({
  *  failure it offers the plain e-mail route instead of losing the message. */
 export function ContactForm({ email: practiceEmail }: { email?: string }) {
   const { kontaktaiForm } = useContent();
+  const { copy } = usePageContent("contact", "lt");
   const formSchema = buildFormSchema(kontaktaiForm);
   const sendLead = useServerFn(submitLead);
   const [values, setValues] = useState({ name: "", email: "", phone: "", message: "", consent: false });
@@ -132,8 +134,8 @@ export function ContactForm({ email: practiceEmail }: { email?: string }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl bg-linen p-6 sm:p-8">
       <div>
-        <h2 className="font-display text-2xl font-medium text-ink">{kontaktaiForm.title}</h2>
-        <p className="mt-2 text-sm text-stone">{kontaktaiForm.lead}</p>
+        <h2 className="font-display text-2xl font-medium text-ink">{copy("form_title", kontaktaiForm.title)}</h2>
+        <p className="mt-2 text-sm text-stone">{copy("form_lead", kontaktaiForm.lead)}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

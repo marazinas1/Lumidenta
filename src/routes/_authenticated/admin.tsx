@@ -81,6 +81,8 @@ function AdminLayout() {
         { to: "/admin/settings/pages/home", label: "Pradžios puslapis", icon: Home },
         { to: "/admin/settings/pages/about", label: "Apie", icon: UserRound },
         { to: "/admin/settings/pages/contact", label: "Kontaktai", icon: Phone },
+        { to: "/admin/settings/pages/registration", label: "Registracija", icon: CalendarCheck },
+        { to: "/admin/settings/pages/legal", label: "Teisiniai puslapiai", icon: FileText },
         { to: "/admin/website/services", label: "Paslaugos", icon: Stethoscope },
         { to: "/admin/website/prices", label: "Kainos", icon: Tag },
         { to: "/admin/website/testimonials", label: "Atsiliepimai", icon: Quote },
