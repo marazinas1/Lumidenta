@@ -69,7 +69,9 @@ function ContactsPage({ locale }: { locale: Locale }) {
           ) : null}
 
           <Reveal className="contact-form-wrap">
-            <ContactForm />
+            <div id="forma" className="anchor-target">
+              <ContactForm email={settings.email} />
+            </div>
           </Reveal>
 
           <ContactMapSection address={address} />

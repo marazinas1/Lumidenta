@@ -27,20 +27,12 @@ function readLocaleCookie(): Locale | null {
 
 /**
  * Lithuanian is canonical and the default: root paths stay as-is. A visitor is
- * only sent to /en when they explicitly picked English before (cookie).
+ * English stays unavailable until the translated site is complete.
  */
 const NON_SITE_PREFIXES = ["/admin", "/staff", "/auth", "/reset-password", "/api"];
 
 export function useRememberedLocaleRedirect() {
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
-  useEffect(() => {
-    if (NON_SITE_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))) return;
-    if (localeFromPath(pathname) === "en") return;
-    if (readLocaleCookie() !== "en") return;
-    const target = localizePath(pathname, "en");
-    if (target === pathname) return;
-    window.location.replace(`${target}${window.location.search}${window.location.hash}`);
-  }, [pathname]);
+  useEffect(() => undefined, []);
 }
 
 
@@ -60,7 +52,7 @@ export function LanguageSwitcher({ className, tone = "dark" }: { className?: str
 
   return (
     <div className={cn("flex items-center gap-1 text-xs font-medium", className)} aria-label="Language">
-      {LOCALES.map((locale, index) => (
+      {LOCALES.filter((locale) => locale === "lt").map((locale, index) => (
         <span key={locale} className="flex items-center gap-1">
           {index > 0 ? <span className="opacity-40">/</span> : null}
           <Link

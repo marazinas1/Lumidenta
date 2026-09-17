@@ -12,6 +12,7 @@ const input = z.object({
   email: z.string().trim().email().max(200),
   phone: z.union([z.string().trim().max(60), z.literal("")]).default(""),
   message: z.string().trim().min(1).max(2000),
+  consent: z.literal(true),
   source: z.string().trim().max(60).default("kontaktai"),
   // Honeypot: invisible to people, filled by simple bots.
   company: z.string().max(200).default(""),

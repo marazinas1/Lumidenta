@@ -4,7 +4,7 @@ import { localizePath, ogLocale, type Locale } from "@/lib/locale";
 /**
  * Builds per-page head metadata. Every leaf route gets a unique title,
  * description, OG pair, absolute og:url, a self-referencing canonical and
- * hreflang alternates for the other locale.
+ * Lithuanian canonical metadata. English remains disabled until its content is complete.
  */
 export function pageHead({
   path,
@@ -12,6 +12,7 @@ export function pageHead({
   description,
   type = "website",
   locale = "lt",
+  image,
 }: {
   /** Canonical Lithuanian path, e.g. "/apartamentai". */
   path: string;
@@ -19,10 +20,11 @@ export function pageHead({
   description: string;
   type?: string;
   locale?: Locale;
+  image?: string | null;
 }) {
   const ltUrl = `${SITE_URL}${localizePath(path, "lt")}`;
-  const enUrl = `${SITE_URL}${localizePath(path, "en")}`;
-  const url = locale === "en" ? enUrl : ltUrl;
+  const url = ltUrl;
+  const socialImage = image?.startsWith("https://") ? image : null;
 
   return {
     meta: [
@@ -33,12 +35,16 @@ export function pageHead({
       { property: "og:type", content: type },
       { property: "og:url", content: url },
       { property: "og:locale", content: ogLocale[locale] },
-      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:card", content: socialImage ? "summary_large_image" : "summary" },
+      ...(socialImage
+        ? [
+            { property: "og:image", content: socialImage },
+            { name: "twitter:image", content: socialImage },
+          ]
+        : []),
     ],
     links: [
       { rel: "canonical", href: url },
-      { rel: "alternate", hrefLang: "lt", href: ltUrl },
-      { rel: "alternate", hrefLang: "en", href: enUrl },
       { rel: "alternate", hrefLang: "x-default", href: ltUrl },
     ],
   };

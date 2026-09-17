@@ -2,6 +2,7 @@ import { queryOptions, useQuery, useQueryClient, type QueryClient } from "@tanst
 import { useEffect, useState } from "react";
 
 import { BookingDialog } from "@/components/site/BookingDialog";
+import { LocaleLink } from "@/components/site/LocaleLink";
 import { dayTime } from "@/lib/schedule";
 
 
@@ -12,6 +13,7 @@ import { useCatalog, ensureCatalog } from "@/lib/catalog";
 import type { Locale } from "@/lib/locale";
 import { SITE_URL } from "@/data/nav";
 import { emptySchedule, fetchPublicSchedule } from "@/lib/schedule.functions";
+import { ensurePageContent, usePageContent } from "@/lib/page-content";
 import {
   addDays,
   formatDayLabel,
@@ -55,7 +57,7 @@ export function bookingRoute(locale: Locale) {
   const url = `${SITE_URL}/registracija`;
   return {
     loader: async ({ context }: { context: { queryClient: QueryClient } }) => {
-      await Promise.all([ensureCatalog(context), ensureSchedule(context)]);
+      await Promise.all([ensureCatalog(context), ensureSchedule(context), ensurePageContent(context)]);
       return null;
     },
     head: () => ({
@@ -83,6 +85,7 @@ export function bookingRoute(locale: Locale) {
 
 function BookingPage() {
   const { settings } = useCatalog();
+  const { copy } = usePageContent("registration", "lt");
   const { data } = useQuery(scheduleQuery());
   const qc = useQueryClient();
   const schedule = data ?? emptySchedule;
@@ -106,11 +109,13 @@ function BookingPage() {
     <>
       <section className="page-head">
         <div className="wrap">
-          <div className="eyebrow">Registracija</div>
-          <h1>Laisvi vizito laikai.</h1>
+          <div className="eyebrow">{copy("hero_eyebrow", "Registracija")}</div>
+          <h1>{copy("hero_heading", "Laisvi vizito laikai.")}</h1>
           <p className="lead">
-            Pasirinkite paslaugą ir Jums tinkantį laiką — užklausa atkeliaus pas mane, o vizitą
-            patvirtinsiu asmeniškai telefonu arba el. paštu.
+            {copy(
+              "hero_lead",
+              "Pasirinkite paslaugą ir Jums tinkantį laiką — užklausa atkeliaus pas mane, o vizitą patvirtinsiu asmeniškai telefonu arba el. paštu.",
+            )}
           </p>
         </div>
       </section>
@@ -213,22 +218,24 @@ function BookingPage() {
             })}
           </RevealItems>
 
-          <Reveal>
-            <div className="sched-cta">
-              <h2>Norite pasitarti pirma?</h2>
+          <Reveal className="registration-cta">
+            <div className="cta-panel">
+              <div>
+              <h2>{copy("cta_heading", "Norite pasitarti pirma?")}</h2>
               <p>
-                Jei nesate tikri, kurios paslaugos ar kiek laiko reikia, paskambinkite arba
-                parašykite — laiką parinksime kartu.
+                {copy(
+                  "cta_text",
+                  "Jei nesate tikri, kurios paslaugos ar kiek laiko reikia, parašykite arba paskambinkite — vizitą suderinsime kartu.",
+                )}
               </p>
-              <div className="sched-cta-links">
+              </div>
+              <div className="cta-actions">
+                <LocaleLink to="/kontaktai" hash="forma" className="btn">
+                  {copy("cta_button", "Parašyti žinutę →")}
+                </LocaleLink>
                 {settings.phone ? (
-                  <a className="btn" href={`tel:${settings.phone.replace(/\s/g, "")}`}>
+                  <a className="btn btn-line" href={`tel:${settings.phone.replace(/\s/g, "")}`}>
                     {settings.phone}
-                  </a>
-                ) : null}
-                {settings.email ? (
-                  <a className="btn btn-line" href={`mailto:${settings.email}`}>
-                    {settings.email}
                   </a>
                 ) : null}
               </div>

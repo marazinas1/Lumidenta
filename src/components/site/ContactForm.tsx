@@ -4,7 +4,6 @@ import { z } from "zod";
 
 import { useContent } from "@/content";
 import { submitLead } from "@/lib/leads.functions";
-import { contact } from "@/data/contact";
 
 function buildFormSchema(kontaktaiForm: ReturnType<typeof useContent>["kontaktaiForm"]) {
   return z.object({
@@ -16,6 +15,7 @@ function buildFormSchema(kontaktaiForm: ReturnType<typeof useContent>["kontaktai
       .trim()
       .min(1, kontaktaiForm.messageError)
       .max(2000, kontaktaiForm.messageError),
+    consent: z.literal(true, { error: "Patvirtinkite, kad sutinkate su privatumo politika." }),
   });
 }
 
@@ -76,14 +76,18 @@ export function ContactForm() {
   const { kontaktaiForm } = useContent();
   const formSchema = buildFormSchema(kontaktaiForm);
   const sendLead = useServerFn(submitLead);
-  const [values, setValues] = useState({ name: "", email: "", phone: "", message: "" });
+export function ContactForm({ email: practiceEmail }: { email?: string }) {
+  const { kontaktaiForm } = useContent();
+  const formSchema = buildFormSchema(kontaktaiForm);
+  const sendLead = useServerFn(submitLead);
+  const [values, setValues] = useState({ name: "", email: "", phone: "", message: "", consent: false });
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
 
   const set = (key: keyof typeof values) => (value: string) =>
     setValues((current) => ({ ...current, [key]: value }));
 
-  const mailtoHref = `mailto:${contact.email}?subject=${encodeURIComponent(
+  const mailtoHref = `mailto:${practiceEmail ?? ""}?subject=${encodeURIComponent(
     "Užklausa iš lumidenta.lt",
   )}&body=${encodeURIComponent(`${values.message}\n\n${values.name}\n${values.phone}`)}`;
 
@@ -115,7 +119,7 @@ export function ContactForm() {
           company: "",
         },
       });
-      setValues({ name: "", email: "", phone: "", message: "" });
+      setValues({ name: "", email: "", phone: "", message: "", consent: false });
       setStatus("sent");
     } catch {
       setStatus("failed");
@@ -154,6 +158,25 @@ export function ContactForm() {
         error={errors.email}
         onChange={set("email")}
       />
+
+      <label className="contact-consent">
+        <input
+          type="checkbox"
+          checked={values.consent}
+          aria-invalid={errors.consent ? true : undefined}
+          aria-describedby={errors.consent ? "contact-consent-error" : undefined}
+          onChange={(event) => set("consent")(event.target.checked)}
+        />
+        <span>
+          Sutinku, kad mano kontaktiniai duomenys būtų naudojami atsakyti į šią žinutę. Perskaitykite{" "}
+          <a href="/privatumo-politika">privatumo politiką</a>.
+        </span>
+      </label>
+      {errors.consent ? (
+        <span id="contact-consent-error" className="block text-xs font-medium text-destructive">
+          {errors.consent}
+        </span>
+      ) : null}
       <Field
         label={kontaktaiForm.message}
         value={values.message}
@@ -173,10 +196,10 @@ export function ContactForm() {
         ) : null}
         {status === "failed" ? (
           <p className="rounded-xl bg-warm-white p-4 text-sm text-ink">
-            {kontaktaiForm.error}{" "}
-            <a className="text-sage underline underline-offset-2" href={mailtoHref}>
-              {kontaktaiForm.mailFallback}
-            </a>
+            {kontaktaiForm.error}
+            {practiceEmail ? (
+              <>{" "}<a className="text-sage underline underline-offset-2" href={mailtoHref}>{kontaktaiForm.mailFallback}</a></>
+            ) : null}
           </p>
         ) : null}
       </div>
