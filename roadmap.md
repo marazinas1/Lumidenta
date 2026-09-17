@@ -8,4 +8,4 @@
 - [x] Remove hardcoded shared business details and unfinished English exposure.
 - [x] Complete Lithuanian sitemap, social metadata, and legal content loading.
 - [x] Consolidate shared public controls, accessibility, and image behavior.
-- [ ] Verify all changed public flows on desktop, tablet, and mobile.
+- [x] Verify all changed public flows on desktop, tablet, and mobile.
