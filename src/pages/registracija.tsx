@@ -75,7 +75,7 @@ export function bookingRoute(locale: Locale) {
         },
         { property: "og:type", content: "website" },
         { property: "og:url", content: url },
-        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:card", content: "summary" },
       ],
       links: [{ rel: "canonical", href: url }],
     }),

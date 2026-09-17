@@ -1,5 +1,4 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useEffect } from "react";
 import type { LinkProps } from "@tanstack/react-router";
 
 
@@ -7,8 +6,6 @@ import { useLocale } from "@/content";
 import {
   LOCALES,
   LOCALE_COOKIE,
-  isLocale,
-  localeFromPath,
   localizePath,
   localizeRouteId,
   type Locale,
@@ -19,21 +16,10 @@ function rememberLocale(locale: Locale) {
   document.cookie = `${LOCALE_COOKIE}=${locale};path=/;max-age=${60 * 60 * 24 * 365};samesite=lax`;
 }
 
-function readLocaleCookie(): Locale | null {
-  const match = document.cookie.match(new RegExp(`(?:^|; )${LOCALE_COOKIE}=([^;]+)`));
-  const value = match?.[1];
-  return isLocale(value) ? value : null;
-}
-
 /**
- * Lithuanian is canonical and the default: root paths stay as-is. A visitor is
- * English stays unavailable until the translated site is complete.
+ * Lithuanian is canonical. English stays unavailable until translation is complete.
  */
-const NON_SITE_PREFIXES = ["/admin", "/staff", "/auth", "/reset-password", "/api"];
-
-export function useRememberedLocaleRedirect() {
-  useEffect(() => undefined, []);
-}
+export function useRememberedLocaleRedirect() {}
 
 
 export function LanguageSwitcher({ className, tone = "dark" }: { className?: string; tone?: "dark" | "light" }) {
